@@ -1,0 +1,32 @@
+# =============================================================================
+# PiSSA Configuration (Principal Singular Values & Singular Vectors Adaptation)
+# =============================================================================
+# Kế thừa từ base_config.yaml
+# PiSSA sử dụng SVD để khởi tạo ma trận LoRA từ principal components
+
+peft:
+  method: "pissa"
+  r: 16                                  # Rank (giữ đồng bộ với LoRA)
+  lora_alpha: 16
+  lora_dropout: 0.0
+  use_dora: false
+  init_lora_weights: "pissa"             # <<< Khởi tạo bằng PiSSA (SVD-based)
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+  use_gradient_checkpointing: "unsloth"
+  use_rslora: false
+
+# Override output cho nhánh này
+output:
+  output_dir: "outputs/checkpoints/pissa"
+  logging_dir: "outputs/logs/pissa"
+
+wandb:
+  run_name: "pissa-experiment"

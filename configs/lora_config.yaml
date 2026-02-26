@@ -1,0 +1,31 @@
+# =============================================================================
+# LoRA Configuration (Baseline)
+# =============================================================================
+# Kế thừa từ base_config.yaml
+
+peft:
+  method: "lora"
+  r: 16                                  # Rank
+  lora_alpha: 16                         # Scaling factor
+  lora_dropout: 0.0
+  use_dora: false
+  init_lora_weights: true                # Default initialization
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+  use_gradient_checkpointing: "unsloth"  # Tối ưu VRAM qua Unsloth
+  use_rslora: false
+
+# Override output cho nhánh này
+output:
+  output_dir: "outputs/checkpoints/lora"
+  logging_dir: "outputs/logs/lora"
+
+wandb:
+  run_name: "lora-baseline"

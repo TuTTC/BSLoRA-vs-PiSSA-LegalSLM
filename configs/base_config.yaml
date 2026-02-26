@@ -1,0 +1,54 @@
+# =============================================================================
+# Base Configuration - Shared across all PEFT methods
+# =============================================================================
+# Mô hình nền tảng
+model:
+  name: "unsloth/Qwen2.5-7B"           # Hoặc "unsloth/Llama-3.2-3B"
+  max_seq_length: 2048
+  dtype: null                            # Auto-detect (float16 / bfloat16)
+  load_in_4bit: true                     # Quantization 4-bit qua bitsandbytes
+
+# Huấn luyện
+training:
+  num_epochs: 3
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 4         # Effective batch size = 2 * 4 = 8
+  learning_rate: 2.0e-4
+  lr_scheduler_type: "linear"
+  warmup_steps: 5
+  weight_decay: 0.01
+  max_steps: -1                          # -1 = sử dụng num_epochs
+  fp16: false
+  bf16: false                            # Sẽ auto-detect
+  optim: "adamw_8bit"
+  seed: 3407
+  logging_steps: 1
+
+# Dữ liệu
+data:
+  train_file: "data/processed/train.json"
+  val_file: "data/processed/val.json"
+  test_file: "data/processed/test.json"
+  prompt_template: |
+    ### Instruction:
+    {instruction}
+
+    ### Input:
+    {input}
+
+    ### Response:
+    {output}
+
+# Đầu ra
+output:
+  output_dir: "outputs/checkpoints"
+  logging_dir: "outputs/logs"
+  results_dir: "outputs/results"
+  save_strategy: "epoch"
+  save_total_limit: 2
+
+# WandB
+wandb:
+  project: "CS431-DoRA-vs-PiSSA-LegalSLM"
+  entity: null                           # Điền tên team WandB nếu có
+  run_name: null                         # Auto-generate nếu null
