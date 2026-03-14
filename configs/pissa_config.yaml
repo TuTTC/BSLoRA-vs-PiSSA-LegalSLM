@@ -3,11 +3,18 @@
 # =============================================================================
 # Kế thừa từ base_config.yaml
 # PiSSA sử dụng SVD để khởi tạo ma trận LoRA từ principal components
+#
+# So với LoRA baseline (Bosch paper):
+#   - Giữ nguyên: r=32, alpha=64, target_modules, tất cả hyperparameters
+#   - Thay đổi DUY NHẤT: init_lora_weights="pissa"
+#   → Khởi tạo A, B từ SVD top-r singular values của W₀
+#   → W₀ = U·Σ·Vᵀ → A=Σ_r^{1/2}·V_r^ᵀ, B=U_r·Σ_r^{1/2}
+#   → Residual W_res = W₀ - B·A được freeze
 
 peft:
   method: "pissa"
-  r: 16                                  # Rank (giữ đồng bộ với LoRA)
-  lora_alpha: 16
+  r: 32                                  # Giữ đồng bộ với LoRA baseline
+  lora_alpha: 64                         # Giữ đồng bộ với LoRA baseline
   lora_dropout: 0.0
   use_dora: false
   init_lora_weights: "pissa"             # <<< Khởi tạo bằng PiSSA (SVD-based)
@@ -22,6 +29,11 @@ peft:
   bias: "none"
   use_gradient_checkpointing: "unsloth"
   use_rslora: false
+
+# Override training: PiSSA cần LR thấp hơn vì khởi tạo từ principal SVD components
+# LR cao sẽ phá hủy thông tin quý giá từ SVD initialization
+training:
+  learning_rate: 1.0e-5                    # Thấp hơn LoRA/DoRA (2e-5)
 
 # Override output cho nhánh này
 output:

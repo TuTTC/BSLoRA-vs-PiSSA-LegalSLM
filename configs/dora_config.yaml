@@ -3,14 +3,20 @@
 # =============================================================================
 # Kế thừa từ base_config.yaml
 # Paper: DoRA (ICML 2024) - Phân tách Direction & Magnitude
+#
+# So với LoRA baseline (Bosch paper):
+#   - Giữ nguyên: r=32, alpha=64, target_modules, tất cả hyperparameters
+#   - Thay đổi DUY NHẤT: use_dora=true
+#   → Phân tách weight thành magnitude (m) và direction (V)
+#   → W = m * (V + BA/||V + BA||) thay vì W = W₀ + BA
 
 peft:
   method: "dora"
-  r: 16                                  # Rank (giữ đồng bộ với LoRA)
-  lora_alpha: 16
+  r: 32                                  # Giữ đồng bộ với LoRA baseline
+  lora_alpha: 64                         # Giữ đồng bộ với LoRA baseline
   lora_dropout: 0.0
-  use_dora: true                         # <<< Bật DoRA
-  init_lora_weights: true
+  use_dora: true                         # <<< BẬT DoRA
+  init_lora_weights: true                # Default initialization (Kaiming)
   target_modules:
     - "q_proj"
     - "k_proj"

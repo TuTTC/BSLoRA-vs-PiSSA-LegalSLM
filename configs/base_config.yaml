@@ -3,41 +3,42 @@
 # =============================================================================
 # Mô hình nền tảng
 model:
-  name: "unsloth/Qwen2.5-7B"           # Hoặc "unsloth/Llama-3.2-3B"
+  name: "VLSP2025-LegalSML/qwen3-4b-legal-pretrain"
   max_seq_length: 2048
   dtype: null                            # Auto-detect (float16 / bfloat16)
   load_in_4bit: true                     # Quantization 4-bit qua bitsandbytes
 
-# Huấn luyện
+# Huấn luyện (theo Bosch@AI_Team paper)
 training:
-  num_epochs: 3
-  per_device_train_batch_size: 2
-  gradient_accumulation_steps: 4         # Effective batch size = 2 * 4 = 8
-  learning_rate: 2.0e-4
+  num_epochs: 1                            # Paper: 1 epoch
+  per_device_train_batch_size: 16          # Paper: 16
+  gradient_accumulation_steps: 8           # Effective batch size = 16 * 8 = 128
+  learning_rate: 2.0e-5                    # Paper: 2e-5
   lr_scheduler_type: "linear"
   warmup_steps: 5
   weight_decay: 0.01
-  max_steps: -1                          # -1 = sử dụng num_epochs
+  max_steps: -1                            # -1 = sử dụng num_epochs
   fp16: false
-  bf16: false                            # Sẽ auto-detect
-  optim: "adamw_8bit"
+  bf16: false                              # Sẽ auto-detect
+  optim: "adamw_8bit"                      # Paper: AdamW 8-bit
   seed: 3407
   logging_steps: 1
 
 # Dữ liệu
 data:
+  hf_dataset: "QuangTran276/new_reasoning"  # HuggingFace dataset
+  public_test: "VLSP2025-LegalSML/Public-Test"  # Public Test dataset
   train_file: "data/processed/train.json"
   val_file: "data/processed/val.json"
   test_file: "data/processed/test.json"
+  task_type: null                          # null = all tasks, hoặc "task1" / "task2" / "task3"
   prompt_template: |
-    ### Instruction:
-    {instruction}
-
-    ### Input:
-    {input}
-
-    ### Response:
-    {output}
+    <|im_start|>system
+    {system}<|im_end|>
+    <|im_start|>user
+    {user}<|im_end|>
+    <|im_start|>assistant
+    {assistant}<|im_end|>
 
 # Đầu ra
 output:

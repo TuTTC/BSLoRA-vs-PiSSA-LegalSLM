@@ -142,25 +142,45 @@ def get_training_args(config: Dict[str, Any]):
 def format_prompts(examples, tokenizer, template: str):
     """
     Format dữ liệu sang prompt template cho SFTTrainer.
-    
+
+    Hỗ trợ cả ChatML format (system/user/assistant) và 
+    Alpaca format (instruction/input/output) cho backward compatibility.
+
     Args:
         examples: Dataset batch
         tokenizer: Tokenizer
         template: Prompt template string
-    
+
     Returns:
         List[str] formatted texts
     """
     texts = []
-    for instruction, input_text, output_text in zip(
-        examples["instruction"], examples["input"], examples["output"]
-    ):
-        text = template.format(
-            instruction=instruction,
-            input=input_text,
-            output=output_text,
-        )
-        # Thêm EOS token
-        text = text + tokenizer.eos_token
-        texts.append(text)
+
+    # Kiểm tra xem dữ liệu có trường ChatML không
+    has_chatml = "system" in examples and "user" in examples
+
+    if has_chatml:
+        for system, user, assistant in zip(
+            examples["system"], examples["user"], examples["assistant"]
+        ):
+            text = (
+                f"<|im_start|>system\n{system}<|im_end|>\n"
+                f"<|im_start|>user\n{user}<|im_end|>\n"
+                f"<|im_start|>assistant\n{assistant}<|im_end|>"
+            )
+            text = text + tokenizer.eos_token
+            texts.append(text)
+    else:
+        # Fallback: Alpaca format
+        for instruction, input_text, output_text in zip(
+            examples["instruction"], examples["input"], examples["output"]
+        ):
+            text = template.format(
+                instruction=instruction,
+                input=input_text,
+                output=output_text,
+            )
+            text = text + tokenizer.eos_token
+            texts.append(text)
+
     return texts

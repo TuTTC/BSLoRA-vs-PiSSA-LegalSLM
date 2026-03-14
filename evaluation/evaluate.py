@@ -1,12 +1,12 @@
 """
-Evaluation Script
-=================
-Chạy inference và đánh giá mô hình trên tập test.
+Evaluation Script (Multi-task)
+===============================
+Chạy inference và đánh giá mô hình trên tập test cho từng task.
 
 Usage:
-    python evaluation/evaluate.py \
-        --peft_config configs/lora_config.yaml \
-        --checkpoint_dir outputs/checkpoints/lora \
+    python evaluation/evaluate.py \\
+        --peft_config configs/lora_config.yaml \\
+        --task_type task1 \\
         --num_samples 100
 """
 
@@ -26,27 +26,49 @@ from evaluation.metrics import compute_all_metrics
 from utils.helpers import set_seed, log_vram_usage
 
 
+# ---------------------------------------------------------------------------
+# System prompts (đồng bộ với prepare_data.py)
+# ---------------------------------------------------------------------------
+SYSTEM_PROMPTS = {
+    "task1": (
+        "Bạn là một chuyên gia pháp luật Việt Nam. "
+        "Nhiệm vụ của bạn là xác định xem một điều luật "
+        "có thể được sử dụng để trả lời câu hỏi pháp lý cụ thể hay không."
+    ),
+    "task2": (
+        "Bạn là một chuyên gia pháp luật Việt Nam. "
+        "Hãy trả lời câu hỏi trắc nghiệm sau dựa trên "
+        "văn bản pháp luật được cung cấp."
+    ),
+    "task3": (
+        "Bạn là một chuyên gia pháp luật Việt Nam. "
+        "Hãy trả lời câu hỏi mở sau theo cấu trúc "
+        "lập luận pháp lý chuyên sâu."
+    ),
+}
+
+
 def generate_response(
     model,
     tokenizer,
-    instruction: str,
-    input_text: str,
+    system_prompt: str,
+    user_input: str,
     max_new_tokens: int = 512,
     temperature: float = 0.1,
     top_p: float = 0.9,
 ) -> str:
     """
-    Sinh câu trả lời từ mô hình.
-    
+    Sinh câu trả lời từ mô hình dùng ChatML format.
+
     Args:
         model: Language model với adapter
         tokenizer: Tokenizer
-        instruction: Câu hỏi / chỉ dẫn
-        input_text: Ngữ cảnh bổ sung
+        system_prompt: System prompt cho task
+        user_input: User input đã format
         max_new_tokens: Số token tối đa sinh ra
         temperature: Temperature sampling
         top_p: Top-p sampling
-    
+
     Returns:
         Câu trả lời (string)
     """
@@ -54,9 +76,9 @@ def generate_response(
     FastLanguageModel.for_inference(model)
 
     prompt = (
-        f"### Instruction:\n{instruction}\n\n"
-        f"### Input:\n{input_text}\n\n"
-        f"### Response:\n"
+        f"<|im_start|>system\n{system_prompt}<|im_end|>\n"
+        f"<|im_start|>user\n{user_input}<|im_end|>\n"
+        f"<|im_start|>assistant\n"
     )
 
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
@@ -79,11 +101,16 @@ def generate_response(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Evaluate fine-tuned model")
+    parser = argparse.ArgumentParser(description="Evaluate fine-tuned model (Multi-task)")
     parser.add_argument("--base_config", type=str, default="configs/base_config.yaml")
     parser.add_argument("--peft_config", type=str, required=True)
     parser.add_argument("--checkpoint_dir", type=str, default=None,
                         help="Path to adapter checkpoint (default: from config)")
+    parser.add_argument(
+        "--task_type", type=str, default=None,
+        choices=["task1", "task2", "task3"],
+        help="Đánh giá cho task cụ thể (mặc định: auto-detect từ dữ liệu)",
+    )
     parser.add_argument("--num_samples", type=int, default=-1,
                         help="Số lượng mẫu đánh giá (-1 = tất cả)")
     parser.add_argument("--max_new_tokens", type=int, default=512)
@@ -96,8 +123,14 @@ def main():
     # =========================================================================
     config = load_config(args.base_config, args.peft_config)
     peft_method = config["peft"]["method"]
+    task_type = args.task_type or config.get("data", {}).get("task_type")
+
     print(f"\n{'='*60}")
     print(f"  Evaluating: {peft_method.upper()}")
+    if task_type:
+        print(f"  Task:       {task_type}")
+    else:
+        print(f"  Task:       ALL (auto-detect per sample)")
     print(f"{'='*60}\n")
 
     set_seed(config["training"]["seed"])
@@ -112,7 +145,6 @@ def main():
     if os.path.exists(checkpoint_dir):
         from peft import PeftModel
         print(f"[EVAL] Loading adapter from: {checkpoint_dir}")
-        # Adapter weights sẽ được load nếu đã train
     else:
         print(f"[WARNING] Checkpoint not found: {checkpoint_dir}")
         print("[WARNING] Using randomly initialized adapter weights")
@@ -128,57 +160,103 @@ def main():
     print(f"[EVAL] Test samples: {len(test_data)}")
 
     # =========================================================================
-    # 4. Generate predictions
+    # 4. Group samples by task if needed
+    # =========================================================================
+    # Nếu task_type được chỉ định, lọc samples
+    if task_type and "task_type" in test_data.column_names:
+        test_data = test_data.filter(lambda x: x["task_type"] == task_type)
+        print(f"[EVAL] Filtered to {len(test_data)} samples for {task_type}")
+
+    # =========================================================================
+    # 5. Generate predictions
     # =========================================================================
     predictions = []
     references = []
 
     print("[EVAL] Generating responses...")
     for sample in tqdm(test_data, desc="Inference"):
+        # Xác định system prompt
+        sample_task = sample.get("task_type", task_type or "task3")
+        system_prompt = sample.get("system", SYSTEM_PROMPTS.get(sample_task, SYSTEM_PROMPTS["task3"]))
+        user_input = sample.get("user", sample.get("instruction", ""))
+
         response = generate_response(
             model, tokenizer,
-            instruction=sample["instruction"],
-            input_text=sample["input"],
+            system_prompt=system_prompt,
+            user_input=user_input,
             max_new_tokens=args.max_new_tokens,
         )
         predictions.append(response)
-        references.append(sample["output"])
+        references.append(sample.get("assistant", sample.get("output", "")))
 
     # =========================================================================
-    # 5. Compute metrics
+    # 6. Compute metrics
     # =========================================================================
     print("\n[EVAL] Computing metrics...")
-    results = compute_all_metrics(
-        model=model if not args.skip_ppl else None,
-        tokenizer=tokenizer if not args.skip_ppl else None,
-        predictions=predictions,
-        references=references,
-        compute_ppl=not args.skip_ppl,
-    )
+
+    # Nếu có mixed tasks, đánh giá theo từng task
+    if task_type is None and "task_type" in test_data.column_names:
+        # Đánh giá tổng thể + per-task
+        results = {}
+
+        # Group by task
+        task_groups = {}
+        for i, sample in enumerate(test_data):
+            t = sample.get("task_type", "unknown")
+            if t not in task_groups:
+                task_groups[t] = {"preds": [], "refs": []}
+            task_groups[t]["preds"].append(predictions[i])
+            task_groups[t]["refs"].append(references[i])
+
+        for t, group in sorted(task_groups.items()):
+            print(f"\n--- Metrics for {t} ({len(group['preds'])} samples) ---")
+            task_metrics = compute_all_metrics(
+                model=model if not args.skip_ppl else None,
+                tokenizer=tokenizer if not args.skip_ppl else None,
+                predictions=group["preds"],
+                references=group["refs"],
+                compute_ppl=not args.skip_ppl,
+                task_type=t,
+            )
+            for k, v in task_metrics.items():
+                results[f"{t}/{k}"] = v
+    else:
+        # Đánh giá cho task cụ thể
+        results = compute_all_metrics(
+            model=model if not args.skip_ppl else None,
+            tokenizer=tokenizer if not args.skip_ppl else None,
+            predictions=predictions,
+            references=references,
+            compute_ppl=not args.skip_ppl,
+            task_type=task_type,
+        )
 
     results["method"] = peft_method
     results["num_samples"] = len(test_data)
+    if task_type:
+        results["task_type"] = task_type
 
     # =========================================================================
-    # 6. Save results
+    # 7. Save results
     # =========================================================================
     results_dir = config["output"]["results_dir"]
     os.makedirs(results_dir, exist_ok=True)
 
-    results_path = os.path.join(results_dir, f"{peft_method}_eval_results.json")
+    suffix = f"_{task_type}" if task_type else ""
+    results_path = os.path.join(results_dir, f"{peft_method}{suffix}_eval_results.json")
     with open(results_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     print(f"\n[SAVE] Results saved to: {results_path}")
 
     # In kết quả tóm tắt
     print(f"\n{'='*60}")
-    print(f"  Results Summary: {peft_method.upper()}")
+    print(f"  Results Summary: {peft_method.upper()}" + (f" ({task_type})" if task_type else ""))
     print(f"{'='*60}")
     for key, value in results.items():
         if isinstance(value, float):
-            print(f"  {key:>15}: {value:.4f}")
+            print(f"  {key:>30}: {value:.4f}")
         else:
-            print(f"  {key:>15}: {value}")
+            print(f"  {key:>30}: {value}")
     print(f"{'='*60}\n")
 
 

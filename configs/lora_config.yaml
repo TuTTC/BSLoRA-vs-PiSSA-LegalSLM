@@ -1,16 +1,17 @@
 # =============================================================================
-# LoRA Configuration (Baseline)
+# LoRA Configuration (Baseline — theo Bosch@AI_Team paper)
 # =============================================================================
 # Kế thừa từ base_config.yaml
+# Baseline: Standard LoRA initialization
 
 peft:
   method: "lora"
-  r: 16                                  # Rank
-  lora_alpha: 16                         # Scaling factor
+  r: 32                                  # Paper: rank 32
+  lora_alpha: 64                         # Paper: alpha 64
   lora_dropout: 0.0
-  use_dora: false
-  init_lora_weights: true                # Default initialization
-  target_modules:
+  use_dora: false                        # Standard LoRA
+  init_lora_weights: true                # Default initialization (Kaiming)
+  target_modules:                        # Paper: all linear layers
     - "q_proj"
     - "k_proj"
     - "v_proj"
