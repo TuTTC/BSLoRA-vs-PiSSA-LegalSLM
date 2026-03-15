@@ -18,6 +18,7 @@ import argparse
 # Thêm project root vào path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import unsloth
 from datasets import load_dataset
 # from trl import SFTTrainer
 from trl import SFTTrainer, SFTConfig
@@ -99,12 +100,17 @@ def main():
     training_args = get_training_args(config)
     prompt_template = config["data"]["prompt_template"]
 
-    def _format_batch(examples):
-        return {"text": format_prompts(examples, tokenizer, prompt_template)}
-
     print("[DATA] Formatting datasets...")
-    dataset["train"] = dataset["train"].map(_format_batch, batched=True)
-    dataset["validation"] = dataset["validation"].map(_format_batch, batched=True)
+    train_texts = format_prompts(dataset["train"][:], tokenizer, prompt_template)
+    val_texts = format_prompts(dataset["validation"][:], tokenizer, prompt_template)
+    
+    if "text" in dataset["train"].column_names:
+        dataset["train"] = dataset["train"].remove_columns("text")
+    if "text" in dataset["validation"].column_names:
+        dataset["validation"] = dataset["validation"].remove_columns("text")
+
+    dataset["train"] = dataset["train"].add_column("text", train_texts)
+    dataset["validation"] = dataset["validation"].add_column("text", val_texts)
 
     trainer = SFTTrainer(
         model=model,
