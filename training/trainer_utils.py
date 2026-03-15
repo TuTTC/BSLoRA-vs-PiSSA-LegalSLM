@@ -111,10 +111,17 @@ def get_training_args(config: Dict[str, Any]):
         trl.SFTConfig
     """
     from trl import SFTConfig
+    from unsloth import is_bfloat16_supported
 
     train_cfg = config["training"]
     output_cfg = config["output"]
     model_cfg = config.get("model", {})
+
+    fp16 = train_cfg.get("fp16", False)
+    bf16 = train_cfg.get("bf16", False)
+    if not fp16 and not bf16:
+        bf16 = is_bfloat16_supported()
+        fp16 = not bf16
 
     args = SFTConfig(
         output_dir=output_cfg["output_dir"],
@@ -127,8 +134,8 @@ def get_training_args(config: Dict[str, Any]):
         warmup_steps=train_cfg["warmup_steps"],
         weight_decay=train_cfg["weight_decay"],
         max_steps=train_cfg["max_steps"],
-        fp16=train_cfg["fp16"],
-        bf16=train_cfg["bf16"],
+        fp16=fp16,
+        bf16=bf16,
         optim=train_cfg["optim"],
         seed=train_cfg["seed"],
         logging_steps=train_cfg["logging_steps"],
