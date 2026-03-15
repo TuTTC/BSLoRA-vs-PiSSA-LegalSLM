@@ -46,11 +46,21 @@ def load_model(config: Dict[str, Any]):
         (model, tokenizer)
     """
     from unsloth import FastLanguageModel
+    from unsloth import is_bfloat16_supported
+    import torch
+
+    dtype = config["model"].get("dtype")
+    if dtype is None or dtype == "null":
+        dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16
+    elif dtype == "float16":
+        dtype = torch.float16
+    elif dtype == "bfloat16":
+        dtype = torch.bfloat16
 
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=config["model"]["name"],
         max_seq_length=config["model"]["max_seq_length"],
-        dtype=config["model"]["dtype"],
+        dtype=dtype,
         load_in_4bit=config["model"]["load_in_4bit"],
     )
 
@@ -105,17 +115,25 @@ def apply_peft(model, config: Dict[str, Any]):
 
 def get_training_args(config: Dict[str, Any]):
     """
-    Tạo TrainingArguments từ config dict.
+    Tạo SFTConfig từ config dict.
     
     Returns:
-        transformers.TrainingArguments
+        trl.SFTConfig
     """
-    from transformers import TrainingArguments
+    from trl import SFTConfig
+    from unsloth import is_bfloat16_supported
 
     train_cfg = config["training"]
     output_cfg = config["output"]
+    model_cfg = config.get("model", {})
 
-    args = TrainingArguments(
+    fp16 = train_cfg.get("fp16", False)
+    bf16 = train_cfg.get("bf16", False)
+    if not fp16 and not bf16:
+        bf16 = is_bfloat16_supported()
+        fp16 = not bf16
+
+    args = SFTConfig(
         output_dir=output_cfg["output_dir"],
         logging_dir=output_cfg["logging_dir"],
         num_train_epochs=train_cfg["num_epochs"],
@@ -126,14 +144,19 @@ def get_training_args(config: Dict[str, Any]):
         warmup_steps=train_cfg["warmup_steps"],
         weight_decay=train_cfg["weight_decay"],
         max_steps=train_cfg["max_steps"],
-        fp16=train_cfg["fp16"],
-        bf16=train_cfg["bf16"],
+        fp16=fp16,
+        bf16=bf16,
         optim=train_cfg["optim"],
         seed=train_cfg["seed"],
         logging_steps=train_cfg["logging_steps"],
         save_strategy=output_cfg["save_strategy"],
         save_total_limit=output_cfg["save_total_limit"],
         report_to="wandb",
+        max_seq_length=model_cfg.get("max_seq_length", 2048),
+        packing=False,
+        dataset_text_field="text",
+        dataset_num_proc=1,        # Ép xử lý dữ liệu trên 1 core duy nhất
+        dataloader_num_workers=0,  # Tắt đa luồng khi load data vào GPU
     )
 
     return args

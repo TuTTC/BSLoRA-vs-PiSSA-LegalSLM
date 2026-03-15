@@ -37,7 +37,7 @@ def get_device_info() -> Dict[str, Any]:
     if torch.cuda.is_available():
         for i in range(torch.cuda.device_count()):
             gpu_name = torch.cuda.get_device_name(i)
-            gpu_mem = torch.cuda.get_device_properties(i).total_mem / (1024 ** 3)
+            gpu_mem = torch.cuda.get_device_properties(i).total_memory / (1024 ** 3)
             info[f"gpu_{i}"] = {
                 "name": gpu_name,
                 "total_memory_gb": round(gpu_mem, 2),
