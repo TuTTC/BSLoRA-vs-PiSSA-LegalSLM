@@ -19,7 +19,8 @@ import argparse
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from datasets import load_dataset
-from trl import SFTTrainer
+# from trl import SFTTrainer
+from trl import SFTTrainer, SFTConfig
 
 from training.trainer_utils import (
     load_config,
@@ -98,17 +99,19 @@ def main():
     training_args = get_training_args(config)
     prompt_template = config["data"]["prompt_template"]
 
+    def _format_batch(examples):
+        return {"text": format_prompts(examples, tokenizer, prompt_template)}
+
+    print("[DATA] Formatting datasets...")
+    dataset["train"] = dataset["train"].map(_format_batch, batched=True)
+    dataset["validation"] = dataset["validation"].map(_format_batch, batched=True)
+
     trainer = SFTTrainer(
         model=model,
-        tokenizer=tokenizer,
+        processing_class=tokenizer,
         train_dataset=dataset["train"],
         eval_dataset=dataset["validation"],
         args=training_args,
-        formatting_func=lambda examples: format_prompts(
-            examples, tokenizer, prompt_template
-        ),
-        max_seq_length=config["model"]["max_seq_length"],
-        packing=False,
     )
 
     # =========================================================================

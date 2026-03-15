@@ -105,17 +105,18 @@ def apply_peft(model, config: Dict[str, Any]):
 
 def get_training_args(config: Dict[str, Any]):
     """
-    Tạo TrainingArguments từ config dict.
+    Tạo SFTConfig từ config dict.
     
     Returns:
-        transformers.TrainingArguments
+        trl.SFTConfig
     """
-    from transformers import TrainingArguments
+    from trl import SFTConfig
 
     train_cfg = config["training"]
     output_cfg = config["output"]
+    model_cfg = config.get("model", {})
 
-    args = TrainingArguments(
+    args = SFTConfig(
         output_dir=output_cfg["output_dir"],
         logging_dir=output_cfg["logging_dir"],
         num_train_epochs=train_cfg["num_epochs"],
@@ -134,6 +135,11 @@ def get_training_args(config: Dict[str, Any]):
         save_strategy=output_cfg["save_strategy"],
         save_total_limit=output_cfg["save_total_limit"],
         report_to="wandb",
+        max_seq_length=model_cfg.get("max_seq_length", 2048),
+        packing=False,
+        dataset_text_field="text",
+        dataset_num_proc=1,        # Ép xử lý dữ liệu trên 1 core duy nhất
+        dataloader_num_workers=0,  # Tắt đa luồng khi load data vào GPU
     )
 
     return args
