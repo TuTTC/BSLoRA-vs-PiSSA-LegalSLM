@@ -46,11 +46,21 @@ def load_model(config: Dict[str, Any]):
         (model, tokenizer)
     """
     from unsloth import FastLanguageModel
+    from unsloth import is_bfloat16_supported
+    import torch
+
+    dtype = config["model"].get("dtype")
+    if dtype is None or dtype == "null":
+        dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16
+    elif dtype == "float16":
+        dtype = torch.float16
+    elif dtype == "bfloat16":
+        dtype = torch.bfloat16
 
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=config["model"]["name"],
         max_seq_length=config["model"]["max_seq_length"],
-        dtype=config["model"]["dtype"],
+        dtype=dtype,
         load_in_4bit=config["model"]["load_in_4bit"],
     )
 
