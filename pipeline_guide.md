@@ -90,7 +90,7 @@ python data/prepare_data.py \
     --public_test VLSP2025-LegalSML/Public-Test \
     --output_dir data/processed
 ```
-
+python data/prepare_data.py --hf_dataset QuangTran276/new_reasoning --public_test VLSP2025-LegalSML/Public-Test --output_dir data/processed
 ### Output mong đợi
 
 ```

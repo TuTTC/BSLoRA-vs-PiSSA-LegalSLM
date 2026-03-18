@@ -44,7 +44,20 @@ def main():
         "--peft_config", type=str, required=True,
         help="Path to PEFT config YAML (lora/dora/pissa)",
     )
+    parser.add_argument(
+        "--resume_from_checkpoint", type=str, default=None,
+        help="Resume training from checkpoint. Use 'True' to auto-detect latest, "
+             "or provide a path like 'outputs/checkpoints/dora/checkpoint-200'",
+    )
     args = parser.parse_args()
+
+    # Xử lý resume_from_checkpoint: "True" → True (auto-detect), path → path string
+    resume_ckpt = args.resume_from_checkpoint
+    if resume_ckpt is not None:
+        if resume_ckpt.lower() == "true":
+            resume_ckpt = True
+        elif resume_ckpt.lower() == "false":
+            resume_ckpt = None
 
     # =========================================================================
     # 1. Load config
@@ -123,10 +136,13 @@ def main():
     # =========================================================================
     # 6. Train (tracked)
     # =========================================================================
-    print(f"\n[TRAIN] Starting training with {peft_method.upper()}...")
+    if resume_ckpt:
+        print(f"\n[TRAIN] Resuming training with {peft_method.upper()} from checkpoint: {resume_ckpt}")
+    else:
+        print(f"\n[TRAIN] Starting training with {peft_method.upper()}...")
 
     with vram_tracker.track("training"):
-        trainer_stats = trainer.train()
+        trainer_stats = trainer.train(resume_from_checkpoint=resume_ckpt)
 
     log_vram_usage("After training")
     print(f"[TRAIN] Training completed!")

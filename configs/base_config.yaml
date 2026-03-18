@@ -45,8 +45,11 @@ output:
   output_dir: "outputs/checkpoints"
   logging_dir: "outputs/logs"
   results_dir: "outputs/results"
-  save_strategy: "epoch"
-  save_total_limit: 2
+  save_strategy: "steps"                   # Lưu checkpoint theo steps (thay vì epoch)
+  save_steps: 100                          # Lưu mỗi 100 steps → cho phép resume
+  save_total_limit: 3                      # Giữ tối đa 3 checkpoints gần nhất
+  eval_strategy: "steps"                   # Đánh giá theo steps
+  eval_steps: 100                          # Đánh giá mỗi 100 steps
 
 # WandB
 wandb:

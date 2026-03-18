@@ -41,6 +41,7 @@ def load_config(base_path: str, peft_path: str) -> Dict[str, Any]:
 def load_model(config: Dict[str, Any]):
     """
     Load model qua Unsloth với quantization 4-bit.
+    Tự động bật Flash Attention 2 nếu flash-attn được cài.
     
     Returns:
         (model, tokenizer)
@@ -57,16 +58,28 @@ def load_model(config: Dict[str, Any]):
     elif dtype == "bfloat16":
         dtype = torch.bfloat16
 
+    # Kiểm tra Flash Attention 2
+    attn_impl = "eager"
+    try:
+        import flash_attn  # noqa: F401
+        attn_impl = "flash_attention_2"
+        print("[MODEL] Flash Attention 2 detected → enabling FA2 for faster training!")
+    except ImportError:
+        print("[MODEL] flash-attn not installed → using default attention (slower).")
+        print("[MODEL] Install with: pip install flash-attn --no-build-isolation")
+
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=config["model"]["name"],
         max_seq_length=config["model"]["max_seq_length"],
         dtype=dtype,
         load_in_4bit=config["model"]["load_in_4bit"],
+        attn_implementation=attn_impl,
     )
 
     print(f"[MODEL] Loaded: {config['model']['name']}")
     print(f"[MODEL] Max seq length: {config['model']['max_seq_length']}")
     print(f"[MODEL] 4-bit quantization: {config['model']['load_in_4bit']}")
+    print(f"[MODEL] Attention implementation: {attn_impl}")
 
     return model, tokenizer
 
@@ -149,8 +162,11 @@ def get_training_args(config: Dict[str, Any]):
         optim=train_cfg["optim"],
         seed=train_cfg["seed"],
         logging_steps=train_cfg["logging_steps"],
-        save_strategy=output_cfg["save_strategy"],
-        save_total_limit=output_cfg["save_total_limit"],
+        save_strategy=output_cfg.get("save_strategy", "epoch"),
+        save_steps=output_cfg.get("save_steps", 500),
+        save_total_limit=output_cfg.get("save_total_limit", 3),
+        eval_strategy=output_cfg.get("eval_strategy", "no"),
+        eval_steps=output_cfg.get("eval_steps", None),
         report_to="wandb",
         max_seq_length=model_cfg.get("max_seq_length", 2048),
         packing=False,
