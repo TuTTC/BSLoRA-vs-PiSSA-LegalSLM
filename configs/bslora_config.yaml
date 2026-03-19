@@ -1,0 +1,42 @@
+# =============================================================================
+# BSLoRA Configuration (Bit-Serial / Parameter-Shared LoRA)
+# =============================================================================
+# Kế thừa từ base_config.yaml
+# BSLoRA chia sẻ tham số intra-layer và inter-layer để tăng tính hiệu quả.
+
+peft:
+  method: "bslora"
+  r_local: 8
+  r_intra: 8
+  r_inter: 8
+  lora_alpha: 16
+  lora_dropout: 0.05
+  share_mode: "kron"                  # "slice", "gate", "kron"
+  kron_share_size: 256
+  gate_share_size: 1024
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+  use_gradient_checkpointing: true    # Bật để tránh OOM trên 24GB/48GB
+  init_lora_weights: true
+
+# Override training parameters for BSLoRA (optional)
+training:
+  per_device_train_batch_size: 16     # Có thể tăng lên 32-48 trên A6000
+  gradient_accumulation_steps: 8      # Duy trì effective batch size = 128
+  learning_rate: 2.0e-5
+
+# Output cho nhánh này
+output:
+  output_dir: "outputs/checkpoints/bslora_kron"
+  logging_dir: "outputs/logs/bslora_kron"
+  results_dir: "outputs/results"
+
+wandb:
+  run_name: "bslora-kron-experiment"

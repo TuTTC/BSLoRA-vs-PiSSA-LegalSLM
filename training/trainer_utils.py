@@ -99,6 +99,18 @@ def apply_peft(model, config: Dict[str, Any]):
 
     peft_cfg = config["peft"]
 
+    # Unsloth: PiSSA is enabled via use_pissa=True
+    # DoRA is enabled via use_dora=True
+    # init_lora_weights must be True, False, "gaussian", "loftq", or "corda"
+    method = peft_cfg.get("method", "lora").lower()
+    use_pissa = (method == "pissa")
+    
+    # If using PiSSA, we must set init_lora_weights to True (or a valid value) 
+    # and pass use_pissa=True
+    init_lora_weights = peft_cfg.get("init_lora_weights", True)
+    if use_pissa and init_lora_weights == "pissa":
+        init_lora_weights = True
+
     model = FastLanguageModel.get_peft_model(
         model,
         r=peft_cfg["r"],
@@ -109,7 +121,8 @@ def apply_peft(model, config: Dict[str, Any]):
         use_gradient_checkpointing=peft_cfg["use_gradient_checkpointing"],
         use_rslora=peft_cfg.get("use_rslora", False),
         use_dora=peft_cfg.get("use_dora", False),
-        init_lora_weights=peft_cfg.get("init_lora_weights", True),
+        use_pissa=use_pissa,
+        init_lora_weights=init_lora_weights,
     )
 
     method = peft_cfg["method"]
