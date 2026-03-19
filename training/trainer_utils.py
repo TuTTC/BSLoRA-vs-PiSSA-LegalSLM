@@ -38,15 +38,18 @@ def load_config(base_path: str, peft_path: str) -> Dict[str, Any]:
     return config
 
 
-def load_model(config: Dict[str, Any]):
+def load_model(config: Dict[str, Any], adapter_path: Optional[str] = None, force_transformers: bool = False):
     """
-    Load model qua Unsloth với quantization 4-bit.
-    Tự động bật Flash Attention 2 nếu flash-attn được cài.
+    Load model qua Unsloth hoặc standard Transformers.
+    
+    Args:
+        config: Config dict
+        adapter_path: Đường dẫn đến adapter (nếu muốn load model kèm adapter)
+        force_transformers: Bắt buộc dùng standard transformers (dùng cho eval ổn định)
     
     Returns:
         (model, tokenizer)
     """
-    from unsloth import FastLanguageModel
     from unsloth import is_bfloat16_supported
     import torch
 
@@ -58,33 +61,63 @@ def load_model(config: Dict[str, Any]):
     elif dtype == "bfloat16":
         dtype = torch.bfloat16
 
-    # Kiểm tra Flash Attention 2
-    attn_impl = "eager"
-    try:
-        import flash_attn  # noqa: F401
-        attn_impl = "flash_attention_2"
-        print("[MODEL] Flash Attention 2 detected → enabling FA2 for faster training!")
-    except ImportError:
-        print("[MODEL] flash-attn not installed → using default attention (slower).")
-        print("[MODEL] Install with: pip install flash-attn --no-build-isolation")
+    model_name = adapter_path if adapter_path else config["model"]["name"]
 
-    model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=config["model"]["name"],
-        max_seq_length=config["model"]["max_seq_length"],
-        dtype=dtype,
-        load_in_4bit=config["model"]["load_in_4bit"],
-        attn_implementation=attn_impl,
-    )
+    if force_transformers:
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+        from peft import PeftModel
 
-    print(f"[MODEL] Loaded: {config['model']['name']}")
-    print(f"[MODEL] Max seq length: {config['model']['max_seq_length']}")
+        print(f"[MODEL] Loading via standard Transformers (Stable Mode): {model_name}")
+        
+        tokenizer = AutoTokenizer.from_pretrained(model_name if adapter_path else config["model"]["name"])
+        
+        bnb_config = None
+        if config["model"]["load_in_4bit"]:
+            bnb_config = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_quant_type="nf4",
+                bnb_4bit_compute_dtype=dtype,
+                bnb_4bit_use_double_quant=True,
+            )
+
+        model = AutoModelForCausalLM.from_pretrained(
+            config["model"]["name"],
+            quantization_config=bnb_config,
+            torch_dtype=dtype,
+            device_map="auto",
+        )
+
+        if adapter_path:
+            print(f"[PEFT] Loading adapter weights from: {adapter_path}")
+            model = PeftModel.from_pretrained(model, adapter_path)
+    else:
+        from unsloth import FastLanguageModel
+        
+        # Kiểm tra Flash Attention 2
+        attn_impl = "eager"
+        try:
+            import flash_attn  # noqa: F401
+            attn_impl = "flash_attention_2"
+            print("[MODEL] Flash Attention 2 detected → enabling FA2 for faster training!")
+        except ImportError:
+            print("[MODEL] flash-attn not installed → using default attention (slower).")
+
+        model, tokenizer = FastLanguageModel.from_pretrained(
+            model_name=model_name,
+            max_seq_length=config["model"]["max_seq_length"],
+            dtype=dtype,
+            load_in_4bit=config["model"]["load_in_4bit"],
+            attn_implementation=attn_impl,
+        )
+
+    print(f"[MODEL] Final model: {model_name}")
+    print(f"[MODEL] Max seq length: {config['model'].get('max_seq_length', 'N/A')}")
     print(f"[MODEL] 4-bit quantization: {config['model']['load_in_4bit']}")
-    print(f"[MODEL] Attention implementation: {attn_impl}")
 
     return model, tokenizer
 
 
-def apply_peft(model, config: Dict[str, Any]):
+def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
     """
     Apply PEFT adapter (LoRA / DoRA / PiSSA) dựa trên config.
     
@@ -92,40 +125,54 @@ def apply_peft(model, config: Dict[str, Any]):
     - DoRA: use_dora=True, init_lora_weights=True  
     - PiSSA: use_dora=False, init_lora_weights="pissa"
     
+    Args:
+        model: Base model
+        config: Config dict
+        force_transformers: Dùng standard peft instead of Unsloth
+        
     Returns:
         model with PEFT adapter applied
     """
-    from unsloth import FastLanguageModel
-
     peft_cfg = config["peft"]
-
-    # Unsloth: PiSSA is enabled via use_pissa=True
-    # DoRA is enabled via use_dora=True
-    # init_lora_weights must be True, False, "gaussian", "loftq", or "corda"
     method = peft_cfg.get("method", "lora").lower()
-    use_pissa = (method == "pissa")
-    
-    # If using PiSSA, we must set init_lora_weights to True (or a valid value) 
-    # and pass use_pissa=True
     init_lora_weights = peft_cfg.get("init_lora_weights", True)
-    if use_pissa and init_lora_weights == "pissa":
-        init_lora_weights = True
+    
+    if method == "pissa":
+        init_lora_weights = "pissa"
 
-    model = FastLanguageModel.get_peft_model(
-        model,
-        r=peft_cfg["r"],
-        lora_alpha=peft_cfg["lora_alpha"],
-        lora_dropout=peft_cfg["lora_dropout"],
-        target_modules=peft_cfg["target_modules"],
-        bias=peft_cfg["bias"],
-        use_gradient_checkpointing=peft_cfg["use_gradient_checkpointing"],
-        use_rslora=peft_cfg.get("use_rslora", False),
-        use_dora=peft_cfg.get("use_dora", False),
-        use_pissa=use_pissa,
-        init_lora_weights=init_lora_weights,
-    )
+    if force_transformers:
+        from peft import get_peft_model, LoraConfig
+        
+        print(f"[PEFT] Applying standard PEFT (Stable Mode): {method.upper()}")
+        
+        lora_config = LoraConfig(
+            r=peft_cfg["r"],
+            lora_alpha=peft_cfg["lora_alpha"],
+            target_modules=peft_cfg["target_modules"],
+            lora_dropout=peft_cfg["lora_dropout"],
+            bias=peft_cfg["bias"],
+            task_type="CAUSAL_LM",
+            use_dora=peft_cfg.get("use_dora", False),
+            init_lora_weights=init_lora_weights,
+            use_rslora=peft_cfg.get("use_rslora", False),
+        )
+        model = get_peft_model(model, lora_config)
+    else:
+        from unsloth import FastLanguageModel
 
-    method = peft_cfg["method"]
+        model = FastLanguageModel.get_peft_model(
+            model,
+            r=peft_cfg["r"],
+            lora_alpha=peft_cfg["lora_alpha"],
+            lora_dropout=peft_cfg["lora_dropout"],
+            target_modules=peft_cfg["target_modules"],
+            bias=peft_cfg["bias"],
+            use_gradient_checkpointing=peft_cfg["use_gradient_checkpointing"],
+            use_rslora=peft_cfg.get("use_rslora", False),
+            use_dora=peft_cfg.get("use_dora", False),
+            init_lora_weights=init_lora_weights,
+        )
+
     print(f"[PEFT] Applied method: {method.upper()}")
     print(f"[PEFT] Rank: {peft_cfg['r']}, Alpha: {peft_cfg['lora_alpha']}")
     print(f"[PEFT] Target modules: {peft_cfg['target_modules']}")

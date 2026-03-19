@@ -72,8 +72,7 @@ def generate_response(
     Returns:
         Câu trả lời (string)
     """
-    from unsloth import FastLanguageModel
-    FastLanguageModel.for_inference(model)
+    # FastLanguageModel.for_inference(model) --> Moved to main()
 
     prompt = (
         f"<|im_start|>system\n{system_prompt}<|im_end|>\n"
@@ -138,16 +137,34 @@ def main():
     # =========================================================================
     # 2. Load model + adapter
     # =========================================================================
-    model, tokenizer = load_model(config)
-    model = apply_peft(model, config)
-
     checkpoint_dir = args.checkpoint_dir or config["output"]["output_dir"]
+    actual_checkpoint = None
+    
     if os.path.exists(checkpoint_dir):
-        from peft import PeftModel
-        print(f"[EVAL] Loading adapter from: {checkpoint_dir}")
+        # Check if it has weights
+        if any(os.path.exists(os.path.join(checkpoint_dir, f)) 
+               for f in ["adapter_model.safetensors", "adapter_model.bin"]):
+            actual_checkpoint = checkpoint_dir
+        else:
+            # Search for subdirectories
+            checkpoints = [os.path.join(checkpoint_dir, d) for d in os.listdir(checkpoint_dir) 
+                          if d.startswith("checkpoint-") and os.path.isdir(os.path.join(checkpoint_dir, d))]
+            if checkpoints:
+                actual_checkpoint = max(checkpoints, key=lambda x: int(x.split("-")[-1]))
+                print(f"[EVAL] Found latest checkpoint: {actual_checkpoint}")
+
+    if actual_checkpoint:
+        print(f"[EVAL] Loading model with adapter from: {actual_checkpoint}")
+        # Use force_transformers=True for stable evaluation (bypasses Unsloth inference bugs)
+        model, tokenizer = load_model(config, adapter_path=actual_checkpoint, force_transformers=True)
     else:
-        print(f"[WARNING] Checkpoint not found: {checkpoint_dir}")
-        print("[WARNING] Using randomly initialized adapter weights")
+        print("[WARNING] No trained adapter found. Using base model + random initialization.")
+        model, tokenizer = load_model(config, force_transformers=True)
+        model = apply_peft(model, config, force_transformers=True)
+
+    # Optimization for inference (Standard Transformers handles this correctly)
+    model.config.use_cache = True
+    tokenizer.padding_side = "left"
 
     log_vram_usage("After loading model")
 

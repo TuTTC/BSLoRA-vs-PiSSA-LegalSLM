@@ -11,6 +11,10 @@
 #   → W₀ = U·Σ·Vᵀ → A=Σ_r^{1/2}·V_r^ᵀ, B=U_r·Σ_r^{1/2}
 #   → Residual W_res = W₀ - B·A được freeze
 
+model:
+  load_in_4bit: false                    # PiSSA requires high precision for SVD
+  dtype: "bfloat16"                      # Use bfloat16 for stability and VRAM efficiency
+
 peft:
   method: "pissa"
   r: 32                                  # Giữ đồng bộ với LoRA baseline
