@@ -96,7 +96,8 @@ def apply_peft(model, config: Dict[str, Any]):
         use_gradient_checkpointing=peft_cfg["use_gradient_checkpointing"],
         use_rslora=peft_cfg.get("use_rslora", False),
         use_dora=peft_cfg.get("use_dora", False),
-        init_lora_weights=peft_cfg.get("init_lora_weights", True),
+        init_lora_weights = True,
+        use_pissa = True if config["peft"].get("method") == "pissa" else False,
     )
 
     method = peft_cfg["method"]
