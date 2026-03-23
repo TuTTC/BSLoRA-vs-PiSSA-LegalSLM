@@ -42,3 +42,6 @@ output:
 
 wandb:
   run_name: "pissa-experiment"
+
+model:
+  load_in_4bit: false

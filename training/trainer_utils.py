@@ -3,31 +3,24 @@ Trainer Utilities
 =================
 Hàm hỗ trợ cho quá trình huấn luyện: load model, apply PEFT, format prompts.
 """
+"""
+Trainer Utilities (Bản chuẩn lách Unsloth - Hỗ trợ Eval)
+=================
+"""
 
 import yaml
 import copy
+import torch
 from pathlib import Path
 from typing import Dict, Any, Optional
 
-
 def load_config(base_path: str, peft_path: str) -> Dict[str, Any]:
-    """
-    Load và merge config từ base_config + peft_config.
-    
-    Args:
-        base_path: Đường dẫn đến base_config.yaml
-        peft_path: Đường dẫn đến lora/dora/pissa_config.yaml
-    
-    Returns:
-        Dict chứa config đã merge
-    """
     with open(base_path, "r", encoding="utf-8") as f:
         base_config = yaml.safe_load(f)
 
     with open(peft_path, "r", encoding="utf-8") as f:
         peft_config = yaml.safe_load(f)
 
-    # Deep merge: peft_config overrides base_config
     config = copy.deepcopy(base_config)
     for key, value in peft_config.items():
         if isinstance(value, dict) and key in config:
@@ -37,17 +30,25 @@ def load_config(base_path: str, peft_path: str) -> Dict[str, Any]:
 
     return config
 
+def load_model(config: Dict[str, Any], adapter_path=None, force_transformers=False, **kwargs):
+    # NẾU LÀ ĐÁNH GIÁ (EVAL): Dùng Transformers thuần để né lỗi ép xung của Unsloth
+    if force_transformers:
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        from peft import PeftModel
+        print("\n[EVAL] Đang bỏ qua Unsloth, dùng Transformers thuần để an toàn tuyệt đối...\n")
+        tokenizer = AutoTokenizer.from_pretrained(config["model"]["name"])
+        model = AutoModelForCausalLM.from_pretrained(
+            config["model"]["name"],
+            torch_dtype=torch.bfloat16,
+            device_map="auto"
+        )
+        if adapter_path:
+            model = PeftModel.from_pretrained(model, adapter_path)
+        return model, tokenizer
 
-def load_model(config: Dict[str, Any]):
-    """
-    Load model qua Unsloth với quantization 4-bit.
-    
-    Returns:
-        (model, tokenizer)
-    """
+    # NẾU LÀ TRAIN: Vẫn dùng Unsloth để load nhanh
     from unsloth import FastLanguageModel
     from unsloth import is_bfloat16_supported
-    import torch
 
     dtype = config["model"].get("dtype")
     if dtype is None or dtype == "null":
@@ -57,70 +58,49 @@ def load_model(config: Dict[str, Any]):
     elif dtype == "bfloat16":
         dtype = torch.bfloat16
 
+    model_name_or_path = adapter_path if adapter_path else config["model"]["name"]
+
     model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=config["model"]["name"],
-        max_seq_length=config["model"]["max_seq_length"],
+        model_name=model_name_or_path,
+        max_seq_length=config.get("model", {}).get("max_seq_length", 2048),
         dtype=dtype,
-        load_in_4bit=config["model"]["load_in_4bit"],
+        load_in_4bit=config.get("model", {}).get("load_in_4bit", False),
     )
 
-    print(f"[MODEL] Loaded: {config['model']['name']}")
-    print(f"[MODEL] Max seq length: {config['model']['max_seq_length']}")
-    print(f"[MODEL] 4-bit quantization: {config['model']['load_in_4bit']}")
+    print(f"[MODEL] Loaded: {model_name_or_path}")
+    print(f"[MODEL] 4-bit quantization: {config.get('model', {}).get('load_in_4bit', False)}")
 
     return model, tokenizer
 
-
 def apply_peft(model, config: Dict[str, Any]):
-    """
-    Apply PEFT adapter (LoRA / DoRA / PiSSA) dựa trên config.
-    
-    - LoRA: use_dora=False, init_lora_weights=True
-    - DoRA: use_dora=True, init_lora_weights=True  
-    - PiSSA: use_dora=False, init_lora_weights="pissa"
-    
-    Returns:
-        model with PEFT adapter applied
-    """
-    from unsloth import FastLanguageModel
+    # SỬ DỤNG PEFT NGUYÊN BẢN ĐỂ VƯỢT MẶT UNSLOTH
+    from peft import get_peft_model, LoraConfig
 
     peft_cfg = config["peft"]
-
-    model = FastLanguageModel.get_peft_model(
-        model,
+    
+    lora_config = LoraConfig(
         r=peft_cfg["r"],
         lora_alpha=peft_cfg["lora_alpha"],
         lora_dropout=peft_cfg["lora_dropout"],
         target_modules=peft_cfg["target_modules"],
         bias=peft_cfg["bias"],
-        use_gradient_checkpointing=peft_cfg["use_gradient_checkpointing"],
-        use_rslora=peft_cfg.get("use_rslora", False),
-        use_dora=peft_cfg.get("use_dora", False),
-        init_lora_weights = True,
-        use_pissa = True if config["peft"].get("method") == "pissa" else False,
+        task_type="CAUSAL_LM",
+        init_lora_weights=peft_cfg.get("init_lora_weights", "pissa")
     )
-
-    method = peft_cfg["method"]
-    print(f"[PEFT] Applied method: {method.upper()}")
-    print(f"[PEFT] Rank: {peft_cfg['r']}, Alpha: {peft_cfg['lora_alpha']}")
-    print(f"[PEFT] Target modules: {peft_cfg['target_modules']}")
-
+    
+    model = get_peft_model(model, lora_config)
+    
+    print(f"\n[PEFT] ĐÃ LÁCH QUA UNSLOTH! Khởi tạo thành công với init_lora_weights='{peft_cfg.get('init_lora_weights')}'")
+    
     # In số lượng trainable parameters
     trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total_params = sum(p.numel() for p in model.parameters())
     print(f"[PEFT] Trainable params: {trainable_params:,} / {total_params:,} "
-          f"({100 * trainable_params / total_params:.2f}%)")
+          f"({100 * trainable_params / total_params:.2f}%)\n")
 
     return model
 
-
 def get_training_args(config: Dict[str, Any]):
-    """
-    Tạo SFTConfig từ config dict.
-    
-    Returns:
-        trl.SFTConfig
-    """
     from trl import SFTConfig
     from unsloth import is_bfloat16_supported
 
@@ -137,18 +117,18 @@ def get_training_args(config: Dict[str, Any]):
     args = SFTConfig(
         output_dir=output_cfg["output_dir"],
         logging_dir=output_cfg["logging_dir"],
-        num_train_epochs=train_cfg["num_epochs"],
+        num_train_epochs=train_cfg.get("num_epochs", 1),
         per_device_train_batch_size=train_cfg["per_device_train_batch_size"],
         gradient_accumulation_steps=train_cfg["gradient_accumulation_steps"],
         learning_rate=train_cfg["learning_rate"],
-        lr_scheduler_type=train_cfg["lr_scheduler_type"],
-        warmup_steps=train_cfg["warmup_steps"],
-        weight_decay=train_cfg["weight_decay"],
-        max_steps=train_cfg["max_steps"],
+        lr_scheduler_type=train_cfg.get("lr_scheduler_type", "linear"),
+        warmup_steps=train_cfg.get("warmup_steps", 0),
+        weight_decay=train_cfg.get("weight_decay", 0.0),
+        max_steps=train_cfg.get("max_steps", -1),
         fp16=fp16,
         bf16=bf16,
-        optim=train_cfg["optim"],
-        seed=train_cfg["seed"],
+        optim=train_cfg.get("optim", "adamw_8bit"),
+        seed=train_cfg.get("seed", 42),
         logging_steps=train_cfg["logging_steps"],
         save_strategy=output_cfg["save_strategy"],
         save_total_limit=output_cfg["save_total_limit"],
@@ -156,31 +136,15 @@ def get_training_args(config: Dict[str, Any]):
         max_seq_length=model_cfg.get("max_seq_length", 2048),
         packing=False,
         dataset_text_field="text",
-        dataset_num_proc=1,        # Ép xử lý dữ liệu trên 1 core duy nhất
-        dataloader_num_workers=0,  # Tắt đa luồng khi load data vào GPU
+        dataset_num_proc=1,
+        dataloader_num_workers=0,
     )
 
     return args
 
-
 def format_prompts(examples, tokenizer, template: str):
-    """
-    Format dữ liệu sang prompt template cho SFTTrainer.
-
-    Hỗ trợ cả ChatML format (system/user/assistant) và 
-    Alpaca format (instruction/input/output) cho backward compatibility.
-
-    Args:
-        examples: Dataset batch
-        tokenizer: Tokenizer
-        template: Prompt template string
-
-    Returns:
-        List[str] formatted texts
-    """
     texts = []
 
-    # Kiểm tra xem dữ liệu có trường ChatML không
     has_chatml = "system" in examples and "user" in examples
 
     if has_chatml:
@@ -195,7 +159,6 @@ def format_prompts(examples, tokenizer, template: str):
             text = text + tokenizer.eos_token
             texts.append(text)
     else:
-        # Fallback: Alpaca format
         for instruction, input_text, output_text in zip(
             examples["instruction"], examples["input"], examples["output"]
         ):
