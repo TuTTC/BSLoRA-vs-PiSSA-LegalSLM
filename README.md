@@ -21,7 +21,7 @@
 | **Tên môn học** | Các kỹ thuật Học Sâu và Ứng dụng |
 | **Mã môn học**  | CS431                            |
 | **Mã lớp**      | CS431.Q22                        |
-| **Giảng viên**  | TS. Nguyễn Vĩnh Tiệp             |
+| **Giảng viên**  | TS. Nguyễn Vinh Tiệp             |
 
 ## 👥 Thành viên nhóm
 
