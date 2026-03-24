@@ -15,7 +15,6 @@ import torch
 import numpy as np
 from typing import Dict, List, Any, Optional
 
-
 # ============================================================================
 # Text normalization ν(·) for Exact Match  (Eq. 8)
 # ============================================================================
@@ -23,12 +22,12 @@ def _normalize_text(text: str) -> str:
     """
     Light normalization ν(·): lowercasing, punctuation removal,
     and whitespace collapsing / stripping.
+    Dùng để chuẩn hóa câu trả lời dạng text tự do trước khi so sánh Exact Match.
     """
     text = text.lower()
     text = text.translate(str.maketrans("", "", string.punctuation))
     text = " ".join(text.split())
     return text
-
 
 # ============================================================================
 # Perplexity (chung cho tất cả task)
@@ -42,9 +41,8 @@ def compute_perplexity(
 ) -> float:
     """
     Tính Perplexity trên tập dữ liệu.
-
     PPL = exp(average negative log-likelihood)
-    PPL càng thấp => mô hình càng tốt.
+    PPL càng thấp => mô hình hiểu ngôn ngữ/dữ liệu càng tốt.
     """
     model.eval()
     total_loss = 0.0
@@ -69,11 +67,10 @@ def compute_perplexity(
             total_loss += outputs.loss.item() * num_tokens
             total_tokens += num_tokens
 
-    avg_loss = total_loss / total_tokens
+    avg_loss = total_loss / total_tokens if total_tokens > 0 else 0.0
     perplexity = math.exp(avg_loss)
 
     return perplexity
-
 
 # ============================================================================
 # Accuracy  (Eq. 7)  –  dùng cho classification tasks (Task 1 & Task 2)
@@ -84,15 +81,13 @@ def compute_accuracy(
 ) -> float:
     """
     Acc = (1/N) * Σ 1[ŷ_i = y_i]
-
     So sánh trực tiếp predicted label với gold label.
     """
     n = len(predictions)
     if n == 0:
         return 0.0
-    correct = sum(1 for y_hat, y in zip(predictions, references) if y_hat == y)
+    correct = sum(1 for y_hat, y in zip(predictions, references) if str(y_hat).strip() == str(y).strip())
     return correct / n
-
 
 # ============================================================================
 # Exact Match  (Eq. 8)  –  dùng cho free-form QA (Task 3)
@@ -103,7 +98,6 @@ def compute_exact_match(
 ) -> float:
     """
     EM = (1/N) * Σ 1[ν(â_i) = ν(a_i)]
-
     So sánh câu trả lời sau normalization ν(·)
     (lowercasing, punctuation & whitespace removal).
     """
@@ -116,30 +110,40 @@ def compute_exact_match(
     )
     return correct / n
 
-
 # ============================================================================
 # Helpers: trích xuất label từ raw model output
 # ============================================================================
 def _extract_answer_after_think(text: str) -> str:
     """
-    Trích xuất câu trả lời sau thẻ </think>.
-    Nếu không có thẻ </think>, lấy toàn bộ text.
+    Trích xuất câu trả lời thực sự nằm sau thẻ </think> của mô hình suy luận.
+    Nếu không có thẻ </think>, lấy toàn bộ text hiện có.
     """
     match = re.search(r"</think>\s*(.*)", text, re.DOTALL)
     if match:
         return match.group(1).strip()
     return text.strip()
 
-
 def _normalize_yes_no(answer: str) -> Optional[str]:
-    """Chuẩn hóa câu trả lời Có/Không (Task 1 – NLI / Citation)."""
-    answer_lower = answer.lower().strip()
-    if re.search(r"\bcó\b", answer_lower):
+    """
+    Chuẩn hóa câu trả lời Có/Không (Task 1 – NLI / Citation).
+    Cải tiến: Ưu tiên bắt chữ 'Có' hoặc 'Không' nằm ngay đầu câu để tránh 
+    bị nhiễu bởi phần giải thích (ví dụ: 'Không, vì điều luật CÓ quy định...').
+    """
+    ans = answer.lower().strip()
+    
+    # 1. Ưu tiên kiểm tra các từ khóa xuất hiện ngay đầu câu hoặc trong 10 ký tự đầu
+    if ans.startswith("có") or "có," in ans[:10] or "có." in ans[:10] or re.search(r"^\W*có\b", ans):
         return "Có"
-    if re.search(r"\bkhông\b", answer_lower):
+    if ans.startswith("không") or "không," in ans[:10] or "không." in ans[:10] or re.search(r"^\W*không\b", ans):
         return "Không"
+        
+    # 2. Quét dự phòng toàn câu nếu mô hình trả lời lan man
+    if re.search(r"\bcó\b", ans):
+        return "Có"
+    if re.search(r"\bkhông\b", ans):
+        return "Không"
+        
     return None
-
 
 def _extract_mcq_answer(text: str) -> Optional[int]:
     """
@@ -160,7 +164,6 @@ def _extract_mcq_answer(text: str) -> Optional[int]:
 
     return None
 
-
 # ============================================================================
 # Task-level wrappers
 # ============================================================================
@@ -176,9 +179,12 @@ def compute_citation_accuracy(
     y_true = []
     parse_failures = 0
 
-    for pred, ref in zip(predictions, references):
-        pred_label = _normalize_yes_no(_extract_answer_after_think(pred))
-        ref_label = _normalize_yes_no(_extract_answer_after_think(ref))
+    for i, (pred, ref) in enumerate(zip(predictions, references)):
+        pred_clean = _extract_answer_after_think(pred)
+        ref_clean = _extract_answer_after_think(ref)
+
+        pred_label = _normalize_yes_no(pred_clean)
+        ref_label = _normalize_yes_no(ref_clean)
 
         if pred_label is None or ref_label is None:
             parse_failures += 1
@@ -188,6 +194,12 @@ def compute_citation_accuracy(
         y_pred.append(pred_label)
         y_true.append(ref_label)
 
+        # DEBUG LOG: In ra 3 mẫu đầu tiên để quan sát mô hình trả lời và cách hàm bóc tách
+        if i < 3:
+            print(f"   [Debug Task 1] Mẫu {i+1}:")
+            print(f"      - Text mô hình  : {pred_clean[:60]}...")
+            print(f"      - Bóc tách được -> Pred: '{pred_label}' | Ref: '{ref_label}'\n")
+
     total = len(predictions)
     accuracy = compute_accuracy(y_pred, y_true)
     parse_rate = (total - parse_failures) / total if total > 0 else 0.0
@@ -196,7 +208,6 @@ def compute_citation_accuracy(
         "citation_accuracy": float(accuracy),
         "citation_parse_rate": float(parse_rate),
     }
-
 
 def compute_mcq_accuracy(
     predictions: List[str],
@@ -230,7 +241,6 @@ def compute_mcq_accuracy(
         "mcq_parse_rate": float(parse_rate),
     }
 
-
 def compute_qa_exact_match(
     predictions: List[str],
     references: List[str],
@@ -248,7 +258,6 @@ def compute_qa_exact_match(
         "qa_exact_match": float(em),
     }
 
-
 # ============================================================================
 # Master metric dispatcher
 # ============================================================================
@@ -263,7 +272,6 @@ def compute_all_metrics(
 ) -> Dict[str, Any]:
     """
     Tính metrics phù hợp với task_type.
-
     Args:
         model:       Language model (cần cho Perplexity)
         tokenizer:   Tokenizer (cần cho Perplexity)
@@ -272,7 +280,6 @@ def compute_all_metrics(
         eval_texts:  Văn bản cho PPL (nếu None, dùng references)
         compute_ppl: Có tính Perplexity không
         task_type:   "task1" | "task2" | "task3" | None (tính tất cả)
-
     Returns:
         Dict chứa metrics phù hợp
     """
