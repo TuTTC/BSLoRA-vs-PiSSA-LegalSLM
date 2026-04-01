@@ -1,0 +1,8 @@
+# FFT Config (Full Fine-Tuning)
+peft:
+  method: "fft"
+
+training:
+  gradient_accumulation_steps: 8  # Chống OOM cho A100 40GB khi train FFT
+  learning_rate: 1.0e-5  # LR nhỏ hơn PEFT để tránh catastrophic forgetting
+  num_epochs: 1

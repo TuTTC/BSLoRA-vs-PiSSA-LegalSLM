@@ -1,0 +1,1477 @@
+{
+  "input_file": "pissa_task3_detailed_non_thinking.json",
+  "judge_model": "qwen/qwen3-32b",
+  "aggregate_scores": {
+    "num_samples": 144,
+    "num_evaluated": 144,
+    "num_errors": 0,
+    "avg_legal_accuracy": 2.611,
+    "std_legal_accuracy": 0.829,
+    "avg_logical_structure": 3.528,
+    "std_logical_structure": 0.709,
+    "avg_completeness": 2.118,
+    "std_completeness": 0.585,
+    "avg_relevance": 3.528,
+    "std_relevance": 0.699,
+    "avg_overall_quality": 2.625,
+    "std_overall_quality": 0.81,
+    "avg_total": 2.882
+  },
+  "per_sample_results": [
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật và nghị định, dẫn đến độ chính xác pháp lý không cao. Cấu trúc lập luận có phần đúng nhưng chưa đầy đủ các yếu tố trong reference. Mô hình bỏ sót thông tin quan trọng như việc không yêu cầu cấp mới giấy chứng nhận và sự cạnh tranh từ tổ chức khác. Câu trả lời có liên quan đến câu hỏi nhưng không đủ chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 0
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không chính xác về mức hưởng bảo hiểm y tế, vì theo quy định hiện hành, chi phí khám chữa bệnh do quỹ bảo hiểm y tế và người tham gia cùng chi trả, không phải được hưởng toàn bộ chi phí. Cấu trúc lập luận tương đối rõ ràng nhưng thiếu thông tin quan trọng về mức độ bệnh tật và thời gian tham gia. Câu trả lời không đầy đủ và có sai lệch thông tin pháp lý quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 1
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật cụ thể và thông tin pháp lý chi tiết (ví dụ: không trích dẫn Thông báo 712/TB-BHXH và Điều 12, 32 Luật BHXH 2024). Cấu trúc tam đoạn luận được áp dụng nhưng thiếu chi tiết. Câu trả lời không đầy đủ so với đáp án chuẩn, bỏ sót nhiều thông tin quan trọng. Các lập luận có liên quan nhưng không đủ cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 2
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật, thông tư cụ thể như trong reference. Cấu trúc tam đoạn luận được áp dụng nhưng nội dung quá chung chung, thiếu thông tin chi tiết về lệ phí, số lượng nhân viên, và quy trình báo cáo. Không có phân tích tình huống pháp lý phức tạp như yêu cầu. Câu trả lời thiếu chính xác và không đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 3
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật cụ thể (không trích dẫn Quyết định 2020/QĐ-BTC, 385/QĐ-BTC và Thông tư 77/2017/TT-BTC). Cấu trúc lập luận có phần logic nhưng thiếu chi tiết. Câu trả lời không đầy đủ, bỏ sót các quy trình pháp lý quan trọng và không đề cập đến tranh chấp khu vực quản lý. Các lập luận có liên quan nhưng không đủ sâu sắc.",
+      "sample_id": "N/A",
+      "sample_index": 4
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình không chính xác về mặt pháp lý vì trích dẫn sai điều luật và nghị định (Nghị định 11/2010/NĐ-CP thay vì Nghị định 168/2024/NĐ-CP). Cấu trúc lập luận có phần đúng nhưng thiếu chi tiết. Câu trả lời không đầy đủ, thiếu thông tin cụ thể về mức phạt tiền, điểm bị trừ và biện pháp khắc phục hậu quả. Các lập luận có liên quan nhưng không chính xác do trích dẫn sai điều luật. Chất lượng tổng thể kém do thiếu thông tin cụ thể và trích dẫn sai điều luật.",
+      "sample_id": "N/A",
+      "sample_index": 5
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật cụ thể như Điều 33 và 37 Thông tư 21/2024/TT-NHNN, dẫn đến thiếu chính xác pháp lý. Cấu trúc lập luận tam đoạn luận có phần đúng nhưng thiếu các chi tiết cụ thể. Câu trả lời không đầy đủ vì bỏ sót các nội dung quan trọng như thông tin các bên, bộ chứng từ, phương thức, lãi suất, xử lý vi phạm. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin chi tiết và có thể gây hiểu lầm về quy định pháp luật.",
+      "sample_id": "N/A",
+      "sample_index": 6
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật cụ thể như trong reference answer. Cấu trúc lập luận có phần đúng nhưng thiếu chi tiết. Câu trả lời không đầy đủ vì không phân biệt được giữa giao dịch chuyển khoản và rút tiền mặt. Có liên quan đến câu hỏi nhưng thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 7
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, không trích dẫn đúng điều luật cụ thể như trong reference. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu nhiều thông tin quan trọng như thời gian cư trú tối thiểu 1 năm, việc xem xét lợi ích tốt nhất của trẻ em, và các quy định cụ thể trong Luật Nuôi con nuôi 2010 và Nghị định 19/2011/NĐ-CP. Câu trả lời liên quan đến câu hỏi nhưng không đầy đủ nên chất lượng tổng thể chỉ ở mức trung bình.",
+      "sample_id": "N/A",
+      "sample_index": 8
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn cụ thể điều luật, mẫu đơn 4D/TT và chức danh ký đơn như trong đáp án chuẩn, dẫn đến thiếu chính xác pháp lý. Cấu trúc lập luận tương đối hợp lý nhưng thiếu các chi tiết quan trọng khiến nội dung không đầy đủ. Tuy nhiên, câu trả lời vẫn liên quan đúng trọng tâm và có kết luận chính xác.",
+      "sample_id": "N/A",
+      "sample_index": 9
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn chính xác điều luật cụ thể trong Luật Hải quan 2014, thiếu thông tin về địa điểm kiểm tra thực tế hàng hóa cụ thể như trong đáp án chuẩn. Cấu trúc lập luận có phần đúng nhưng chưa đầy đủ. Câu trả lời không bỏ sót hoàn toàn nhưng thiếu nhiều chi tiết quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 10
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 2,
+      "completeness": 1,
+      "relevance": 2,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình không trích dẫn cụ thể các văn bản pháp luật như Thông báo 6150/TB-BLĐTBXH, Quyết định 1354/QĐ-TTg và Luật Các tổ chức tín dụng 2024 như trong đáp án chuẩn. Cấu trúc lập luận thiếu chi tiết và không nêu rõ các điểm pháp lý quan trọng như thời gian nghỉ Tết 9 ngày, địa chỉ trụ sở chính cụ thể, hay phân biệt 3 loại hình ngân hàng. Câu trả lời quá chung chung, không cung cấp thông tin cụ thể để xác định quyền lợi và nghĩa vụ của ngân hàng thương mại.",
+      "sample_id": "N/A",
+      "sample_index": 11
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình trích dẫn sai luật (Luật Xuất nhập cảnh thay vì Quyết định 06/2020/QĐ-TTg) và điều khoản (Điều 10 thay vì Điều 3, 4). Cấu trúc lập luận tam đoạn luận được áp dụng nhưng nội dung pháp lý không chính xác. Câu trả lời thiếu thông tin quan trọng về hồ sơ cụ thể (công văn, đề án, văn bản đồng ý) và thời hạn 30 ngày. Có liên quan đến câu hỏi nhưng dẫn chiếu sai văn bản pháp luật.",
+      "sample_id": "N/A",
+      "sample_index": 12
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn chính xác các điều luật cụ thể như Điều 10 và Điều 26 Luật Ngân sách nhà nước 2015 như trong đáp án chuẩn, dẫn đến thiếu độ chính xác pháp lý. Cấu trúc lập luận tam đoạn luận được áp dụng nhưng chưa đầy đủ và rõ ràng. Câu trả lời thiếu các chi tiết quan trọng về mức tối thiểu 2% và quyền hạn cụ thể của Bộ Tài chính, làm giảm tính đầy đủ. Tuy nhiên, nội dung vẫn liên quan đến câu hỏi và không có thông tin hallucinate.",
+      "sample_id": "N/A",
+      "sample_index": 13
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật cụ thể như trong reference. Tiền đề lớn và nhỏ được nêu nhưng thiếu chi tiết và không chính xác về thời hạn 60 ngày và mức phạt 10%. Câu trả lời không đầy đủ, thiếu thông tin quan trọng về quy định pháp luật và mức phạt cụ thể. Cấu trúc logic có phần đúng nhưng thiếu các chi tiết pháp lý cần thiết.",
+      "sample_id": "N/A",
+      "sample_index": 14
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình không trích dẫn bất kỳ điều luật, nghị định hay thông tư cụ thể nào, thiếu thông tin pháp lý chi tiết như website tra cứu, hồ sơ cụ thể và các hành vi bị nghiêm cấm. Cấu trúc tam đoạn luận có tồn tại nhưng thiếu chi tiết và không đầy đủ. Câu trả lời không cung cấp đủ thông tin cần thiết và không liên quan đến các quy định cụ thể năm 2025.",
+      "sample_id": "N/A",
+      "sample_index": 15
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình trích dẫn đúng Nghị quyết 196 và Luật ngân sách 2015, nhưng không nêu rõ Điều 7 của Luật. Cấu trúc lập luận tam đoạn luận tương đối rõ ràng, tuy nhiên thiếu một số chi tiết quan trọng như việc Quốc hội cho phép chuyển nguồn và giới hạn bội chi theo quy định. Câu trả lời liên quan trực tiếp đến câu hỏi, nhưng không phân tích đầy đủ các khía cạnh pháp lý quan trọng từ đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 16
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về các điều luật cụ thể, không trích dẫn đúng các điều khoản trong Bộ luật Tố tụng Hình sự. Cấu trúc lập luận có phần logic nhưng chưa rõ ràng. Câu trả lời thiếu các điểm pháp lý quan trọng như điều kiện bắt buộc tham gia đối chất của bị hại dưới 18 tuổi và quyền có mặt của luật sư. Các lập luận có liên quan nhưng không đủ chi tiết và có sai sót về thủ tục tố tụng.",
+      "sample_id": "N/A",
+      "sample_index": 17
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng các điều luật cụ thể như trong reference (ví dụ: Điều 12 Thông tư 01/2025/TT-BYT, Điều 37 và 43 Luật Bảo hiểm y tế). Cấu trúc lập luận có phần logic nhưng thiếu các chi tiết pháp lý cụ thể. Câu trả lời thiếu nhiều thông tin quan trọng như thời hạn 10 ngày làm việc hoặc 1 năm, nghĩa vụ của người tham gia bảo hiểm y tế và trách nhiệm của cơ sở khám bệnh. Câu trả lời có liên quan đến câu hỏi nhưng không cung cấp đủ dẫn chứng pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 18
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không chính xác về mặt pháp lý khi trích dẫn Thông tư 16/2024/TT-BYT, một văn bản không tồn tại. Cấu trúc lập luận có phần hợp lý nhưng thiếu cụ thể. Câu trả lời bỏ sót nhiều điều kiện quan trọng như giấy ủy quyền, kho bảo quản, phương tiện vận chuyển và hệ thống quản lý. Các lập luận có liên quan đến câu hỏi nhưng không đầy đủ và có hallucination.",
+      "sample_id": "N/A",
+      "sample_index": 19
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình vì không trích dẫn cụ thể điều luật hay quyết định nào. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu nhiều thông tin quan trọng từ đáp án chuẩn như Quyết định 382/QĐ-BTC năm 2025, các nhiệm vụ cụ thể của Cục Hải quan, và chi tiết về địa bàn quản lý của Chi cục Hải quan khu vực XIII. Câu trả lời liên quan đến câu hỏi nhưng không có hallucination. Chất lượng tổng thể trung bình.",
+      "sample_id": "N/A",
+      "sample_index": 20
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, trích dẫn Nghị định 10/2025/NĐ-CP nhưng không cụ thể điều khoản. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, thiếu nhiều thông tin quan trọng như biển số 79, quy định về xe chở hàng bốn bánh có gắn động cơ, và quyền của doanh nghiệp. Các lập luận liên quan đến câu hỏi nhưng không đầy đủ. Chất lượng tổng thể trung bình do thiếu chi tiết quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 21
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao, lập luận logic theo cấu trúc tam đoạn luận, tuy nhiên thiếu một số chi tiết cụ thể về số lượng hồ sơ và đĩa CD/USB theo Điều 12 và 13 của Nghị định. Câu trả lời liên quan chặt chẽ với câu hỏi và không có thông tin không liên quan.",
+      "sample_id": "N/A",
+      "sample_index": 22
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao khi trích dẫn đúng Công văn 4501/UBCK-CNTT năm 2024 và các quy định liên quan đến chuẩn hóa dữ liệu. Cấu trúc lập luận tam đoạn luận rõ ràng, hợp lý. Tuy nhiên, câu trả lời thiếu một số chi tiết quan trọng như thời điểm áp dụng (01/10/2024), quy trình cụ thể khi giao dịch trực tiếp, và quyền cụ thể của nhà đầu tư. Các lập luận đều liên quan trực tiếp đến câu hỏi, không có thông tin hallucinate. Chất lượng tổng thể tốt nhưng chưa đầy đủ như đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 23
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể các điều luật (Điều 516, 517, 520 Bộ luật Dân sự 2015) như trong đáp án chuẩn, dẫn đến độ chính xác pháp lý không cao. Cấu trúc lập luận tam đoạn luận được áp dụng đúng nhưng thiếu chi tiết. Câu trả lời bỏ sót yêu cầu phải trả tiền công theo phần dịch vụ đã thực hiện và chưa phân tích đầy đủ nghĩa vụ của các bên. Các lập luận liên quan đến câu hỏi nhưng thiếu tính pháp lý cụ thể. Chất lượng tổng thể trung bình do thiếu thông tin pháp lý quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 24
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không chính xác về điều kiện gia hạn giấy phép hành nghề vì thiếu các điều kiện như sức khỏe và không bị cấm hành nghề. Cấu trúc lập luận có phần đúng nhưng thiếu các yếu tố pháp lý quan trọng. Câu trả lời không đầy đủ so với đáp án chuẩn và kết luận sai về bác sĩ B.",
+      "sample_id": "N/A",
+      "sample_index": 25
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao khi trích dẫn đúng Quyết định 966/QĐ-BTC và xác định rõ trách nhiệm của Chi cục trưởng. Cấu trúc lập luận tam đoạn luận rõ ràng, hợp lý. Tuy nhiên, câu trả lời thiếu một số chi tiết quan trọng như việc Chi cục trưởng chịu trách nhiệm trước Cục trưởng và pháp luật, cũng như chức năng quản lý nhà nước về hải quan của Chi cục Hải quan khu vực. Câu trả lời liên quan trực tiếp đến câu hỏi và không có thông tin không liên quan. Chất lượng tổng thể tốt nhưng cần bổ sung thêm các chi tiết pháp lý quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 26
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình có sai sót về mức phạt tối đa (100 triệu thay vì 75 triệu theo reference), thiếu các hình thức xử phạt như phạt cảnh cáo, tước quyền sử dụng giấy phép, tịch thu tang vật. Cấu trúc lập luận tương đối rõ ràng nhưng thiếu chính xác pháp lý quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 27
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật, nghị định, thông tư liên quan đến thanh lý hàng hóa nhập khẩu của doanh nghiệp FDI. Cấu trúc lập luận tam đoạn luận được áp dụng nhưng thiếu chi tiết. Câu trả lời không đầy đủ vì không nêu rõ các điều kiện cụ thể và hồ sơ thủ tục cần chuẩn bị. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 28
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật, nghị định, thông tư như trong reference. Cấu trúc tam đoạn luận được áp dụng nhưng chưa rõ ràng. Thiếu thông tin quan trọng về các cơ quan nhận báo cáo và quy trình thực hiện thủ tục. Có liên quan đến câu hỏi nhưng không cung cấp đủ chi tiết pháp lý.",
+      "sample_id": "N/A",
+      "sample_index": 29
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao khi trích dẫn đúng Luật Doanh nghiệp 2020 sửa đổi 2025 và kết luận chính xác về hậu quả pháp lý. Tuy nhiên, không nêu rõ điều luật cụ thể như trong reference. Cấu trúc lập luận tam đoạn luận rõ ràng, hợp lý. Câu trả lời chưa đầy đủ khi không đề cập đến Thông tư 68/2025/TT-BTC và thiếu một số chi tiết như việc có thể yêu cầu bổ sung hồ sơ. Câu trả lời liên quan trực tiếp đến câu hỏi, không có thông tin thừa hoặc hallucination. Chất lượng tổng thể tốt nhưng còn thiếu một số chi tiết quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 30
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật cụ thể (khoản 5 Điều 17 Thông tư 17/2024/TT-NHNN) và thiếu chi tiết về việc thu thập dữ liệu sinh trắc học qua gặp mặt trực tiếp. Cấu trúc lập luận tương đối hợp lý nhưng thiếu thông tin quan trọng từ đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 31
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không chính xác về điều luật (đề cập đến Điều 82 BLTTTHT và Điều 118 BLHS, nhưng không có trong reference). Thiếu thông tin quan trọng như thời gian chấp hành án tối thiểu, nơi cư trú rõ ràng, và các dịp xét giảm án. Cấu trúc tam đoạn luận có nhưng không đầy đủ. Có liên quan đến câu hỏi nhưng thiếu chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 32
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không chính xác về điều luật (trích dẫn Quyết định 100/QĐ-KBNN thay vì 57/QĐ-KBNN). Cấu trúc lập luận tương đối hợp lý nhưng thiếu thông tin về phòng giao dịch cụ thể. Không nêu rõ phòng giao dịch số 1 mà reference answer cung cấp. Có liên quan đến câu hỏi nhưng không đầy đủ và chính xác.",
+      "sample_id": "N/A",
+      "sample_index": 33
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có lập luận logic nhưng thiếu trích dẫn cụ thể điều luật và quyết định pháp luật. Tiền đề lớn và nhỏ được nêu nhưng không đầy đủ so với reference. Câu trả lời không đề cập đến quyền của người lao động và quy trình cứu hộ theo Quyết định 201/QĐ-ATTP.",
+      "sample_id": "N/A",
+      "sample_index": 34
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật, nghị định, thông tư. Cấu trúc lập luận có phần đúng nhưng chưa đầy đủ. Thiếu thông tin pháp lý quan trọng và không nêu rõ các trường hợp cụ thể dẫn đến việc kiểm kê. Các lập luận có liên quan nhưng không chính xác về mặt pháp lý.",
+      "sample_id": "N/A",
+      "sample_index": 35
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có cấu trúc logic tốt (tiền đề lớn, nhỏ, kết luận), nhưng thiếu trích dẫn cụ thể điều luật (Nghị định 84/2025/NĐ-CP) và không nêu rõ các khoản điều luật cụ thể như trong đáp án chuẩn. Câu trả lời không đầy đủ khi không đề cập đến việc cải tạo, nâng cấp tài sản phải được cơ quan có thẩm quyền chấp thuận. Tuy nhiên, nội dung vẫn liên quan đúng với câu hỏi và không có thông tin sai lệch nghiêm trọng.",
+      "sample_id": "N/A",
+      "sample_index": 36
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình hoàn toàn sai về mặt pháp lý khi cho rằng lỗ chênh lệch tỷ giá được trừ khi tính TNDN, trong khi theo quy định thì không được trừ. Về cấu trúc logic, mô hình áp dụng tam đoạn luận nhưng nội dung sai. Câu trả lời thiếu hoàn toàn thông tin về việc nộp thuế tại cơ sở phụ thuộc và cách xác định số thuế. Có một số yếu tố liên quan đến câu hỏi nhưng thông tin pháp lý sai lệch nghiêm trọng.",
+      "sample_id": "N/A",
+      "sample_index": 37
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể các điều luật và nghị định như Điều 3, 6 Luật Đất đai 2024 và Nghị định 151/2025/NĐ-CP. Cấu trúc tam đoạn luận được áp dụng nhưng không đầy đủ và không chi tiết. Câu trả lời quá chung chung, không nêu rõ các thủ tục cụ thể như xác định giá đất theo bảng tổng hợp giá đất cấp tỉnh, thủ tục chuyển quyền sử dụng đất, đăng ký quyền sử dụng đất. Các lập luận có liên quan nhưng thiếu thông tin chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 38
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể các văn bản pháp luật như Thông báo 3537/TB-BHXH và Quyết định 391/QĐ-BTC, dẫn đến độ chính xác pháp lý thấp. Cấu trúc lập luận có phần logic nhưng chưa đầy đủ các yếu tố trong đáp án chuẩn. Câu trả lời không đề cập đến nhiệm vụ và quyền hạn của BHXH Việt Nam, cũng như hậu quả pháp lý liên quan đến quản lý quỹ tài chính nhà nước ngoài ngân sách, làm giảm tính đầy đủ và liên quan của câu trả lời.",
+      "sample_id": "N/A",
+      "sample_index": 39
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật cụ thể, không trích dẫn đúng các điều khoản trong Luật Chứng khoán 2019 và Thông tư 121/2020/TT-BTC. Cấu trúc lập luận có phần logic nhưng không đầy đủ các điều kiện pháp lý cần thiết. Việc chuyển nhượng cổ phần của cổ đông sáng lập bị hiểu sai thời gian cấm chuyển nhượng (nêu 03 năm thay vì 3 năm theo quy định). Câu trả lời không đề cập đến việc phải có sự chấp thuận của Ủy ban Chứng khoán Nhà nước khi thành lập chi nhánh ở nước ngoài và thay đổi tên chi nhánh.",
+      "sample_id": "N/A",
+      "sample_index": 40
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình có sai sót nghiêm trọng về pháp lý khi khẳng định quỹ không được đầu tư vào bất động sản đang xây dựng, trong khi theo Thông tư 98/2020/TT-BTC, quỹ được đầu tư nếu đáp ứng điều kiện. Cấu trúc lập luận có phần đúng nhưng thiếu các yếu tố pháp lý quan trọng. Câu trả lời không đầy đủ, bỏ sót các điều kiện đầu tư và trách nhiệm của tổ chức quản lý. Các lập luận có liên quan nhưng không chính xác do hiểu sai quy định.",
+      "sample_id": "N/A",
+      "sample_index": 41
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình trích dẫn đúng Nghị quyết 02/2017/NQ-HĐTP nhưng bỏ sót việc trích dẫn Luật Tố tụng hành chính 2015. Về cấu trúc logic, lập luận theo tam đoạn luận nhưng thiếu các chi tiết pháp lý cụ thể như ghi rõ ngày tuyên án, không ghi chức vụ Thẩm phán, ghi họ tên Thư ký và Viện Kiểm sát. Câu trả lời không đề cập đến các yếu tố quan trọng như người khởi kiện, người bị kiện, quyết định về kháng cáo, án phí và hiệu lực pháp luật, dẫn đến thiếu đầy đủ. Các lập luận liên quan đến câu hỏi nhưng thiếu thông tin chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 42
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, không trích dẫn cụ thể các điều luật như Điều 14 và Điều 15 Nghị định 96/2024/NĐ-CP. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận nhưng thiếu chi tiết. Câu trả lời thiếu nhiều thông tin quan trọng từ đáp án chuẩn như thời gian ổn định địa điểm (12 tháng), chứng chỉ hành nghề, khóa học quản lý điều hành. Các lập luận liên quan đến câu hỏi nhưng không có thông tin hallucinate. Chất lượng tổng thể trung bình do thiếu chi tiết pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 43
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 2,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình có nhiều sai sót pháp lý nghiêm trọng: trích dẫn sai văn bản (Quyết định 17 thay vì Thông tư 004), mức lương 1 tỷ đồng/tháng hoàn toàn không có cơ sở. Cấu trúc tam đoạn luận được áp dụng nhưng nội dung lập luận thiếu thông tin quan trọng về điều kiện áp dụng mức lương tối đa và hệ số 1,5 lần cho dự án đặc thù. Câu trả lời không phản ánh đúng nội dung đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 44
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có cấu trúc logic tốt (tiền đề lớn → tiền đề nhỏ → kết luận), nhưng thiếu trích dẫn cụ thể điều luật (chỉ nói chung chung về 'quy định pháp luật'). So với reference, mô hình bỏ sót thông tin quan trọng như tỷ lệ 20% vốn điều lệ, việc cam kết là một phần của hồ sơ đăng ký chào bán, và việc bán cổ phần sau chào bán là vi phạm. Tuy nhiên, các lập luận đều liên quan trực tiếp đến câu hỏi và không có hallucination.",
+      "sample_id": "N/A",
+      "sample_index": 45
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình trích dẫn đúng Nghị quyết 68-NQ/TW năm 2025 và nội dung xóa bỏ thuế khoán, tuy nhiên thiếu thông tin về quyền chuyển đổi sang doanh nghiệp. Cấu trúc lập luận tam đoạn luận rõ ràng. Thiếu một số điểm quan trọng từ reference như khuyến khích chuyển đổi mô hình kinh doanh và chế độ tài chính, kế toán mới. Tất cả lập luận đều liên quan trực tiếp đến câu hỏi.",
+      "sample_id": "N/A",
+      "sample_index": 46
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có trích dẫn đúng các văn bản pháp luật nhưng không nêu rõ điều luật cụ thể như Điều 3 và Điều 4 của Nghị định 76/2021/NĐ-CP. Cấu trúc lập luận theo tam đoạn luận nhưng thiếu chi tiết. Câu trả lời không đầy đủ vì bỏ sót tiêu chí phạm vi ảnh hưởng và không đề cập đến thang điểm phân loại cụ thể. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin chi tiết. Chất lượng tổng thể trung bình do thiếu thông tin quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 47
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao khi trích dẫn đúng Quyết định 642/QĐ-BNNMT năm 2025 và nêu rõ hậu quả pháp lý khi hồ sơ thiếu. Tuy nhiên, thiếu trích dẫn Nghị định 101/2024/NĐ-CP và không đề cập đến thời gian giải quyết tối đa 30 ngày làm việc. Cấu trúc lập luận hợp lý, liên quan trực tiếp đến câu hỏi, nhưng chưa đầy đủ các điểm pháp lý quan trọng từ đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 48
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, không trích dẫn đầy đủ điều luật cụ thể như trong reference. Cấu trúc lập luận tương đối hợp lý nhưng thiếu một số yếu tố pháp lý quan trọng. Mức độ liên quan tốt, không hallucinate điều luật.",
+      "sample_id": "N/A",
+      "sample_index": 49
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình vì không trích dẫn cụ thể điều luật, nghị định, thông tư. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu thông tin chi tiết so với đáp án chuẩn và không đề cập đến các quy định cụ thể về thời gian giao dịch. Các lập luận liên quan đến câu hỏi nhưng thiếu dẫn chứng pháp lý cụ thể. Chất lượng tổng thể trung bình vì thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 50
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, không trích dẫn cụ thể điều luật và văn bản pháp luật như trong reference. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu sót nhiều nội dung quan trọng như quy định về việc duy trì hoạt động dịch vụ trực tuyến và ATM trong dịp Tết, dẫn đến thiếu tính đầy đủ. Các lập luận đều liên quan đến câu hỏi nhưng không có thông tin hallucinate. Chất lượng tổng thể trung bình do thiếu thông tin quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 51
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình hoàn toàn sai về mặt pháp lý vì cho rằng Công ty A không được phản ánh các chi phí sửa chữa và khấu hao bất động sản đầu tư vào tài khoản 632, trong khi Reference Answer khẳng định điều ngược lại theo khoản 2 Điều 89 Thông tư 200/2014/TT-BTC. Cấu trúc tam đoạn luận có tồn tại nhưng nội dung tiền đề lớn quá chung chung, thiếu dẫn chiếu cụ thể. Câu trả lời bỏ sót hoàn toàn các chi phí khác như nguyên vật liệu, nhân công, sản xuất chung, quản lý doanh nghiệp. Về mức độ liên quan, câu trả lời tập trung vào các chi phí được nêu trong câu hỏi nhưng kết luận sai lệch.",
+      "sample_id": "N/A",
+      "sample_index": 52
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời trích dẫn Thông tư 39/2018/TT-BTC Điều 10 thay vì Luật Hải quan 2014 Điều 27 như đáp án chuẩn, dẫn đến thiếu chính xác pháp lý. Cấu trúc lập luận có tam đoạn luận nhưng thiếu các bước cụ thể (kiểm tra thực tế, xác minh tại cơ sở sản xuất). Bỏ sót nhiều quy trình quan trọng trong xác định xuất xứ. Không có thông tin hallucinate nhưng thiếu liên kết chặt chẽ với câu hỏi cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 53
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, không trích dẫn cụ thể điều luật, nghị định, thông tư như trong reference. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu nhiều chi tiết quan trọng về quy trình thủ tục chi tiết và trách nhiệm cụ thể của Giám đốc Kho bạc. Các lập luận có liên quan đến câu hỏi nhưng không có thông tin pháp lý cụ thể. Chất lượng tổng thể trung bình do thiếu thông tin chi tiết và không trích dẫn văn bản pháp luật.",
+      "sample_id": "N/A",
+      "sample_index": 54
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình trích dẫn đúng điều luật (Điều 27 Thông tư 61/2024/TT-NHNN) và lập luận theo cấu trúc tam đoạn luận rõ ràng. Tuy nhiên, mô hình không nêu hết các quyền khác của ngân hàng thương mại theo quy định, dẫn đến thiếu sót thông tin quan trọng. Câu trả lời liên quan trực tiếp đến câu hỏi và không có thông tin không liên quan.",
+      "sample_id": "N/A",
+      "sample_index": 55
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý ở mức trung bình, không trích dẫn cụ thể các điều luật, nghị định, thông tư như trong reference. Cấu trúc lập luận tương đối hợp lý nhưng chưa đầy đủ các điểm pháp lý quan trọng. Câu trả lời không đề cập đến các quy định cụ thể về việc ghi sổ kế toán bằng mực không phai và thiếu các nội dung bắt buộc theo Điều 16 Luật kế toán. Câu trả lời có liên quan đến câu hỏi nhưng thiếu thông tin chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 56
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có cấu trúc logic tốt, nhưng thiếu trích dẫn cụ thể điều luật và thiếu nhiều chi tiết pháp lý quan trọng so với đáp án chuẩn. Câu trả lời không nêu rõ các điều kiện cụ thể như mức vốn pháp định, năng lực của cổ đông, tiêu chuẩn nhân sự, v.v. Tuy nhiên, câu trả lời vẫn liên quan đúng với câu hỏi và không có thông tin sai lệch nghiêm trọng.",
+      "sample_id": "N/A",
+      "sample_index": 57
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình có sai sót về pháp lý khi trích dẫn Điều 9 thay vì Điều 11 và Khoản 5, 6, 7, 8, 9 Điều 10 của Thông tư 09/2018/TT-NHNN. Cấu trúc lập luận có phần logic nhưng thiếu chi tiết. Câu trả lời bỏ sót các điều kiện quan trọng và kết luận ngược với đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 58
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý ở mức trung bình, trích dẫn đúng Thông tư 58/2024/TT-NHNN nhưng thiếu các điều khoản cụ thể như Điều 10 và Điều 11. Cấu trúc lập luận theo tam đoạn luận nhưng chưa đầy đủ. Câu trả lời thiếu nhiều nội dung quan trọng từ đáp án chuẩn như trách nhiệm không được trả lại tiền giả cho khách hàng, quy trình thông báo cho cơ quan công an và Cục Phát hành và Kho quỹ khi phát hiện tiền giả loại mới. Câu trả lời có liên quan đến câu hỏi nhưng thiếu thông tin chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 59
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình xác định đúng chủ sở hữu hợp pháp và quyền biểu diễn tác phẩm, nhưng thiếu trích dẫn cụ thể điều luật, nghị định (Điều 18, 20, 21 Luật Sở hữu trí tuệ và Nghị định 17/2023/NĐ-CP). Cấu trúc lập luận tam đoạn luận tương đối rõ ràng nhưng thiếu chi tiết. Bỏ sót quy định về quyền đứng tên của diễn viên D theo khoản 1 Điều 21 và không nêu rõ yêu cầu đồng ý của tất cả đồng tác giả. Các lập luận liên quan trực tiếp đến câu hỏi, không có thông tin không tồn tại. Chất lượng tổng thể trung bình do thiếu độ chính xác và đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 60
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật cụ thể và mức phạt cụ thể. Cấu trúc tam đoạn luận được áp dụng nhưng thiếu chi tiết. Không đề cập đến việc không được làm thủ tục cấp mới hoặc đổi giấy phép trong thời gian tước giấy phép. Có liên quan đến câu hỏi nhưng thiếu thông tin quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 61
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật cụ thể như trong reference (nghị định 01/2021 và 41/2018). Mức phạt không được đề cập. Cấu trúc tam đoạn luận được áp dụng nhưng thiếu chi tiết. Thiếu thông tin quan trọng về hậu quả pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 62
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật, nghị định, thông tư (chỉ nêu khái quát 'trình tự, thủ tục và hồ sơ') so với đáp án chuẩn (khoản 1, 3, 4 Điều 29 Thông tư 32/2024/TT-NHNN). Cấu trúc lập luận tam đoạn luận cơ bản đúng nhưng thiếu chi tiết. Bỏ sót thông tin quan trọng như phương án giải quyết tài sản, quyền, nghĩa vụ và thẩm quyền cụ thể của Giám đốc NHNN chi nhánh. Các lập luận liên quan trực tiếp đến câu hỏi nhưng không đủ độ chính xác pháp lý. Chất lượng tổng thể trung bình do thiếu độ chi tiết và trích dẫn pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 63
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình trích dẫn đúng các quy định pháp luật về điều kiện chi phí được trừ và thời điểm xác nhận doanh thu. Tuy nhiên, không nêu rõ điều luật cụ thể như Điều 6 Thông tư 78/2014/TT-BTC và các sửa đổi. Cấu trúc lập luận theo tam đoạn luận rõ ràng. Tuy nhiên, thiếu một số chi tiết quan trọng như việc lập bảng kê theo mẫu 01/TNDN và người đại diện ký chịu trách nhiệm. Các lập luận đều liên quan trực tiếp đến câu hỏi. Chất lượng tổng thể tốt nhưng chưa đầy đủ như đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 64
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 2,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình có nhiều sai sót pháp lý nghiêm trọng. Điều 218 BLHS 2015 không quy định về tội lừa đảo chiếm đoạt tài sản mà quy định về tội vi phạm quy định về hoạt động bán đấu giá tài sản. Câu trả lời không trích dẫn đúng điều luật và không nêu rõ mức hình phạt. Cấu trúc lập luận có phần đúng nhưng thiếu chi tiết. Câu trả lời bỏ sót nhiều thông tin quan trọng như mức thu lợi, thiệt hại cụ thể và quy trình xử lý hình sự. Có sự nhầm lẫn giữa các tội danh.",
+      "sample_id": "N/A",
+      "sample_index": 65
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao nhưng không trích dẫn đầy đủ điều luật cụ thể như trong reference. Cấu trúc lập luận tam đoạn luận rõ ràng, liên quan trực tiếp đến câu hỏi. Tuy nhiên, thiếu một số chi tiết quan trọng như quy trình bàn giao, thẩm quyền điều chuyển nên bị trừ điểm ở tiêu chí đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 66
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật, nghị định, thông tư như trong reference. Cấu trúc lập luận có tam đoạn luận nhưng chưa đầy đủ. Thiếu thông tin quan trọng về việc áp dụng thuế suất 0% cho hàng hóa xuất khẩu tại chỗ và nghĩa vụ lập hóa đơn điện tử sau khi xuất khẩu. Các lập luận có liên quan nhưng không chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 67
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời thiếu trích dẫn cụ thể các điều luật (Điều 31, 178, 131) và không phân tích rõ các điều kiện pháp lý (sản xuất nông nghiệp, thi công công trình, chấp thuận của UBND). Cấu trúc logic cơ bản đúng nhưng thiếu chi tiết. Kết luận đúng nhưng thiếu cơ sở pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 68
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật cụ thể và không nêu rõ điều kiện bảo hộ quyền tác giả. Cấu trúc tam đoạn luận được áp dụng nhưng thiếu các yếu tố pháp lý chi tiết. Câu trả lời không đầy đủ, bỏ sót nhiều thông tin quan trọng từ reference như quyền tác giả phát sinh đương nhiên, điều kiện không gây phương hại đến tác phẩm gốc. Câu trả lời có liên quan đến câu hỏi nhưng không có thông tin pháp lý chi tiết và không hallucinate điều luật.",
+      "sample_id": "N/A",
+      "sample_index": 69
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình có sai sót về pháp lý khi cho rằng thời gian gia hạn kiểm tra thực tế tối đa là 15 ngày, trong khi theo quy định là không quá 02 ngày. Địa điểm kiểm tra thực tế cũng không được nêu đầy đủ theo quy định. Cấu trúc lập luận có phần đúng nhưng thiếu các điều khoản cụ thể. Câu trả lời không bao quát hết các điểm pháp lý quan trọng từ đáp án chuẩn và có sai lệch thông tin pháp lý.",
+      "sample_id": "N/A",
+      "sample_index": 70
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 4,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao, trích dẫn đúng Nghị định 158/2024/NĐ-CP nhưng không nêu rõ cụ thể các điều khoản (khoản 1 Điều 14 và khoản 2 Điều 17). Cấu trúc lập luận logic, đầy đủ các yếu tố tam đoạn luận. Tuy nhiên, thiếu một số chi tiết cụ thể so với đáp án chuẩn. Câu trả lời liên quan trực tiếp đến câu hỏi, không có thông tin thừa hoặc hallucination. Chất lượng tổng thể tốt nhưng chưa hoàn hảo do thiếu độ chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 71
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật, nghị định liên quan đến xử lý quyền sử dụng đất khi góp vốn chấm dứt. Cấu trúc lập luận có phần đúng nhưng chưa rõ ràng và thiếu chi tiết. Câu trả lời không đầy đủ so với đáp án chuẩn, bỏ sót các quy định cụ thể về thừa kế và phá sản. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 72
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình xác định đúng bản chất hành vi vi phạm và cấu trúc lập luận tam đoạn luận cơ bản, nhưng thiếu trích dẫn cụ thể các điều luật, nghị định (như Điều 12 Luật Chứng khoán 2019, Điều 35 Nghị định 156/2020/NĐ-CP, Điều 1 Nghị định 128/2021/NĐ-CP) cũng như không nêu rõ mức phạt cụ thể (10 lần khoản thu trái pháp luật, mức phạt tối đa). Các bước quy trình xử lý và biện pháp khắc phục hậu quả cũng được trình bày quá chung chung, không đầy đủ so với đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 73
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn chính xác điều luật cụ thể (Điều 15) và thiếu các điều kiện khác như vốn điều lệ, hoạt động có lãi, phương án phát hành được thông qua, cam kết niêm yết, công ty chứng khoán tư vấn. Cấu trúc lập luận tương đối hợp lý nhưng thiếu các yếu tố pháp lý quan trọng. Câu trả lời liên quan đến câu hỏi nhưng không đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 74
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đầy đủ các điều luật cụ thể như Điều 34, 46, 48 của Bộ luật Lao động 2019 như trong đáp án chuẩn. Cấu trúc lập luận có dạng tam đoạn luận nhưng thiếu chi tiết và phân tích cụ thể. Câu trả lời không đề cập đến việc người lao động đã làm việc đủ 12 tháng hay chưa, một yếu tố quan trọng trong việc xác định trách nhiệm trả trợ cấp. Câu trả lời không phân tích đầy đủ các quy định liên quan đến thời hạn thanh toán 14 ngày làm việc theo Điều 48.",
+      "sample_id": "N/A",
+      "sample_index": 75
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật cụ thể, không nêu rõ mức phạt và hình thức xử lý theo Nghị định 168/2024/NĐ-CP. Cấu trúc lập luận có phần logic nhưng thiếu các chi tiết pháp lý quan trọng. Câu trả lời không đầy đủ, bỏ sót các điểm quan trọng như việc chở chó trong lồng không cồng kềnh không vi phạm, dẫn dắt vật nuôi trên xe máy bị cấm, và trách nhiệm đảm bảo an toàn giao thông theo Luật. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 76
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có lập luận logic nhưng thiếu trích dẫn cụ thể điều luật. Mô hình không nêu rõ đối tượng được cấp biển số ký hiệu “QT” như trong đáp án chuẩn. Câu trả lời không đầy đủ vì thiếu thông tin về đối tượng được cấp biển số và không đề cập đến quyền sử dụng cụ thể. Tuy nhiên, câu trả lời vẫn liên quan đến câu hỏi và có cấu trúc lập luận hợp lý.",
+      "sample_id": "N/A",
+      "sample_index": 77
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có cấu trúc logic tốt (tiền đề lớn, nhỏ, kết luận), nhưng thiếu trích dẫn cụ thể các điều luật, nghị định, thông tư liên quan đến việc kê khai, tỷ giá, phương pháp điều tra và đăng ký doanh nghiệp. Điều này làm giảm độ chính xác pháp lý và tính đầy đủ. Câu trả lời cũng không đề cập đến các chi tiết cụ thể như Phiếu số 2.8 DN MAUTCTD, tỷ giá theo Ngân hàng Nhà nước, hay phương pháp điều tra Webform, dẫn đến thiếu thông tin quan trọng từ đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 78
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình vì không trích dẫn cụ thể điều luật, chỉ nêu khái quát Nghị định 102/2025/NĐ-CP. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu thông tin quan trọng về các nguồn dữ liệu được phép thu thập và cập nhật vào cơ sở dữ liệu quốc gia về y tế như trong reference. Câu trả lời liên quan đến câu hỏi nhưng không cung cấp đủ chi tiết pháp lý. Chất lượng tổng thể trung bình do thiếu thông tin chi tiết và trích dẫn pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 79
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 4,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao khi xác định đúng rằng Tòa án không ra quyết định thi hành án đối với quyết định tổng hợp hình phạt. Tuy nhiên, không trích dẫn cụ thể điều luật nào trong Bộ luật Tố tụng hình sự 2015. Cấu trúc lập luận tam đoạn luận rõ ràng, đầy đủ các yếu tố cần thiết và liên quan trực tiếp đến câu hỏi. Chỉ thiếu trích dẫn điều luật cụ thể nên điểm overall_quality không đạt tối đa.",
+      "sample_id": "N/A",
+      "sample_index": 80
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật, nghị định liên quan đến thẩm định dự án và quy định về đất đai, tổng mức đầu tư. Cấu trúc lập luận có phần đúng nhưng chưa đầy đủ các yếu tố pháp lý quan trọng từ đáp án chuẩn. Có thiếu thông tin về thời gian thẩm định và trách nhiệm của Hội đồng thẩm định. Các lập luận có liên quan đến câu hỏi nhưng không trích dẫn chính xác pháp lý.",
+      "sample_id": "N/A",
+      "sample_index": 81
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật, nghị định (chỉ nói chung chung 'pháp luật quy định'), dẫn đến độ chính xác pháp lý thấp. Cấu trúc lập luận có tam đoạn luận nhưng chưa rõ ràng như reference. Đã nêu được các vi phạm chính (không có giấy phép, không phân loại độ tuổi) nhưng thiếu thông tin chi tiết về các quy định cụ thể. Không có thông tin hallucinate, các lập luận đều liên quan trực tiếp đến câu hỏi.",
+      "sample_id": "N/A",
+      "sample_index": 82
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình chỉ đề cập đến việc ủy quyền nhập khẩu không hợp pháp và khả năng thu hồi Phiếu công bố sản phẩm, nhưng bỏ qua các yếu tố quan trọng như hiệu lực của Phiếu công bố sản phẩm, việc chưa công bố lại khi hết hạn, và các quy định cụ thể về thu hồi Phiếu công bố theo Thông tư 06/2011/TT-BYT và Công văn 4383/QLD-MP. Cấu trúc lập luận có phần thiếu mạch lạc và chưa đầy đủ so với đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 83
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể các điều luật, nghị định liên quan đến nguyên tắc trả lương, sửa đổi hợp đồng lao động, xử phạt hành chính và quyền chấm dứt hợp đồng. Cấu trúc lập luận có phần đúng nhưng không đầy đủ. Câu trả lời không nêu rõ các điều kiện pháp lý cụ thể như trong đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 84
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có trích dẫn Luật An toàn vệ sinh lao động 2015 nhưng không nêu rõ điều luật cụ thể như trong đáp án chuẩn, dẫn đến độ chính xác pháp lý chỉ ở mức trung bình. Cấu trúc lập luận tam đoạn luận được thực hiện tương đối tốt. Tuy nhiên, câu trả lời thiếu các nội dung cụ thể về nghĩa vụ của từng bên và không đề cập đến hậu quả pháp lý cụ thể, làm giảm tính đầy đủ. Các lập luận đều liên quan trực tiếp đến câu hỏi, không có thông tin hallucinate.",
+      "sample_id": "N/A",
+      "sample_index": 85
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có lập luận logic (tiền đề lớn → tiền đề nhỏ → kết luận), nhưng thiếu trích dẫn cụ thể các văn bản pháp luật như Nghị định 151/2025/NĐ-CP và Luật Đất đai 2024 (điểm legal_accuracy thấp). Câu trả lời không đề cập đến các hậu quả pháp lý cụ thể như xử phạt hành chính, buộc khôi phục đất, hoặc thu hồi đất, cũng như không phân tích về tính hợp pháp của quy hoạch nếu không tiếp thu ý kiến thẩm định (điểm completeness thấp). Tuy nhiên, câu trả lời vẫn liên quan đúng trọng tâm câu hỏi và không có thông tin sai lệch (điểm relevance cao).",
+      "sample_id": "N/A",
+      "sample_index": 86
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có lập luận logic nhưng thiếu trích dẫn điều luật cụ thể, không nêu rõ các điều kiện kèm theo như kinh nghiệm 15 năm, chứng nhận sức khỏe, và sự tự nguyện. Việc thiếu các yếu tố này làm giảm độ chính xác pháp lý và tính đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 87
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có trích dẫn Quyết định 115/QĐ-BTC thay vì Quyết định 2018/QĐ-BTC như trong đáp án chuẩn, dẫn đến thiếu chính xác về pháp lý. Cấu trúc lập luận tam đoạn luận được thực hiện tương đối tốt. Tuy nhiên, câu trả lời thiếu nhiều chi tiết quan trọng như quy trình chi trả, thanh toán qua Kho bạc Nhà nước, báo cáo thu chi quỹ ngân sách và xử lý vi phạm. Các lập luận có liên quan trực tiếp đến câu hỏi nhưng không đầy đủ. Chất lượng tổng thể trung bình do thiếu chính xác và thiếu thông tin quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 88
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật cụ thể như trong reference. Cấu trúc lập luận có phần đúng nhưng thiếu rõ ràng. Câu trả lời thiếu thông tin quan trọng về việc người nhận chuyển quyền chưa đăng ký đất đai vẫn được bồi thường và điều kiện thu hồi đất do vi phạm. Câu trả lời có liên quan đến câu hỏi nhưng không đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 89
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật cụ thể, không nêu rõ Điều 10 và Điều 8 của Luật Đấu thầu 2023. Cấu trúc lập luận có phần đúng nhưng chưa đầy đủ các điều kiện ưu đãi. Mô hình không phân tích đầy đủ các điều kiện và trách nhiệm của các bên, dẫn đến kết luận chưa chính xác về việc nhà thầu có được hưởng ưu đãi hay không.",
+      "sample_id": "N/A",
+      "sample_index": 90
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không chính xác về mức phạt tiền và số điểm bị trừ trên giấy phép lái xe. Tiền đề lớn không trích dẫn cụ thể điều khoản pháp luật. Câu trả lời thiếu thông tin chi tiết so với đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 91
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không chính xác về pháp lý vì Thông tư 13/2025/TT-BCA quy định đăng ký xe trực tuyến không cần kiểm tra thực tế. Cấu trúc lập luận có tam đoạn luận nhưng thiếu các quy định của Luật Trật tự an toàn giao thông đường bộ 2024 và Nghị định 168/2024/NĐ-CP. Thiếu thông tin quan trọng về việc xử phạt hành chính theo Nghị định 168. Câu trả lời không liên quan đến các quy định cụ thể về xử phạt hành chính và không đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 92
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình có sai sót nghiêm trọng về pháp lý khi cho rằng giáo viên có thể được bổ nhiệm vào hạng chức danh nghề nghiệp cao hơn dù mới tuyển dụng. Điều 6 Thông tư 01/2021/TT-BGDĐT quy định rõ không được căn cứ trình độ đào tạo để bổ nhiệm cao hơn hạng đã trúng tuyển đối với giáo viên mới. Về phụ cấp, câu trả lời không phân biệt đúng mức 80% cho vùng đặc biệt khó khăn và 60% cho xã khu vực II. Cấu trúc tam đoạn luận có nhưng nội dung lập luận ngược với quy định pháp luật.",
+      "sample_id": "N/A",
+      "sample_index": 93
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý cao khi xác định đúng vị trí pháp lý của Hiến pháp và hậu quả pháp lý của việc vi phạm. Cấu trúc lập luận tam đoạn luận rõ ràng, hợp lý. Tuy nhiên, câu trả lời thiếu một số chi tiết quan trọng như việc Quốc hội thông qua Nghị quyết cụ thể nào, vai trò của các cơ quan chức năng trong việc xử lý vi phạm, và ảnh hưởng chính trị cụ thể. Câu trả lời vẫn liên quan trực tiếp đến câu hỏi và không có thông tin sai lệch.",
+      "sample_id": "N/A",
+      "sample_index": 94
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn chính xác điều luật cụ thể như trong reference (thiếu Điều 10 NĐ 102/2025 và Điều 3 Luật Khám bệnh, chữa bệnh 2023). Cấu trúc lập luận tương đối rõ ràng nhưng thiếu một số chi tiết quan trọng. Câu trả lời không đề cập đến việc phối hợp với cơ quan chức năng hỗ trợ người nước ngoài cấp tài khoản định danh điện tử. Các lập luận đều liên quan đến câu hỏi nhưng thiếu thông tin cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 95
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có trích dẫn đúng Thông tư 08/2024/TT-BTNMT nhưng không nêu rõ khoản, điều cụ thể. Cấu trúc lập luận tương đối hợp lý nhưng thiếu các bước cụ thể như rà soát, điều tra đối soát, chuyển vẽ, xử lý tiếp biên. Thiếu một số thông tin quan trọng so với đáp án chuẩn. Các lập luận có liên quan đến câu hỏi nhưng không đầy đủ. Chất lượng tổng thể trung bình.",
+      "sample_id": "N/A",
+      "sample_index": 96
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có đề cập đến Luật Biển Việt Nam 2012 và quyền truy đuổi tàu thuyền vi phạm, nhưng không trích dẫn cụ thể điều luật nào (ví dụ như Điều 41 và Điều 5 trong đáp án chuẩn). Cấu trúc lập luận theo tam đoạn luận được giữ nguyên nhưng thiếu chi tiết. Câu trả lời thiếu nhiều thông tin quan trọng như quy trình cụ thể, điều kiện để truy đuổi hợp pháp, và các chính sách hỗ trợ lực lượng tuần tra. Các lập luận có liên quan đến câu hỏi nhưng không đủ chi tiết và có thể bị coi là thiếu chính xác về mặt pháp lý.",
+      "sample_id": "N/A",
+      "sample_index": 97
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, không trích dẫn cụ thể điều luật hay quyết định như trong reference. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu thông tin chi tiết về các điều kiện cụ thể, trách nhiệm của Hội đồng quản lý và các thủ tục cần thực hiện. Các lập luận vẫn liên quan đến câu hỏi nhưng không có thông tin hallucinate. Chất lượng tổng thể trung bình do thiếu thông tin chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 98
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý ở mức trung bình, không trích dẫn cụ thể điều luật và nghị định như đáp án chuẩn. Cấu trúc lập luận tương đối hợp lý nhưng thiếu các chi tiết pháp lý cụ thể. Câu trả lời thiếu các thông tin quan trọng về mã số, xuất xứ và các nguyên tắc xác định trị giá hải quan. Một số nội dung liên quan nhưng không đầy đủ so với yêu cầu câu hỏi.",
+      "sample_id": "N/A",
+      "sample_index": 99
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có trích dẫn đúng các văn bản pháp luật nhưng không nêu rõ điều luật cụ thể như trong reference. Cấu trúc lập luận có tam đoạn luận nhưng chưa chặt chẽ. Câu trả lời thiếu thông tin về các điều luật cụ thể và chưa nêu rõ dự án là kết cấu hạ tầng kinh tế - xã hội. Có liên quan đến câu hỏi nhưng chưa đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 100
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình trích dẫn đúng các văn bản pháp luật, nhưng thiếu một số chi tiết về trách nhiệm của cơ quan tiếp nhận hồ sơ khi hồ sơ không đầy đủ. Cấu trúc lập luận hợp lý, nhưng chưa đầy đủ so với đáp án chuẩn. Các lập luận đều liên quan trực tiếp đến câu hỏi, không có thông tin hallucinate.",
+      "sample_id": "N/A",
+      "sample_index": 101
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, vì không trích dẫn đúng các điều luật cụ thể như Điều 10 và Điều 5. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu sót thông tin quan trọng về việc thu nhập từ chuyển nhượng cổ phần được miễn thuế theo Nghị quyết 68-NQ/TW, dẫn đến thiếu đầy đủ. Các lập luận liên quan đến câu hỏi nhưng có sai sót về nội dung pháp lý. Chất lượng tổng thể trung bình do thiếu chính xác và đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 102
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể các điều luật, nghị định liên quan đến việc đè vạch xương cá và các giấy tờ bắt buộc. Cấu trúc tam đoạn luận được áp dụng nhưng chưa đầy đủ. Câu trả lời không đề cập đến mức phạt cụ thể và các nghĩa vụ pháp lý khác của anh A.",
+      "sample_id": "N/A",
+      "sample_index": 103
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có lập luận logic nhưng thiếu trích dẫn cụ thể các điều luật, nghị định liên quan như Điều 17 Luật Nhà ở 2023, Nghị định 96/2024/NĐ-CP và Điều 58 Luật Nhà ở 2023. Câu trả lời không đầy đủ các điểm pháp lý quan trọng từ đáp án chuẩn, đặc biệt là về quy trình kiểm định và vai trò của UBND cấp tỉnh. Tuy nhiên, câu trả lời vẫn liên quan trực tiếp đến câu hỏi và có cấu trúc lập luận hợp lý.",
+      "sample_id": "N/A",
+      "sample_index": 104
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật (khoản 3 Điều 8 Thông tư 29/2024/TT-NHNN) và không đề cập đến việc ủy quyền hợp pháp cho người tham gia. Cấu trúc lập luận tương đối rõ ràng nhưng thiếu chi tiết quan trọng. Câu trả lời liên quan đến câu hỏi nhưng không đầy đủ so với đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 105
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về mức nồng độ cồn (nghiêm cấm trên 0,3 mg thay vì 0,25-0,4 mg theo Điều 9 Nghị định 168/2024/NĐ-CP). Không nêu rõ quy định cụ thể về việc chở 2 người (1 người lớn + 1 trẻ em dưới 7 tuổi) theo Điều 31 Luật Trật tự giao thông 2024. Tiền đề nhỏ và kết luận thiếu chi tiết, không phân tích rõ mức phạt cụ thể cho từng hành vi. Cấu trúc tam đoạn luận có nhưng chưa chặt chẽ. Câu trả lời liên quan đến câu hỏi nhưng thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 106
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có cấu trúc logic tốt (tiền đề lớn, tiền đề nhỏ, kết luận), nhưng thiếu trích dẫn cụ thể điều luật, nghị định, thông tư như trong reference. Câu trả lời không đề cập đến Điều 4 và Điều 2 Quyết định 979/QĐ-BTC năm 2025, dẫn đến thiếu độ chính xác pháp lý. Câu trả lời không làm rõ quyền hạn cụ thể của Chi cục trong việc xuất hàng dự trữ quốc gia và xử lý vi phạm, dẫn đến thiếu sót thông tin quan trọng. Tuy nhiên, các lập luận đều liên quan trực tiếp đến câu hỏi và không có hallucination.",
+      "sample_id": "N/A",
+      "sample_index": 107
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không chính xác về mức đóng BHXH tối đa, trích dẫn sai điều luật và không nêu rõ quy định về mức đóng tối đa theo lương cơ sở. Cấu trúc lập luận có phần rõ ràng nhưng thiếu các quy định cụ thể. Câu trả lời thiếu thông tin quan trọng về mức đóng tối đa và không trích dẫn đầy đủ văn bản pháp luật.",
+      "sample_id": "N/A",
+      "sample_index": 108
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể các điều luật, nghị định, thông tư liên quan đến việc sử dụng thẻ căn cước và xác nhận OTP/VNeID. Cấu trúc lập luận tam đoạn luận được thực hiện nhưng chưa đầy đủ các yếu tố pháp lý quan trọng từ đáp án chuẩn. Câu trả lời không đề cập đến việc xác nhận OTP/VNeID sau khi gửi Tờ khai TK01 ĐK HĐĐT vẫn hợp pháp và cần thiết để hoàn tất thủ tục đăng ký hóa đơn điện tử. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 109
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật cụ thể như trong reference (Điều 27 và 29 Luật Quốc tịch 2008). Tiền đề lớn và nhỏ được trình bày nhưng thiếu thông tin về việc nộp hồ sơ tại cơ quan đại diện Việt Nam. Câu trả lời bỏ sót một phần quan trọng là anh Nam có thể nộp hồ sơ nhưng không được chấp thuận. Có sự thiếu chính xác về điều kiện pháp lý liên quan đến việc nộp hồ sơ.",
+      "sample_id": "N/A",
+      "sample_index": 110
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, không trích dẫn cụ thể điều luật hay thông tư như trong reference. Cấu trúc lập luận tương đối rõ ràng theo tam đoạn luận. Tuy nhiên, câu trả lời thiếu nhiều nội dung quan trọng như việc từ chối cấp phép, các hình thức xử lý đặc biệt, và quy định cụ thể trong Thông tư 09/2025/TT-NHNN. Các lập luận có liên quan đến câu hỏi nhưng thiếu chi tiết pháp lý. Chất lượng tổng thể trung bình do thiếu thông tin quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 111
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình không chính xác về mặt pháp lý khi trích dẫn Quyết định 11/2024/QĐ-TTg thay vì Công văn 4501/UBCK-CNTT và Thông tư 134/2017/TT-BTC. Cấu trúc lập luận có phần rõ ràng nhưng thiếu các chi tiết quan trọng như việc giới hạn giao dịch trực tuyến và yêu cầu giao dịch trực tiếp. Câu trả lời không đầy đủ vì bỏ sót các quy định cụ thể và hậu quả pháp lý khi không cập nhật thông tin. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin chính xác. Tổng thể, câu trả lời không đáp ứng đầy đủ yêu cầu pháp lý và thiếu chi tiết cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 112
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về các điều luật cụ thể (không trích dẫn Điều 235 Luật Đất đai 2024, Điều 3 Nghị quyết 04/2017/NQ-HĐTP, và Điều 190 BLTTDS 2015). Cấu trúc lập luận có phần logic nhưng thiếu các yếu tố pháp lý quan trọng. Câu trả lời không đề cập đến việc gửi đơn khởi kiện bằng các phương thức nào và không phân tích ảnh hưởng của việc vi phạm nguyên tắc sử dụng đất đến quyền khởi kiện. Một số nội dung không liên quan như việc gửi đơn qua UBND cấp xã không phải là phương thức khởi kiện mà chỉ là hòa giải.",
+      "sample_id": "N/A",
+      "sample_index": 113
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về các điều luật cụ thể (không trích dẫn Điều 14, 22 Luật Sở hữu trí tuệ 2005 và Điều 10 Nghị định 131/2013/NĐ-CP). Cấu trúc tam đoạn luận được áp dụng nhưng thiếu chi tiết. Câu trả lời không đầy đủ, bỏ sót các thông tin quan trọng như mức phạt cụ thể và các biện pháp xử lý. Các lập luận có liên quan nhưng không đi vào chi tiết pháp lý. Chất lượng tổng thể thấp do thiếu thông tin pháp lý cụ thể và chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 114
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể các điều luật như Điều 7 Nghị định 03/2025/NĐ-CP và Điều 11 Luật Đất đai 2024, dẫn đến độ chính xác pháp lý thấp. Cấu trúc lập luận có phần logic nhưng chưa đầy đủ các bước tổ chức kiểm tra và phê duyệt phương án. Câu trả lời không đề cập đến trách nhiệm cụ thể của Sở Tài chính và cơ quan địa phương, thiếu thông tin quan trọng từ đáp án chuẩn. Các lập luận có liên quan đến câu hỏi nhưng không đi vào chi tiết pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 115
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 2,
+      "completeness": 1,
+      "relevance": 2,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình trích dẫn sai điều luật (nghĩa vụ đóng BHYT theo mức lương hưu thay vì 4,5% lương tháng theo quy định tại Nghị định 70/2015/NĐ-CP sửa đổi bởi Nghị định 74/2025/NĐ-CP). Cấu trúc tam đoạn luận có tồn tại nhưng nội dung lập luận hoàn toàn sai lệch so với reference. Câu trả lời bỏ sót hoàn toàn các yếu tố pháp lý quan trọng như mức đóng 4,5% và điều kiện nghỉ ốm 14 ngày trở lên.",
+      "sample_id": "N/A",
+      "sample_index": 116
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có lập luận logic nhưng thiếu trích dẫn cụ thể điều luật, dẫn đến độ chính xác pháp lý thấp. Câu trả lời không đầy đủ vì bỏ qua nhiều quy định quan trọng như thời hạn 07 ngày, trách nhiệm cung cấp thông tin, và việc lập biên bản thương lượng. Tuy nhiên, câu trả lời vẫn liên quan trực tiếp đến câu hỏi và có cấu trúc lập luận rõ ràng.",
+      "sample_id": "N/A",
+      "sample_index": 117
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có cấu trúc logic tốt nhưng thiếu trích dẫn cụ thể điều luật, thiếu thông tin chi tiết về thời gian thanh toán và thủ tục liên quan. Câu trả lời không đầy đủ so với reference answer.",
+      "sample_id": "N/A",
+      "sample_index": 118
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có trích dẫn đúng các quy định pháp luật liên quan đến việc xử lý sai sót trong biên bản xử phạt vi phạm hành chính, nhưng không nêu rõ điều luật cụ thể như trong đáp án chuẩn. Cấu trúc lập luận theo tam đoạn luận nhưng chưa đầy đủ và chi tiết. Câu trả lời thiếu các thông tin quan trọng như việc không hủy biên bản đã lập, quy trình xác minh cụ thể, và ảnh hưởng của biên bản xác minh đến quyền và nghĩa vụ của cá nhân vi phạm. Các lập luận có liên quan đến câu hỏi nhưng không đi sâu vào các điểm pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 119
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật (Điều 46) và không nêu rõ các thời hạn quy định trong Thông tư. Cấu trúc lập luận tương đối rõ ràng nhưng thiếu các chi tiết pháp lý quan trọng. Câu trả lời không đầy đủ so với đáp án chuẩn, bỏ sót các thời hạn xử lý hồ sơ và quy định về thuốc có biến cố bất lợi. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 120
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 2,
+      "completeness": 3,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình có sai sót nghiêm trọng về độ chính xác pháp lý khi khẳng định anh A vẫn phải đóng bảo hiểm xã hội bắt buộc trong thời gian tạm hoãn hợp đồng (trái với khoản 4 Điều 2 và Điều 11 Luật Bảo hiểm xã hội 2024). Cấu trúc lập luận tồn tại nhưng thiếu trích dẫn điều luật cụ thể. Câu trả lời không đầy đủ khi bỏ qua quy định về hoàn trả trợ cấp thai sản nếu hưởng không đúng (Điều 11). Các lập luận liên quan đến câu hỏi nhưng có thông tin sai lệch. Chất lượng tổng thể thấp do thiếu chính xác và thiếu chi tiết quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 121
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể điều luật và nghị quyết pháp luật, dẫn đến độ chính xác pháp lý thấp. Cấu trúc lập luận có phần rõ ràng nhưng chưa chặt chẽ. Câu trả lời không đầy đủ vì thiếu các chi tiết cụ thể về hành vi bạo lực gia đình và quyền, nghĩa vụ của vợ chồng. Các lập luận có liên quan đến câu hỏi nhưng không đi vào trọng tâm. Chất lượng tổng thể thấp do thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 122
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình có lập luận logic tốt, nhưng không trích dẫn đầy đủ điều luật cụ thể như trong reference. Tuy nhiên, nội dung pháp lý được nêu vẫn chính xác và liên quan trực tiếp đến câu hỏi.",
+      "sample_id": "N/A",
+      "sample_index": 123
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình trích dẫn đúng Thông tư 10/2025/TT-NHNN và lập luận theo cấu trúc tam đoạn luận rõ ràng. Tuy nhiên, mô hình bỏ sót một số điều kiện quan trọng như tổng tài sản, địa bàn hoạt động, và các giới hạn an toàn khác được nêu trong đáp án chuẩn. Câu trả lời không đề cập đến việc quỹ có tổng tài sản 600 tỷ đồng và kế hoạch chia tách sang xã không liền kề, dù đây là các yếu tố pháp lý quan trọng. Mô hình chỉ tập trung vào tiêu chuẩn thành viên HĐQT, dẫn đến thiếu sót trong phân tích toàn diện.",
+      "sample_id": "N/A",
+      "sample_index": 124
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, không trích dẫn cụ thể Điều 182 và Điều 5 Luật Đất đai 2024 cũng như Quyết định 573/QĐ-UBND năm 2025. Cấu trúc lập luận tương đối rõ ràng nhưng thiếu các chi tiết pháp lý cụ thể. Câu trả lời không đầy đủ vì bỏ sót việc phân tích cụ thể về danh mục 36 loại cây được phép chuyển đổi và không nêu rõ hậu quả pháp lý cụ thể. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin chi tiết. Chất lượng tổng thể trung bình do thiếu thông tin pháp lý cụ thể và phân tích chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 125
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật cụ thể, không đề cập đến Điều 51, 37, 45, 60 Luật Hôn nhân và gia đình 2014. Cấu trúc lập luận có phần đúng nhưng chưa đầy đủ. Thiếu thông tin quan trọng về việc chồng không được ly hôn khi vợ đang mang thai hoặc nuôi con dưới 12 tháng. Câu trả lời có liên quan nhưng không đủ chi tiết.",
+      "sample_id": "N/A",
+      "sample_index": 126
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu trích dẫn cụ thể các điều luật và thông tư liên quan đến việc xác định giá trị tang vật và các trường hợp không ra quyết định xử phạt. Cấu trúc lập luận có phần đúng nhưng thiếu các quy định pháp lý cụ thể. Câu trả lời không đầy đủ so với đáp án chuẩn, bỏ sót các quy định quan trọng như Điều 60 và Điều 65 Luật Xử lý vi phạm hành chính 2012. Các lập luận có liên quan đến câu hỏi nhưng thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 127
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình nêu được các vi phạm chính nhưng thiếu trích dẫn cụ thể điều luật. Cấu trúc lập luận tương đối rõ ràng nhưng chưa đầy đủ các điểm pháp lý quan trọng từ reference. Có liên quan trực tiếp đến câu hỏi nhưng không phân tích chi tiết các quy định pháp luật.",
+      "sample_id": "N/A",
+      "sample_index": 128
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn chính xác điều luật cụ thể (chỉ nói chung là 'quy định pháp luật'), thiếu thông tin về phạm vi tỉnh/thành phố trực thuộc trung ương. Cấu trúc lập luận có tam đoạn luận nhưng thiếu chi tiết. Thiếu thông tin quan trọng về việc giải quyết hồ sơ do cơ quan đăng ký kinh doanh cấp xã nơi đặt trụ sở thực hiện. Có liên quan đến câu hỏi nhưng không đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 129
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có cấu trúc logic tốt (tiền đề lớn → tiền đề nhỏ → kết luận), nhưng thiếu trích dẫn cụ thể điều luật (chỉ nói chung chung về quy định). Giá trị tài sản ròng tối thiểu bị xác định sai (40 tỷ thay vì 50 tỷ theo reference). Thiếu thông tin về cách tính tài sản ròng (120 tỷ - 80 tỷ nợ = 40 tỷ). Câu trả lời liên quan đến câu hỏi nhưng thiếu độ chính xác pháp lý và đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 130
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về các văn bản pháp luật cụ thể (Quyết định 2020/QĐ-BTC và 925/QĐ-BTC năm 2025) và không nêu rõ địa bàn quản lý cụ thể (Gia Lai và Quảng Ngãi). Cấu trúc lập luận có phần logic nhưng thiếu chi tiết. Câu trả lời không đầy đủ so với đáp án chuẩn, bỏ sót nhiều nội dung quan trọng như cơ cấu tổ chức phòng ban, nhiệm vụ cụ thể của chi nhánh. Các lập luận có liên quan đến câu hỏi nhưng không đi vào chi tiết pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 131
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về các quy định pháp lý cụ thể như Điều 5 Nghị định 63/2024/NĐ-CP và Điều 21 Luật Bảo hiểm y tế. Cấu trúc lập luận có phần đúng nhưng thiếu các yếu tố quan trọng như sự đồng ý của mẹ và số hóa hồ sơ. Câu trả lời không đầy đủ, bỏ sót nhiều nội dung quan trọng từ đáp án chuẩn. Các lập luận có liên quan nhưng không đề cập đến phạm vi chi phí bảo hiểm y tế và quy trình số hóa hồ sơ.",
+      "sample_id": "N/A",
+      "sample_index": 132
+    },
+    {
+      "legal_accuracy": 1,
+      "logical_structure": 3,
+      "completeness": 1,
+      "relevance": 3,
+      "overall_quality": 1,
+      "rationale": "Câu trả lời của mô hình không trích dẫn đúng điều luật, nghị định, thông tư như trong reference. Cấu trúc lập luận có phần đúng nhưng thiếu các chi tiết pháp lý cụ thể. Câu trả lời thiếu hoàn toàn các thông tin quan trọng về thẩm quyền thu hồi, quyền và nghĩa vụ của đơn vị quản lý tài sản công. Các lập luận không đi vào trọng tâm câu hỏi pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 133
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có lập luận logic (4) và liên quan trực tiếp đến câu hỏi (4), nhưng thiếu trích dẫn cụ thể các điều luật (3), đặc biệt là không nêu rõ thời hiệu thi hành quyết định xử phạt và quy định về việc không đến nhận phương tiện sau 1 tháng (gây thiếu sót lớn về tính đầy đủ - 2). Câu trả lời tổng thể có chất lượng trung bình (3) do thiếu thông tin pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 134
+    },
+    {
+      "legal_accuracy": 4,
+      "logical_structure": 5,
+      "completeness": 3,
+      "relevance": 5,
+      "overall_quality": 4,
+      "rationale": "Câu trả lời của mô hình trích dẫn đúng điều luật, tuy nhiên thiếu thông tin về việc kiểm tra trạng thái chứng thư chữ ký số theo Điều 15. Cấu trúc lập luận rõ ràng, logic. Thiếu một số điểm pháp lý quan trọng từ reference. Các lập luận đều liên quan trực tiếp đến câu hỏi. Chất lượng tổng thể tốt nhưng chưa đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 135
+    },
+    {
+      "legal_accuracy": 2,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình thiếu chính xác về điều luật và nội dung. Mô hình không trích dẫn đúng Điều 52 và Điều 59 Luật Bảo hiểm xã hội 2024, không nêu rõ thời gian nghỉ cụ thể cho trường hợp sảy thai 14 tuần tuổi (40 ngày). Về cấu trúc logic, mô hình có áp dụng tam đoạn luận nhưng thiếu các yếu tố quan trọng. Câu trả lời không đầy đủ vì bỏ sót thông tin quan trọng về thời gian nghỉ và cách tính trợ cấp. Tuy nhiên, các lập luận có liên quan đến câu hỏi và không hallucinate điều luật.",
+      "sample_id": "N/A",
+      "sample_index": 136
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có lập luận logic nhưng không trích dẫn chính xác điều luật cụ thể như trong reference. Tiền đề lớn thiếu thông tin về quy định cụ thể (Tiểu mục 8 Mục C Phần 5 Phụ lục 1 Nghị định 151/2025/NĐ-CP). Câu trả lời không đề cập đến việc trả lại hồ sơ và thông báo cho người sử dụng đất. Tuy nhiên, lập luận vẫn đúng về việc từ chối cấp lại Sổ đỏ do thế chấp.",
+      "sample_id": "N/A",
+      "sample_index": 137
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có cấu trúc logic tốt nhưng thiếu trích dẫn cụ thể các điều luật, nghị định, thông tư như trong reference. Nội dung không đầy đủ so với reference, thiếu các hậu quả pháp lý cụ thể như đình chỉ hoặc thu hồi giấy chứng nhận. Tuy nhiên, câu trả lời vẫn liên quan đúng với câu hỏi và có lập luận hợp lý.",
+      "sample_id": "N/A",
+      "sample_index": 138
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 2,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình, vì trích dẫn đúng Luật Hôn nhân và gia đình 2014 nhưng không nêu rõ Điều 70 và 71. Cấu trúc lập luận có tam đoạn luận nhưng chưa đầy đủ. Câu trả lời thiếu các điểm quan trọng như nghĩa vụ của con C và E, cũng như hậu quả pháp lý cụ thể. Một số thông tin liên quan nhưng chưa đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 139
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 2,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý trung bình vì không trích dẫn đúng điều luật cụ thể (Điều 74 Luật Chứng khoán 2019) và thiếu thông tin về yêu cầu vốn điều lệ phải bằng Đồng Việt Nam. Cấu trúc lập luận tương đối hợp lý nhưng thiếu chi tiết. Câu trả lời không đầy đủ vì bỏ sót các điều kiện quan trọng như yêu cầu về Tổng giám đốc/Giám đốc và không nhận ra rằng công ty không đáp ứng đủ điều kiện để được cấp giấy phép. Các lập luận có liên quan đến câu hỏi nhưng không chính xác về mặt pháp lý. Chất lượng tổng thể trung bình vì thiếu độ chính xác pháp lý cần thiết.",
+      "sample_id": "N/A",
+      "sample_index": 140
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 4,
+      "completeness": 3,
+      "relevance": 4,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình xác định đúng kết luận nhưng thiếu trích dẫn cụ thể điều luật, thông tư (chỉ nói chung chung 'quy định pháp luật hiện hành' thay vì nêu rõ Điều 27 Luật Cư trú 2020 và Thông tư 55/2021/TT-BCA). Cấu trúc lập luận tam đoạn luận tương đối rõ ràng nhưng thiếu chi tiết về thời gian 30 ngày và các văn bản pháp luật bổ sung. Bỏ sót thông tin quan trọng về thời gian ở nhờ và văn bản pháp luật liên quan. Các lập luận liên quan trực tiếp đến câu hỏi nhưng không đầy đủ như đáp án chuẩn.",
+      "sample_id": "N/A",
+      "sample_index": 141
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình không trích dẫn chính xác điều luật cụ thể (Điều 8 và Điều 9) như trong reference. Cấu trúc lập luận có tam đoạn luận nhưng thiếu chi tiết. Câu trả lời thiếu thông tin quan trọng về mức tự bảo đảm chi thường xuyên và chi đầu tư cụ thể, cũng như trách nhiệm cụ thể trong quản lý tài sản công. Các lập luận có liên quan nhưng không đầy đủ.",
+      "sample_id": "N/A",
+      "sample_index": 142
+    },
+    {
+      "legal_accuracy": 3,
+      "logical_structure": 3,
+      "completeness": 2,
+      "relevance": 3,
+      "overall_quality": 3,
+      "rationale": "Câu trả lời của mô hình có độ chính xác pháp lý ở mức trung bình, không trích dẫn cụ thể điều luật nào. Cấu trúc lập luận tam đoạn luận được áp dụng nhưng thiếu chi tiết. Câu trả lời thiếu nhiều nội dung quan trọng như thủ tục đấu giá đất công ích, hậu quả pháp lý nếu được cấp giấy chứng nhận, và rủi ro pháp lý khi sử dụng đất. Câu trả lời có liên quan đến câu hỏi nhưng không đủ sâu sắc.",
+      "sample_id": "N/A",
+      "sample_index": 143
+    }
+  ]
+}
+
+============================================================
+  EVALUATION RESULTS
+============================================================
+  Samples evaluated: 144/144
+  Errors:            0
+────────────────────────────────────────────────────────────
+  Legal Accuracy:    2.61 ± 0.83
+  Logical Structure: 3.53 ± 0.71
+  Completeness:      2.12 ± 0.58
+  Relevance:         3.53 ± 0.70
+  Overall Quality:   2.62 ± 0.81
+────────────────────────────────────────────────────────────
+  AVERAGE TOTAL:     2.88
+============================================================

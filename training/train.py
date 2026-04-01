@@ -148,6 +148,14 @@ def main():
     print(f"[TRAIN] Training completed!")
     print(f"[TRAIN] Total training time: {trainer_stats.metrics['train_runtime']:.2f}s")
 
+    # Tính toán Training Throughput (Tokens/s)
+    train_samples_per_second = trainer_stats.metrics.get("train_samples_per_second", 0)
+    max_seq_length = config.get("model", {}).get("max_seq_length", 2048)
+    throughput = train_samples_per_second * max_seq_length
+    print(f"\n[METRICS] ==============================================")
+    print(f"[METRICS] Training Throughput: {throughput:.2f} tokens/s")
+    print(f"[METRICS] ==============================================\n")
+
     # =========================================================================
     # 7. Save adapter
     # =========================================================================

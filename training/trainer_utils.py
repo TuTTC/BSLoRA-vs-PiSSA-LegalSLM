@@ -136,7 +136,25 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
     peft_cfg = config["peft"]
     method = peft_cfg.get("method", "lora").lower()
     init_lora_weights = peft_cfg.get("init_lora_weights", True)
-    
+
+    if method == "fft":
+        print("[PEFT] Bypassing PEFT -> Full Fine-Tuning (FFT) Mode Enabled")
+        # Ensure all parameters are trainable for FFT
+        for param in model.parameters():
+            param.requires_grad = True
+        trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+        total_params = sum(p.numel() for p in model.parameters())
+        print(f"[FFT] Trainable params: {trainable_params:,} / {total_params:,} "
+              f"({100 * trainable_params / total_params:.2f}%)")
+        return model
+
+    if method == "bslora":
+        print("[PEFT] 🚀 Applying Bi-Share LoRA (BSLoRA) Mode...")
+        # TODO: Chèn logic can thiệp trọng số Bi-Share của bạn vào phía dưới.
+        # Tạm thời map "bslora" về "lora" để build khung wrapper chuản cho Unsloth
+        method = "lora"
+        peft_cfg["method"] = "lora"
+
     if method == "pissa":
         init_lora_weights = "pissa"
 
