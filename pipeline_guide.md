@@ -12,12 +12,15 @@ graph TD
     B --> C1["Bước 2a: Train LoRA<br/>train.py + lora_config"]
     B --> C2["Bước 2b: Train DoRA<br/>train.py + dora_config"]
     B --> C3["Bước 2c: Train PiSSA<br/>train.py + pissa_config"]
+    B --> C4["Bước 2d: Train QLoRA<br/>train.py + qlora_config"]
     C1 --> D1["Bước 3a: Eval LoRA<br/>evaluate.py"]
     C2 --> D2["Bước 3b: Eval DoRA<br/>evaluate.py"]
     C3 --> D3["Bước 3c: Eval PiSSA<br/>evaluate.py"]
+    C4 --> D4["Bước 3d: Eval QLoRA<br/>evaluate.py"]
     D1 --> E["Bước 4: So sánh kết quả"]
     D2 --> E
     D3 --> E
+    D4 --> E
 ```
 
 ---
@@ -56,6 +59,7 @@ pip install -r requirements.txt
 ```bash
 pip install huggingface_hub
 huggingface-cli login
+#python3 -c "from huggingface_hub import login; login()”
 # Nhập token từ https://huggingface.co/settings/tokens
 ```
 
@@ -63,6 +67,7 @@ huggingface-cli login
 
 ```bash
 wandb login
+#python3 -c "import wandb; wandb.login()”
 # Nhập API key từ https://wandb.ai/authorize
 ```
 
@@ -232,6 +237,18 @@ python training/train.py --peft_config configs/pissa_config.yaml
 
 ---
 
+## Bước 2d — Train QLoRA (Baseline suy giảm tài nguyên)
+
+### Chú thích về QLoRA
+`base_config.yaml` của chúng ta mặc định đã thiết lập `load_in_4bit: true`. Do đó, bản chất Standard LoRA bạn vừa chạy được tải trọng số 4-bit, nhưng config QLoRA ở thư mục này tạo một endpoint riêng để so sánh VRAM và Metrics với các method khác cho ra file `qlora_eval_results.json` rỗng ràng.
+
+### Lệnh chạy
+```bash
+python training/train.py --peft_config configs/qlora_config.yaml
+```
+
+---
+
 ## Bước 3 — Đánh giá (Evaluation)
 
 ### File chạy: [evaluate.py](file:///d:/NĂM%203/CS431/CS431-DoRA-vs-PiSSA-LegalSLM/evaluation/evaluate.py)
@@ -261,6 +278,11 @@ python evaluation/evaluate.py \
 # Evaluate PiSSA
 python evaluation/evaluate.py \
     --peft_config configs/pissa_config.yaml \
+    --skip_ppl
+
+# Evaluate QLoRA
+python evaluation/evaluate.py \
+    --peft_config configs/qlora_config.yaml \
     --skip_ppl
 ```
 
@@ -301,7 +323,8 @@ Inference: 100%|█████████| 440/440
 outputs/results/
 ├── lora_eval_results.json
 ├── dora_eval_results.json
-└── pissa_eval_results.json
+├── pissa_eval_results.json
+└── qlora_eval_results.json
 ```
 
 ---
@@ -313,9 +336,9 @@ outputs/results/
 ```python
 import json
 
-methods = ["lora", "dora", "pissa"]
-print(f"{'Metric':<25} {'LoRA':>10} {'DoRA':>10} {'PiSSA':>10}")
-print("-" * 57)
+methods = ["lora", "qlora", "dora", "pissa"]
+print(f"{'Metric':<25} {'LoRA':>10} {'QLoRA':>10} {'DoRA':>10} {'PiSSA':>10}")
+print("-" * 68)
 
 results = {}
 for m in methods:
@@ -324,7 +347,7 @@ for m in methods:
 
 for key in ["citation_accuracy", "mcq_accuracy", "qa_exact_match"]:
     values = [results[m].get(key, results[m].get(f"task1/{key}", results[m].get(f"task2/{key}", results[m].get(f"task3/{key}", "N/A")))) for m in methods]
-    print(f"{key:<25} {values[0]:>10.4f} {values[1]:>10.4f} {values[2]:>10.4f}")
+    print(f"{key:<25} {values[0]:>10.4f} {values[1]:>10.4f} {values[2]:>10.4f} {values[3]:>10.4f}")
 ```
 
 ### 4.2 So sánh VRAM
@@ -362,10 +385,14 @@ python training/train.py --peft_config configs/dora_config.yaml
 # 2c. PiSSA
 python training/train.py --peft_config configs/pissa_config.yaml
 
+# 2d. QLoRA
+python training/train.py --peft_config configs/qlora_config.yaml
+
 # ═══════════════ BƯỚC 3: EVALUATION ═══════════════
 python evaluation/evaluate.py --peft_config configs/lora_config.yaml --skip_ppl
 python evaluation/evaluate.py --peft_config configs/dora_config.yaml --skip_ppl
 python evaluation/evaluate.py --peft_config configs/pissa_config.yaml --skip_ppl
+python evaluation/evaluate.py --peft_config configs/qlora_config.yaml --skip_ppl
 ```
 
 ---

@@ -1,0 +1,32 @@
+# =============================================================================
+# QLoRA Configuration (Baseline — 4-bit)
+# =============================================================================
+# Kế thừa từ base_config.yaml
+# Baseline: Standard LoRA initialization with 4-bit quantization
+
+peft:
+  method: "qlora"
+  r: 32                                  # Paper: rank 32
+  lora_alpha: 64                         # Paper: alpha 64
+  lora_dropout: 0.0
+  use_dora: false                        # Standard LoRA
+  init_lora_weights: true                # Default initialization (Kaiming)
+  target_modules:                        # Paper: all linear layers
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+  use_gradient_checkpointing: "unsloth"  # Tối ưu VRAM qua Unsloth
+  use_rslora: false
+
+# Override output cho nhánh này
+output:
+  output_dir: "outputs/checkpoints/qlora"
+  logging_dir: "outputs/logs/qlora"
+
+wandb:
+  run_name: "qlora-baseline"
