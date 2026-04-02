@@ -42,8 +42,15 @@ def setup_wandb(config: Dict[str, Any]) -> Optional[Any]:
         import wandb
 
         wandb_cfg = config.get("wandb", {})
-        peft_method = config.get("peft", {}).get("method", "unknown")
-        peft_rank = config.get("peft", {}).get("r", "?")
+        peft_cfg = config.get("peft", {})
+        peft_method = peft_cfg.get("method", "unknown")
+        # BSLoRA dùng r_local+r_intra+r_inter thay vì r
+        if "r" in peft_cfg:
+            peft_rank = peft_cfg["r"]
+        elif "r_local" in peft_cfg:
+            peft_rank = peft_cfg["r_local"] + peft_cfg.get("r_intra", 0) + peft_cfg.get("r_inter", 0)
+        else:
+            peft_rank = "?"
 
         # Tags cho phép lọc và so sánh trên WandB
         tags = [

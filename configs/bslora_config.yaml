@@ -1,7 +1,12 @@
 # BSLoRA Config (Bi-Share / Block-Sparse LoRA)
 peft:
   method: "bslora"
-  r: 128
+  # BSLoRA rank splitting config (replace `r: 128` with local/intra/inter splitting)
+  r_local: 64
+  r_intra: 32
+  r_inter: 32
+  share_mode: "slice"  # Có thể là "slice", "gate", "kron", etc. tuỳ vào code BSLoRA của bạn
+  
   lora_alpha: 256
   target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
   lora_dropout: 0.05

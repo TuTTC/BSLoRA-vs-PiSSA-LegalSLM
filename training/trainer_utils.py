@@ -4,6 +4,8 @@ Trainer Utilities
 Hàm hỗ trợ cho quá trình huấn luyện: load model, apply PEFT, format prompts.
 """
 
+import os
+import sys
 import yaml
 import copy
 from pathlib import Path
@@ -150,10 +152,161 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
 
     if method == "bslora":
         print("[PEFT] 🚀 Applying Bi-Share LoRA (BSLoRA) Mode...")
-        # TODO: Chèn logic can thiệp trọng số Bi-Share của bạn vào phía dưới.
-        # Tạm thời map "bslora" về "lora" để build khung wrapper chuản cho Unsloth
-        method = "lora"
-        peft_cfg["method"] = "lora"
+
+        import math
+        import torch
+        import torch.nn as nn
+        from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+
+        r_local = peft_cfg["r_local"]
+        r_intra = peft_cfg["r_intra"]
+        r_inter = peft_cfg["r_inter"]
+        total_r = r_local + r_intra + r_inter
+        share_mode = peft_cfg.get("share_mode", "slice")
+
+        # --- Step 1: Apply standard LoRA with r = r_local ---
+        model = prepare_model_for_kbit_training(
+            model,
+            use_gradient_checkpointing=peft_cfg.get("use_gradient_checkpointing", True),
+        )
+
+        lora_config = LoraConfig(
+            r=r_local,
+            lora_alpha=peft_cfg["lora_alpha"],
+            target_modules=peft_cfg["target_modules"],
+            lora_dropout=peft_cfg["lora_dropout"],
+            bias=peft_cfg.get("bias", "none"),
+            task_type="CAUSAL_LM",
+        )
+        model = get_peft_model(model, lora_config)
+
+        # --- Step 2: Create shared modules (intra per-layer + inter global) ---
+        base_model = model.base_model
+        inner = getattr(base_model, "model", base_model)
+
+        # Find decoder layers
+        decoder = None
+        for attr in ["model", "transformer", "gpt_neox"]:
+            cand = getattr(inner, attr, None)
+            if cand and hasattr(cand, "layers"):
+                decoder = cand
+                break
+        if decoder is None:
+            for _, module in inner.named_modules():
+                if hasattr(module, "layers") and isinstance(module.layers, nn.ModuleList):
+                    decoder = module
+                    break
+
+        if decoder is None:
+            print("[BSLoRA] ⚠️ Cannot find decoder layers, using standard LoRA only")
+            model.print_trainable_parameters()
+            return model
+
+        num_layers = len(decoder.layers)
+        print(f"[BSLoRA] Found {num_layers} decoder layers")
+
+        # Find max in/out features
+        max_in, max_out = 0, 0
+        for _, module in model.named_modules():
+            if hasattr(module, "base_layer") and isinstance(module.base_layer, nn.Linear):
+                max_in = max(max_in, module.base_layer.in_features)
+                max_out = max(max_out, module.base_layer.out_features)
+
+        share_in = max_in if share_mode == "slice" else peft_cfg.get("kron_share_size", 256)
+        share_out = max_out if share_mode == "slice" else share_in
+        print(f"[BSLoRA] Share dims: in={share_in}, out={share_out}, mode={share_mode}")
+
+        # Intra: 1 shared (A, B) per layer
+        intra_A = nn.ModuleList()
+        intra_B = nn.ModuleList()
+        for _ in range(num_layers):
+            a = nn.Linear(share_in, r_intra, bias=False)
+            b = nn.Linear(r_intra, share_out, bias=False)
+            nn.init.kaiming_uniform_(a.weight, a=math.sqrt(5))
+            nn.init.zeros_(b.weight)
+            intra_A.append(a)
+            intra_B.append(b)
+
+        # Inter: 1 shared (A, B) global
+        inter_A_mod = nn.Linear(share_in, r_inter, bias=False)
+        inter_B_mod = nn.Linear(r_inter, share_out, bias=False)
+        nn.init.kaiming_uniform_(inter_A_mod.weight, a=math.sqrt(5))
+        nn.init.zeros_(inter_B_mod.weight)
+
+        # Move to device
+        device = next(model.parameters()).device
+        intra_A = intra_A.to(device)
+        intra_B = intra_B.to(device)
+        inter_A_mod = inter_A_mod.to(device)
+        inter_B_mod = inter_B_mod.to(device)
+
+        # Attach to model so optimizer can find them
+        model.bslora_intra_A = intra_A
+        model.bslora_intra_B = intra_B
+        model.bslora_inter_A = inter_A_mod
+        model.bslora_inter_B = inter_B_mod
+
+        # --- Step 3: Register forward hooks ---
+        bslora_scaling = 2.0
+
+        def _make_hook(layer_idx, in_f, out_f):
+            def hook(module, inp, out):
+                x = inp[0]
+                a_in = intra_A[layer_idx]
+                b_in = intra_B[layer_idx]
+                x_c = x.to(a_in.weight.dtype)
+
+                if share_mode == "slice":
+                    wA = a_in.weight.T
+                    wB = b_in.weight.T
+                    bA = (wA.shape[0] - in_f) // 2
+                    bB = (wB.shape[1] - out_f) // 2
+                    intra_o = x_c @ wA[bA:bA+in_f, :] @ wB[:, bB:bB+out_f]
+
+                    wAg = inter_A_mod.weight.T
+                    wBg = inter_B_mod.weight.T
+                    bAg = (wAg.shape[0] - in_f) // 2
+                    bBg = (wBg.shape[1] - out_f) // 2
+                    inter_o = x_c @ wAg[bAg:bAg+in_f, :] @ wBg[:, bBg:bBg+out_f]
+                else:
+                    intra_o = b_in(a_in(x_c))
+                    inter_o = inter_B_mod(inter_A_mod(x_c))
+
+                return out + (intra_o + inter_o).to(out.dtype) * bslora_scaling
+            return hook
+
+        hook_count = 0
+        for name, module in model.named_modules():
+            if hasattr(module, "lora_A") and hasattr(module, "base_layer"):
+                layer_idx = None
+                for p in name.split("."):
+                    if p.isdigit():
+                        layer_idx = int(p)
+                        break
+                if layer_idx is not None and layer_idx < num_layers:
+                    in_f = module.base_layer.in_features
+                    out_f = module.base_layer.out_features
+                    module.register_forward_hook(_make_hook(layer_idx, in_f, out_f))
+                    hook_count += 1
+
+        print(f"[BSLoRA] ✅ Registered {hook_count} forward hooks")
+
+        # Count params
+        trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+        total_params = sum(p.numel() for p in model.parameters())
+        bslora_extra = (
+            sum(p.numel() for p in intra_A.parameters()) +
+            sum(p.numel() for p in intra_B.parameters()) +
+            sum(p.numel() for p in inter_A_mod.parameters()) +
+            sum(p.numel() for p in inter_B_mod.parameters())
+        )
+        print(f"[PEFT] Applied: BSLoRA (mode={share_mode})")
+        print(f"[PEFT] Rank: local={r_local}, intra={r_intra}, inter={r_inter} (total={total_r})")
+        print(f"[PEFT] Alpha: {peft_cfg['lora_alpha']}")
+        print(f"[PEFT] Trainable: {trainable + bslora_extra:,} / {total_params + bslora_extra:,} "
+              f"({100*(trainable+bslora_extra)/(total_params+bslora_extra):.2f}%)")
+
+        return model
 
     if method == "pissa":
         init_lora_weights = "pissa"
