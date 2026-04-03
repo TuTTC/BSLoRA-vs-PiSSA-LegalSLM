@@ -247,7 +247,8 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
         model.bslora_inter_B = inter_B_mod
 
         # --- Step 3: Register forward hooks ---
-        bslora_scaling = 2.0
+        # Scaling theo chuẩn LoRA: alpha / rank (cho phần intra và inter)
+        bslora_scaling = peft_cfg["lora_alpha"] / (r_intra + r_inter)
 
         def _make_hook(layer_idx, in_f, out_f):
             def hook(module, inp, out):
@@ -291,20 +292,14 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
 
         print(f"[BSLoRA] ✅ Registered {hook_count} forward hooks")
 
-        # Count params
+        # Count params (BSLoRA modules đã nằm trong model.parameters() rồi, không cần cộng thêm)
         trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
         total_params = sum(p.numel() for p in model.parameters())
-        bslora_extra = (
-            sum(p.numel() for p in intra_A.parameters()) +
-            sum(p.numel() for p in intra_B.parameters()) +
-            sum(p.numel() for p in inter_A_mod.parameters()) +
-            sum(p.numel() for p in inter_B_mod.parameters())
-        )
         print(f"[PEFT] Applied: BSLoRA (mode={share_mode})")
         print(f"[PEFT] Rank: local={r_local}, intra={r_intra}, inter={r_inter} (total={total_r})")
-        print(f"[PEFT] Alpha: {peft_cfg['lora_alpha']}")
-        print(f"[PEFT] Trainable: {trainable + bslora_extra:,} / {total_params + bslora_extra:,} "
-              f"({100*(trainable+bslora_extra)/(total_params+bslora_extra):.2f}%)")
+        print(f"[PEFT] Alpha: {peft_cfg['lora_alpha']}, Scaling (intra+inter): {bslora_scaling:.4f}")
+        print(f"[PEFT] Trainable: {trainable:,} / {total_params:,} "
+              f"({100*trainable/total_params:.2f}%)")
 
         return model
 

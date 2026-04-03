@@ -2,12 +2,12 @@
 peft:
   method: "bslora"
   # BSLoRA rank splitting config (replace `r: 128` with local/intra/inter splitting)
-  r_local: 64
+  r_local: 8
   r_intra: 32
   r_inter: 32
   share_mode: "slice"  # Có thể là "slice", "gate", "kron", etc. tuỳ vào code BSLoRA của bạn
   
-  lora_alpha: 256
+  lora_alpha: 32
   target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
   lora_dropout: 0.05
   bias: "none"
