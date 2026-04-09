@@ -150,8 +150,12 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
               f"({100 * trainable_params / total_params:.2f}%)")
         return model
 
-    if method == "bslora":
-        print("[PEFT] 🚀 Applying Bi-Share LoRA (BSLoRA) Mode...")
+    if method in ("bslora", "bslora_pissa"):
+        is_hybrid = (method == "bslora_pissa")
+        if is_hybrid:
+            print("[PEFT] 🚀 Applying BSLoRA-PiSSA Hybrid (PiSSA Local + Shared Kaiming)...")
+        else:
+            print("[PEFT] 🚀 Applying Bi-Share LoRA (BSLoRA) Mode...")
 
         import math
         import torch
@@ -179,6 +183,55 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
             task_type="CAUSAL_LM",
         )
         model = get_peft_model(model, lora_config)
+
+        # --- Step 1.5: PiSSA SVD init for local adapters (hybrid only) ---
+        if is_hybrid:
+            init_local = peft_cfg.get("init_local_weights", "pissa")
+            if init_local == "pissa":
+                pissa_niter = peft_cfg.get("pissa_niter", 4)
+                print(f"[BSLoRA-PiSSA] 🔬 Applying PiSSA SVD init to local adapters "
+                      f"(r={r_local}, niter={pissa_niter})...")
+
+                svd_count = 0
+                for name, module in model.named_modules():
+                    if not (hasattr(module, "lora_A") and hasattr(module, "base_layer")):
+                        continue
+                    if not isinstance(module.base_layer, nn.Linear):
+                        continue
+
+                    W = module.base_layer.weight.data.float()
+                    try:
+                        # Fast randomized SVD — only computes top-r components
+                        U, S, V = torch.svd_lowrank(W, q=r_local, niter=pissa_niter)
+                        # U: (out_features, r_local)
+                        # S: (r_local,)
+                        # V: (in_features, r_local)  ← NOTE: V not Vᵀ
+                        sqrt_S = torch.sqrt(S)
+
+                        # A_init: (r_local, in_features) = diag(√Σ) @ Vᵀ
+                        A_init = torch.diag(sqrt_S) @ V.T
+                        # B_init: (out_features, r_local) = U @ diag(√Σ)
+                        B_init = U @ torch.diag(sqrt_S)
+
+                        orig_dtype = module.base_layer.weight.dtype
+                        adapter_name = list(module.lora_A.keys())[0]
+
+                        # Set local adapter weights with SVD components
+                        module.lora_A[adapter_name].weight.data = A_init.to(orig_dtype)
+                        module.lora_B[adapter_name].weight.data = B_init.to(orig_dtype)
+
+                        # Freeze residual: W_res = W₀ - B·A
+                        # During forward: output = W_res·x + scaling·B·A·x
+                        W_res = W - B_init @ A_init
+                        module.base_layer.weight.data = W_res.to(orig_dtype)
+
+                        svd_count += 1
+                    except Exception as e:
+                        print(f"[BSLoRA-PiSSA] ⚠️ SVD failed for {name}: {e}, keeping Kaiming init")
+
+                print(f"[BSLoRA-PiSSA] ✅ SVD initialized {svd_count} local adapters")
+            else:
+                print(f"[BSLoRA-PiSSA] Using {init_local} init for local adapters (no SVD)")
 
         # --- Step 2: Create shared modules (intra per-layer + inter global) ---
         base_model = model.base_model
@@ -295,8 +348,12 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
         # Count params (BSLoRA modules đã nằm trong model.parameters() rồi, không cần cộng thêm)
         trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
         total_params = sum(p.numel() for p in model.parameters())
-        print(f"[PEFT] Applied: BSLoRA (mode={share_mode})")
+        method_label = "BSLoRA-PiSSA" if is_hybrid else "BSLoRA"
+        print(f"[PEFT] Applied: {method_label} (mode={share_mode})")
         print(f"[PEFT] Rank: local={r_local}, intra={r_intra}, inter={r_inter} (total={total_r})")
+        if is_hybrid:
+            init_local = peft_cfg.get("init_local_weights", "pissa")
+            print(f"[PEFT] Local init: {init_local.upper()}, Shared init: KAIMING")
         print(f"[PEFT] Alpha: {peft_cfg['lora_alpha']}, Scaling (intra+inter): {bslora_scaling:.4f}")
         print(f"[PEFT] Trainable: {trainable:,} / {total_params:,} "
               f"({100*trainable/total_params:.2f}%)")

@@ -1,0 +1,66 @@
+# =============================================================================
+# BSLoRA-PiSSA Hybrid Configuration
+# =============================================================================
+# Kết hợp BSLoRA (parameter sharing) + PiSSA (SVD initialization)
+#
+# Ý tưởng:
+#   - Local adapters (r_local)  → PiSSA SVD init (top-r singular values per module)
+#   - Intra-layer shared (r_intra) → Kaiming init (shared within layer)
+#   - Inter-layer shared (r_inter) → Kaiming init (shared across layers)
+#
+# Mục tiêu:
+#   - Giảm ~55% params so với LoRA (từ BSLoRA)
+#   - Hội tụ nhanh hơn ~15-30% (từ PiSSA SVD init)
+#
+# Lưu ý quan trọng:
+#   - PiSSA SVD cần precision cao → load model bfloat16 (không 4-bit)
+#   - SVD overhead ~2-5 phút, tính một lần duy nhất
+#   - LR cần thấp hơn BSLoRA thường vì local đã có SVD informed init
+
+model:
+  load_in_4bit: false                    # PiSSA SVD requires high precision
+  dtype: "bfloat16"                      # Use bfloat16 for stability
+
+peft:
+  method: "bslora_pissa"
+  
+  # BSLoRA rank splitting
+  r_local: 8                             # Per-module, PiSSA SVD init
+  r_intra: 32                            # Shared within layer, Kaiming init
+  r_inter: 32                            # Shared across layers, Kaiming init
+  
+  # Shape transform mode for shared components
+  share_mode: "slice"                    # "slice" | "gate" | "kron"
+  kron_share_size: 256                   # Only used if share_mode="kron"
+  gate_share_size: 1024                  # Only used if share_mode="gate"
+  
+  # LoRA hyperparams
+  lora_alpha: 32
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  lora_dropout: 0.05
+  bias: "none"
+  use_gradient_checkpointing: true
+
+  # PiSSA-specific
+  init_local_weights: "pissa"            # "pissa" = SVD init, "kaiming" = random
+  pissa_niter: 4                         # Number of iterations for fast SVD (niter)
+
+# Training: LR giữa PiSSA (1e-5) và BSLoRA (3e-5)
+training:
+  learning_rate: 2.0e-5
+  num_epochs: 1
+
+# Output
+output:
+  output_dir: "outputs/checkpoints/bslora_pissa"
+  logging_dir: "outputs/logs/bslora_pissa"
+
+wandb:
+  run_name: "bslora-pissa-experiment"

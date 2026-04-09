@@ -43,7 +43,7 @@ conda activate cs431
 
 # Cài PyTorch (chọn đúng CUDA version của bạn)
 # CUDA 12.1:
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
 # CUDA 11.8:
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 ```
