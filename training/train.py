@@ -29,6 +29,7 @@ from training.trainer_utils import (
     apply_peft,
     get_training_args,
     format_prompts,
+    LoraPlusSFTTrainer,
 )
 from utils.logger import setup_wandb, log_config, log_vram_to_wandb
 from utils.helpers import set_seed, get_device_info, log_vram_usage, VRAMTracker
@@ -125,7 +126,7 @@ def main():
     dataset["train"] = dataset["train"].add_column("text", train_texts)
     dataset["validation"] = dataset["validation"].add_column("text", val_texts)
 
-    trainer = SFTTrainer(
+    trainer = LoraPlusSFTTrainer(
         model=model,
         processing_class=tokenizer,
         train_dataset=dataset["train"],

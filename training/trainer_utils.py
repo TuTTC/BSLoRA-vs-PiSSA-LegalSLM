@@ -8,8 +8,14 @@ import os
 import sys
 import yaml
 import copy
+import math
+import torch
+import torch.nn as nn
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Union, List, Tuple, Callable
+from transformers import Trainer
+from transformers.pytorch_utils import ALL_LAYERNORM_LAYERS
+from transformers.trainer_pt_utils import get_parameter_names
 
 
 def load_config(base_path: str, peft_path: str) -> Dict[str, Any]:
@@ -458,6 +464,13 @@ def get_training_args(config: Dict[str, Any]):
         dataloader_num_workers=0,  # Tắt đa luồng khi load data vào GPU
     )
 
+    # Thêm các tham số LoRA+ nếu có trong config peft
+    peft_cfg = config.get("peft", {})
+    if "loraplus_lr_ratio" in peft_cfg:
+        setattr(args, "loraplus_lr_ratio", peft_cfg["loraplus_lr_ratio"])
+    if "loraplus_lr_embedding" in peft_cfg:
+        setattr(args, "loraplus_lr_embedding", peft_cfg["loraplus_lr_embedding"])
+
     return args
 
 
@@ -506,3 +519,112 @@ def format_prompts(examples, tokenizer, template: str):
             texts.append(text)
 
     return texts
+
+
+def get_loraplus_param_groups(
+    model: nn.Module,
+    lr: float,
+    ratio: float,
+    lr_embedding: float = 1e-6,
+    weight_decay: float = 0.0,
+) -> List[Dict[str, Any]]:
+    """
+    Phân loại tham số model thành các nhóm tối ưu cho LoRA+.
+    - Group A: lora_A, sharelora_lora_A (Default LR)
+    - Group B: lora_B, sharelora_lora_B (LR * ratio)
+    - Embedding: lora_embedding (Specific LR)
+    """
+    decay_parameters = get_parameter_names(model, ALL_LAYERNORM_LAYERS)
+    decay_parameters = [name for name in decay_parameters if "bias" not in name]
+
+    param_groups = {
+        "groupA": [],
+        "groupB": [],
+        "groupB_no_decay": [],
+        "embedding": [],
+    }
+
+    for name, param in model.named_parameters():
+        if not param.requires_grad:
+            continue
+
+        # Xác định nhóm dựa trên tên tham số
+        if "lora_embedding" in name:
+            param_groups["embedding"].append(param)
+        elif "lora_B" in name or "sharelora_lora_B" in name or param.ndim == 1:
+            if name in decay_parameters:
+                param_groups["groupB"].append(param)
+            else:
+                param_groups["groupB_no_decay"].append(param)
+        else:
+            # Mặc định là nhóm A (lora_A, sharelora_lora_A, hoặc các trainable khác)
+            param_groups["groupA"].append(param)
+
+    optimizer_grouped_parameters = [
+        {
+            "params": param_groups["groupA"],
+            "weight_decay": weight_decay,
+            "lr": lr,
+        },
+        {
+            "params": param_groups["embedding"],
+            "weight_decay": weight_decay,
+            "lr": lr_embedding,
+        },
+        {
+            "params": param_groups["groupB"],
+            "weight_decay": weight_decay,
+            "lr": lr * ratio,
+        },
+        {
+            "params": param_groups["groupB_no_decay"],
+            "weight_decay": 0.0,
+            "lr": lr * ratio,
+        },
+    ]
+    
+    # Log thông tin để debug
+    num_a = len(param_groups["groupA"])
+    num_b = len(param_groups["groupB"]) + len(param_groups["groupB_no_decay"])
+    print(f"[LoRA+] Optimizer groups initialized: GroupA={num_a}, GroupB={num_b} (Ratio={ratio})")
+    
+    return optimizer_grouped_parameters
+
+
+class LoraPlusSFTTrainer(SFTTrainer):
+    """
+    Custom SFTTrainer hỗ trợ LoRA+ Optimizer.
+    """
+    def create_optimizer(self):
+        # Lấy ratio từ training_args (thêm động vào SFTConfig)
+        loraplus_lr_ratio = getattr(self.args, "loraplus_lr_ratio", None)
+        
+        if loraplus_lr_ratio is None or loraplus_lr_ratio == 1.0:
+            return super().create_optimizer()
+
+        if self.optimizer is None:
+            optimizer_cls, optimizer_kwargs = self.get_optimizer_cls_and_kwargs(self.args)
+            
+            lr_embedding = getattr(self.args, "loraplus_lr_embedding", 1e-6)
+            
+            # Tạo grouped parameters
+            params = get_loraplus_param_groups(
+                self.model,
+                lr=optimizer_kwargs["lr"],
+                ratio=loraplus_lr_ratio,
+                lr_embedding=lr_embedding,
+                weight_decay=optimizer_kwargs.get("weight_decay", 0.0)
+            )
+            
+            # Khởi tạo optimizer
+            self.optimizer = optimizer_cls(params, **optimizer_kwargs)
+            
+            # Xử lý bitsandbytes 8-bit optimizer nếu cần
+            if optimizer_cls.__name__ == "Adam8bit":
+                import bitsandbytes as bnb
+                manager = bnb.optim.GlobalOptimManager.get_instance()
+                for module in self.model.modules():
+                    if isinstance(module, nn.Embedding):
+                        manager.register_module_override(module, "weight", {"optim_bits": 32})
+
+        return self.optimizer

@@ -16,7 +16,7 @@ sys.path.insert(0, PROJECT_ROOT)
 
 import peft
 from peft import get_peft_model, ShareLoraConfig, prepare_model_for_kbit_training
-from training.trainer_utils import load_config, load_model, format_prompts
+from training.trainer_utils import load_config, load_model, format_prompts, LoraPlusSFTTrainer
 from utils.logger import setup_wandb, log_config, log_vram_to_wandb
 from utils.helpers import set_seed, get_device_info, log_vram_usage, VRAMTracker
 
@@ -144,7 +144,14 @@ def main():
         dataset_text_field="text",
     )
 
-    trainer = SFTTrainer(
+    # Inject LoRA+ params
+    peft_cfg = config.get("peft", {})
+    if "loraplus_lr_ratio" in peft_cfg:
+        setattr(training_args, "loraplus_lr_ratio", peft_cfg["loraplus_lr_ratio"])
+    if "loraplus_lr_embedding" in peft_cfg:
+        setattr(training_args, "loraplus_lr_embedding", peft_cfg["loraplus_lr_embedding"])
+
+    trainer = LoraPlusSFTTrainer(
         model=model,
         args=training_args,
         train_dataset=dataset["train"],

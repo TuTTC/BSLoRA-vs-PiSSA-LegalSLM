@@ -13,14 +13,22 @@ graph TD
     B --> C2["Bước 2b: Train DoRA<br/>train.py + dora_config"]
     B --> C3["Bước 2c: Train PiSSA<br/>train.py + pissa_config"]
     B --> C4["Bước 2d: Train QLoRA<br/>train.py + qlora_config"]
+    B --> C6["Bước 2f: Train Standard BSLoRA<br/>train.py + bslora_config"]
+    B --> C7["Bước 2g: Train LoRA+<br/>train.py + loraplus_config"]
     C1 --> D1["Bước 3a: Eval LoRA<br/>evaluate.py"]
     C2 --> D2["Bước 3b: Eval DoRA<br/>evaluate.py"]
     C3 --> D3["Bước 3c: Eval PiSSA<br/>evaluate.py"]
     C4 --> D4["Bước 3d: Eval QLoRA<br/>evaluate.py"]
+    C5 --> D5["Bước 3e: Eval BSLoRA-PiSSA<br/>evaluate.py"]
+    C6 --> D6["Bước 3f: Eval Standard BSLoRA<br/>evaluate.py"]
+    C7 --> D7["Bước 3g: Eval LoRA+<br/>evaluate.py"]
     D1 --> E["Bước 4: So sánh kết quả"]
     D2 --> E
     D3 --> E
     D4 --> E
+    D5 --> E
+    D6 --> E
+    D7 --> E
 ```
 
 ---
@@ -249,6 +257,60 @@ python training/train.py --peft_config configs/qlora_config.yaml
 
 ---
 
+## Bước 2e — Train BSLoRA-PiSSA Hybrid (SOTA Efficiency)
+
+### 🚀 Chú thích về BSLoRA-PiSSA
+Đây là phương pháp nâng cao kết hợp giữa **BSLoRA** (Bi-Share LoRA) và **PiSSA** (SVD Initialization). 
+
+**Đặc điểm nổi bật:**
+- **Local Adapters:** Được khởi tạo bằng **PiSSA SVD** để có "starting point" tốt nhất, giúp hội tụ nhanh.
+- **Shared Adapters:** Chia sẻ tham số giữa các modules trong cùng Layer (**Intra**) và toàn model (**Inter**), giúp giảm ~55% số lượng tham số training so với LoRA thông thường.
+- **LoRA+ Support:** Áp dụng tỷ lệ Learning Rate khác nhau cho ma trận A và B (mặc định $\lambda = 16.0$) để tối ưu hóa quá trình cập nhật trọng số.
+
+### Lệnh chạy
+```bash
+python training/train.py --peft_config configs/bslora_pissa_config.yaml
+```
+
+> [!TIP]
+> Bạn có thể điều chỉnh `loraplus_lr_ratio` trong config để thay đổi tốc độ học của ma trận B. Giá trị khuyến nghị là từ 16 đến 32.
+
+---
+
+## Bước 2f — Train Standard BSLoRA
+
+### 🚀 Chú thích về BSLoRA
+Đây là phương pháp **Bi-Share LoRA** gốc, sử dụng tính năng chia sẻ tham số để tối ưu hóa bộ nhớ và tốc độ mà không yêu cầu khởi tạo SVD.
+
+**Đặc điểm nổi bật:**
+- **Parameter Sharing:** Cấu trúc Local + Intra + Inter giúp giảm số lượng tham số đáng kể.
+- **Dễ triển khai:** Sử dụng khởi tạo Kaiming mặc định, không tốn thời gian tính toán SVD ban đầu.
+- **Tiết kiệm VRAM:** Mức tiêu thụ VRAM thấp nhất trong các phương pháp nhờ cơ chế share matrices.
+
+### Lệnh chạy
+```bash
+python training/train.py --peft_config configs/bslora_config.yaml
+```
+
+---
+
+## Bước 2g — Train LoRA+ (Optimizer-based Optimization)
+
+### 🚀 Chú thích về LoRA+
+**LoRA+** cải thiện hiệu năng fine-tuning bằng cách tăng tỉ lệ Learning Rate của ma trận B so với ma trận A ($\lambda = LR_B / LR_A$).
+
+**Đặc điểm nổi bật:**
+- **Faster Convergence:** Việc đặt LR ma trận B cao hơn giúp adapter học nhanh hơn và ổn định hơn.
+- **Tương thích cao:** Có thể áp dụng cho cả Standard LoRA và các biến thể khác.
+- **Tối ưu hóa tham số:** Giúp giải quyết vấn đề gradients của ma trận B thường nhỏ hơn nhiều so với ma trận A.
+
+### Lệnh chạy
+```bash
+python training/train.py --peft_config configs/loraplus_config.yaml
+```
+
+---
+
 ## Bước 3 — Đánh giá (Evaluation)
 
 ### File chạy: [evaluate.py](file:///d:/NĂM%203/CS431/CS431-DoRA-vs-PiSSA-LegalSLM/evaluation/evaluate.py)
@@ -283,6 +345,21 @@ python evaluation/evaluate.py \
 # Evaluate QLoRA
 python evaluation/evaluate.py \
     --peft_config configs/qlora_config.yaml \
+    --skip_ppl
+
+# Evaluate BSLoRA-PiSSA
+python evaluation/evaluate.py \
+    --peft_config configs/bslora_pissa_config.yaml \
+    --skip_ppl
+
+# Evaluate Standard BSLoRA
+python evaluation/evaluate.py \
+    --peft_config configs/bslora_config.yaml \
+    --skip_ppl
+
+# Evaluate LoRA+
+python evaluation/evaluate.py \
+    --peft_config configs/loraplus_config.yaml \
     --skip_ppl
 ```
 
@@ -324,7 +401,10 @@ outputs/results/
 ├── lora_eval_results.json
 ├── dora_eval_results.json
 ├── pissa_eval_results.json
-└── qlora_eval_results.json
+├── qlora_eval_results.json
+├── bslora_pissa_eval_results.json
+├── bslora_eval_results.json
+└── loraplus_eval_results.json
 ```
 
 ---
@@ -336,9 +416,9 @@ outputs/results/
 ```python
 import json
 
-methods = ["lora", "qlora", "dora", "pissa"]
-print(f"{'Metric':<25} {'LoRA':>10} {'QLoRA':>10} {'DoRA':>10} {'PiSSA':>10}")
-print("-" * 68)
+methods = ["lora", "qlora", "dora", "pissa", "bslora_pissa", "bslora", "loraplus"]
+print(f"{'Metric':<25} {'LoRA':>6} {'QLoRA':>6} {'DoRA':>6} {'PiSSA':>6} {'Hybrid':>6} {'BSLoRA':>6} {'LoRA+':>6}")
+print("-" * 100)
 
 results = {}
 for m in methods:
@@ -347,7 +427,7 @@ for m in methods:
 
 for key in ["citation_accuracy", "mcq_accuracy", "qa_exact_match"]:
     values = [results[m].get(key, results[m].get(f"task1/{key}", results[m].get(f"task2/{key}", results[m].get(f"task3/{key}", "N/A")))) for m in methods]
-    print(f"{key:<25} {values[0]:>10.4f} {values[1]:>10.4f} {values[2]:>10.4f} {values[3]:>10.4f}")
+    print(f"{key:<25} {values[0]:>6.4f} {values[1]:>6.4f} {values[2]:>6.4f} {values[3]:>6.4f} {values[4]:>6.4f} {values[5]:>6.4f} {values[6]:>6.4f}")
 ```
 
 ### 4.2 So sánh VRAM
@@ -388,11 +468,23 @@ python training/train.py --peft_config configs/pissa_config.yaml
 # 2d. QLoRA
 python training/train.py --peft_config configs/qlora_config.yaml
 
+# 2e. BSLoRA-PiSSA (Hybrid)
+python training/train.py --peft_config configs/bslora_pissa_config.yaml
+
+# 2f. Standard BSLoRA
+python training/train.py --peft_config configs/bslora_config.yaml
+
+# 2g. LoRA+
+python training/train.py --peft_config configs/loraplus_config.yaml
+
 # ═══════════════ BƯỚC 3: EVALUATION ═══════════════
 python evaluation/evaluate.py --peft_config configs/lora_config.yaml --skip_ppl
 python evaluation/evaluate.py --peft_config configs/dora_config.yaml --skip_ppl
 python evaluation/evaluate.py --peft_config configs/pissa_config.yaml --skip_ppl
 python evaluation/evaluate.py --peft_config configs/qlora_config.yaml --skip_ppl
+python evaluation/evaluate.py --peft_config configs/bslora_pissa_config.yaml --skip_ppl
+python evaluation/evaluate.py --peft_config configs/bslora_config.yaml --skip_ppl
+python evaluation/evaluate.py --peft_config configs/loraplus_config.yaml --skip_ppl
 ```
 
 ---

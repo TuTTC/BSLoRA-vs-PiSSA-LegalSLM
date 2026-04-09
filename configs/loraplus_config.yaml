@@ -1,0 +1,38 @@
+# =============================================================================
+# LoRA+ Configuration
+# =============================================================================
+# Kế thừa từ lora_config.yaml nhưng bật cơ chế tối ưu LoRA+
+# Link paper: https://arxiv.org/abs/2402.12354
+#
+# Ý tưởng:
+#   - Sử dụng Learning Rate cho ma trận B lớn hơn ma trận A (tỉ lệ lr_ratio).
+#   - Giúp ổn định quá trình học và cải thiện hiệu năng trên tập dữ liệu lớn.
+
+peft:
+  method: "lora"
+  r: 32
+  lora_alpha: 64
+  lora_dropout: 0.05                     # Thêm một chút dropout cho ổn định
+  
+  # LoRA+ specific params
+  loraplus_lr_ratio: 16.0                # Tỉ lệ LR ma trận B / ma trận A
+  loraplus_lr_embedding: 1.0e-6          # LR riêng cho embedding (nếu có)
+  
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+  use_gradient_checkpointing: true
+
+# Override output cho nhánh này
+output:
+  output_dir: "outputs/checkpoints/loraplus"
+  logging_dir: "outputs/logs/loraplus"
+
+wandb:
+  run_name: "lora-plus-experiment"

@@ -52,6 +52,10 @@ peft:
   init_local_weights: "pissa"            # "pissa" = SVD init, "kaiming" = random
   pissa_niter: 4                         # Number of iterations for fast SVD (niter)
 
+  # LoRA+ specific
+  loraplus_lr_ratio: 16.0                # LR multiplier for B matrices
+  loraplus_lr_embedding: 1.0e-6          # Specific LR for embedding adapters
+
 # Training: LR giữa PiSSA (1e-5) và BSLoRA (3e-5)
 training:
   learning_rate: 2.0e-5
