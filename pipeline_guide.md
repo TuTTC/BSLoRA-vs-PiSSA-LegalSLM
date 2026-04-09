@@ -67,7 +67,7 @@ pip install -r requirements.txt
 ```bash
 pip install huggingface_hub
 huggingface-cli login
-#python3 -c "from huggingface_hub import login; login()”
+#python3 -c "from huggingface_hub import login; login()"
 # Nhập token từ https://huggingface.co/settings/tokens
 ```
 

@@ -16,6 +16,7 @@ from typing import Dict, Any, Optional, Union, List, Tuple, Callable
 from transformers import Trainer
 from transformers.pytorch_utils import ALL_LAYERNORM_LAYERS
 from transformers.trainer_pt_utils import get_parameter_names
+from trl import SFTTrainer, SFTConfig
 
 
 def load_config(base_path: str, peft_path: str) -> Dict[str, Any]:
@@ -422,7 +423,6 @@ def get_training_args(config: Dict[str, Any]):
     Returns:
         trl.SFTConfig
     """
-    from trl import SFTConfig
     from unsloth import is_bfloat16_supported
 
     train_cfg = config["training"]
