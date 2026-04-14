@@ -157,13 +157,23 @@ def main():
     print(f"[METRICS] Training Throughput: {throughput:.2f} tokens/s")
     print(f"[METRICS] ==============================================\n")
 
+   # =========================================================================
+    # 7. Save Adapter (Best & Last)
     # =========================================================================
-    # 7. Save adapter
-    # =========================================================================
-    save_path = config["output"]["output_dir"]
-    model.save_pretrained(save_path)
-    tokenizer.save_pretrained(save_path)
-    print(f"[SAVE] Adapter saved to: {save_path}")
+    output_base_path = config["output"]["output_dir"]
+    
+    # 1. Lưu bản BEST (Vì load_best_model_at_end=True nên model hiện tại là Best)
+    best_path = os.path.join(output_base_path, "best_model")
+    model.save_pretrained(best_path)
+    tokenizer.save_pretrained(best_path)
+    print(f"🏆 [SAVE] Best Model (Validation) saved to: {best_path}")
+
+    # 2. Lưu bản LAST (Để chắc chắn có bản cuối cùng của step 700)
+    # Thông thường Trainer đã tự lưu trong folder checkpoint-700
+    # Nhưng ta có thể copy hoặc lưu lại một lần nữa cho rõ ràng
+    last_path = os.path.join(output_base_path, "last_model")
+    trainer.save_model(last_path) # Lưu trạng thái cuối cùng của Trainer
+    print(f"✅ [SAVE] Last Model (Step 700) saved to: {last_path}")
 
     # Lưu training metrics
     metrics_path = os.path.join(
