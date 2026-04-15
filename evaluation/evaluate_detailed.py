@@ -99,24 +99,62 @@ def main():
     print(f"\n[DETAILED EVAL] Method: {peft_method.upper()}, Task: {task_type or 'ALL'}")
     set_seed(config["training"]["seed"])
 
-    # 2. Load model + adapter
+    # # 2. Load model + adapter
+    # checkpoint_dir = args.checkpoint_dir or config["output"]["output_dir"]
+    # actual_checkpoint = None
+    
+    # if os.path.exists(checkpoint_dir):
+    #     if any(os.path.exists(os.path.join(checkpoint_dir, f)) for f in ["adapter_model.safetensors", "adapter_model.bin"]):
+    #         actual_checkpoint = checkpoint_dir
+    #     else:
+    #         checkpoints = [os.path.join(checkpoint_dir, d) for d in os.listdir(checkpoint_dir) 
+    #                       if d.startswith("checkpoint-") and os.path.isdir(os.path.join(checkpoint_dir, d))]
+    #         if checkpoints:
+    #             actual_checkpoint = max(checkpoints, key=lambda x: int(x.split("-")[-1]))
+    
+    # if actual_checkpoint:
+    #     print(f"[EVAL] Loading adapter from: {actual_checkpoint}")
+    #     model, tokenizer = load_model(config, adapter_path=actual_checkpoint, force_transformers=True)
+    # else:
+    #     print("[WARNING] No adapter found. Using base model.")
+    #     model, tokenizer = load_model(config, force_transformers=True)
+    #     model = apply_peft(model, config, force_transformers=True)
+
+    # model.config.use_cache = True
+    # tokenizer.padding_side = "left"
+    # log_vram_usage("After loading model")
+
+    # 2. Load model + adapter (Đã cập nhật logic tìm Best Model)
     checkpoint_dir = args.checkpoint_dir or config["output"]["output_dir"]
     actual_checkpoint = None
     
     if os.path.exists(checkpoint_dir):
-        if any(os.path.exists(os.path.join(checkpoint_dir, f)) for f in ["adapter_model.safetensors", "adapter_model.bin"]):
+        best_model_path = os.path.join(checkpoint_dir, "best_model")
+        
+        # ƯU TIÊN 1: Tìm thư mục best_model
+        if os.path.exists(os.path.join(best_model_path, "adapter_model.safetensors")) or \
+           os.path.exists(os.path.join(best_model_path, "adapter_model.bin")):
+            actual_checkpoint = best_model_path
+            print(f"🌟 [INFO] Ưu tiên sử dụng BEST MODEL tại: {actual_checkpoint}")
+            
+        # ƯU TIÊN 2: Nếu người dùng truyền thẳng thư mục chứa file safetensors
+        elif any(os.path.exists(os.path.join(checkpoint_dir, f)) for f in ["adapter_model.safetensors", "adapter_model.bin"]):
             actual_checkpoint = checkpoint_dir
+            print(f"📦 [INFO] Sử dụng Adapter trực tiếp tại: {actual_checkpoint}")
+            
+        # ƯU TIÊN 3: Nếu không có best_model, tìm checkpoint có số step cao nhất (Last Model)
         else:
             checkpoints = [os.path.join(checkpoint_dir, d) for d in os.listdir(checkpoint_dir) 
                           if d.startswith("checkpoint-") and os.path.isdir(os.path.join(checkpoint_dir, d))]
             if checkpoints:
                 actual_checkpoint = max(checkpoints, key=lambda x: int(x.split("-")[-1]))
+                print(f"⚠️ [WARNING] Không tìm thấy best_model. Đang load LAST MODEL tại: {actual_checkpoint}")
     
     if actual_checkpoint:
         print(f"[EVAL] Loading adapter from: {actual_checkpoint}")
         model, tokenizer = load_model(config, adapter_path=actual_checkpoint, force_transformers=True)
     else:
-        print("[WARNING] No adapter found. Using base model.")
+        print("❌ [WARNING] No adapter found. Using base model (Model chưa được fine-tune).")
         model, tokenizer = load_model(config, force_transformers=True)
         model = apply_peft(model, config, force_transformers=True)
 
