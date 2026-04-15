@@ -402,7 +402,12 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
             init_lora_weights=init_lora_weights,
         )
 
-    print(f"[PEFT] Applied method: {method.upper()}")
+    # In số lượng trainable parameters
+    method_label = method.upper()
+    if peft_cfg.get("loraplus_lr_ratio"):
+        method_label += " (with LoRA+ Optimizer)"
+        
+    print(f"[PEFT] Applied method: {method_label}")
     print(f"[PEFT] Rank: {peft_cfg['r']}, Alpha: {peft_cfg['lora_alpha']}")
     print(f"[PEFT] Target modules: {peft_cfg['target_modules']}")
 

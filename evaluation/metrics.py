@@ -13,6 +13,7 @@ import math
 import string
 import torch
 import numpy as np
+import evaluate
 from typing import Dict, List, Any, Optional
 
 
@@ -115,6 +116,108 @@ def compute_exact_match(
         if _normalize_text(pred) == _normalize_text(ref)
     )
     return correct / n
+
+
+# ============================================================================
+# ROUGE-L  –  dùng cho generation tasks (Task 3 & Level 3-5)
+# ============================================================================
+def compute_rouge_l(
+    predictions: List[str],
+    references: List[str],
+) -> float:
+    """
+    Tính ROUGE-L score sử dụng thư viện evaluate.
+    """
+    rouge = evaluate.load("rouge")
+    results = rouge.compute(
+        predictions=predictions,
+        references=references,
+        rouge_types=["rougeL"],
+        use_stemmer=True
+    )
+    return results["rougeL"]
+
+
+# ============================================================================
+# Hierarchical Citation Match  –  Civil Law analysis (Điều -> Khoản -> Điểm)
+# ============================================================================
+def extract_legal_citation(text: str) -> List[Dict[str, str]]:
+    """
+    Trích xuất các điều luật, khoản, điểm từ văn bản.
+    Pattern: "Điều 12", "Khoản 1", "Điểm a"
+    """
+    citations = []
+    # Tìm các cụm: Điều X, khoản Y, điểm Z
+    # Ví dụ: "theo Điều 155, Khoản 2, Điểm b Bộ luật Hình sự"
+    # Chúng ta tập trung vào hierarchy số hiệu
+    pattern = r"(?:[Đđ]iều\s+(\d+))?(?:\s*,\s*[Kk]hoản\s+(\d+))?(?:\s*,\s*[Đđ]iểm\s+([a-zđ]+))?"
+    matches = re.finditer(pattern, text)
+    
+    for match in matches:
+        article = match.group(1)
+        clause = match.group(2)
+        point = match.group(3)
+        
+        if article or clause or point:
+            citations.append({
+                "article": article,
+                "clause": clause,
+                "point": point
+            })
+    return citations
+
+def compute_hierarchical_match(
+    predictions: List[str],
+    references: List[str],
+) -> Dict[str, float]:
+    """
+    Đánh giá độ chính xác phân tầng (Hierarchy Accuracy).
+    - Match Article: Đúng số điều.
+    - Match Clause: Đúng điều + đúng khoản.
+    - Match Point: Đúng điều + đúng khoản + đúng điểm.
+    """
+    total = len(predictions)
+    if total == 0:
+        return {"match_article": 0.0, "match_clause": 0.0, "match_point": 0.0}
+    
+    match_article = 0
+    match_clause = 0
+    match_point = 0
+    
+    for pred, ref in zip(predictions, references):
+        pred_cites = extract_legal_citation(pred)
+        ref_cites = extract_legal_citation(ref)
+        
+        if not ref_cites:
+            continue
+            
+        # Tìm set các reference components
+        ref_articles = {c["article"] for c in ref_cites if c["article"]}
+        ref_clauses = {(c["article"], c["clause"]) for c in ref_cites if c["article"] and c["clause"]}
+        ref_points = {(c["article"], c["clause"], c["point"]) for c in ref_cites if c["article"] and c["clause"] and c["point"]}
+        
+        # Kiểm tra prediction
+        found_art = False
+        found_cls = False
+        found_pnt = False
+        
+        for p in pred_cites:
+            if p["article"] in ref_articles:
+                found_art = True
+            if (p["article"], p["clause"]) in ref_clauses:
+                found_cls = True
+            if (p["article"], p["clause"], p["point"]) in ref_points:
+                found_pnt = True
+        
+        if found_art: match_article += 1
+        if found_cls: match_clause += 1
+        if found_pnt: match_point += 1
+        
+    return {
+        "hierarchical_article_acc": match_article / total,
+        "hierarchical_clause_acc": match_clause / total,
+        "hierarchical_point_acc": match_point / total,
+    }
 
 
 # ============================================================================
@@ -296,10 +399,24 @@ def compute_all_metrics(
 
     # ----- Task 3: Open-ended QA (Exact Match – Eq. 8) -----
     if task_type in (None, "task3"):
-        print("[EVAL] Computing Exact Match (Task 3)...")
+        print("[EVAL] Computing Task 3 metrics...")
+        preds_clean = [_extract_answer_after_think(p) for p in predictions]
+        refs_clean = [_extract_answer_after_think(r) for r in references]
+        
         qa_metrics = compute_qa_exact_match(predictions, references)
         results.update(qa_metrics)
+        
+        # Add ROUGE-L
+        rouge_l = compute_rouge_l(preds_clean, refs_clean)
+        results["qa_rouge_l"] = rouge_l
+        
+        # Add Hierarchical Match
+        h_metrics = compute_hierarchical_match(preds_clean, refs_clean)
+        results.update(h_metrics)
+        
         print(f"  Exact Match: {qa_metrics['qa_exact_match']:.4f}")
+        print(f"  ROUGE-L:     {rouge_l:.4f}")
+        print(f"  H-Article:   {h_metrics['hierarchical_article_acc']:.4f}")
 
     # ----- Perplexity (chung) -----
     if compute_ppl and model is not None:

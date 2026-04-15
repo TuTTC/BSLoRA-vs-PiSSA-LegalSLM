@@ -1,0 +1,54 @@
+# =============================================================================
+# Scenario 1: Generalization - PiSSA Configuration
+# =============================================================================
+# Model: Qwen/Qwen2.5-3B (Base)
+# Dataset: uitnlp/ViANLI
+# Technique: PiSSA (Rank 32, Alpha 64)
+
+model:
+  model_name: "Qwen/Qwen2.5-3B"
+  max_seq_length: 512
+  load_in_4bit: true                     # Can use 4-bit for SFT part, PiSSA init handles the high-prec bit
+  dtype: "bfloat16"
+
+peft:
+  method: "pissa"
+  r: 32
+  lora_alpha: 64
+  lora_dropout: 0.0
+  init_lora_weights: "pissa"             # Required for PiSSA
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+
+training:
+  learning_rate: 1.0e-5                  # Recommended for PiSSA to preserve SVD info
+  num_train_epochs: 3
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 8         # Effective BS = 32
+  warmup_steps: 100
+  weight_decay: 0.01
+  logging_steps: 1
+  optim: "adamw_8bit"
+  seed: 42
+  eval_strategy: "steps"
+  eval_steps: 50
+  save_strategy: "no"                    # Training is short (~20 mins), save adapter at the end
+
+data:
+  dataset_name: "uitnlp/ViANLI"
+  prompt_template: "User: \"Câu 1: {premise}. Câu 2: {hypothesis}. Mối quan hệ giữa hai câu là gì?\"\nAssistant: \"{label_text}\""
+
+output:
+  output_dir: "outputs/checkpoints/scenario1_pissa"
+  results_dir: "outputs/results/scenario1"
+
+wandb:
+  project: "DoRA-vs-PiSSA-Scenario1"
+  run_name: "qwen2.5-3b-pissa-r32"

@@ -311,9 +311,33 @@ python training/train.py --peft_config configs/loraplus_config.yaml
 
 ---
 
+## 🌟 Kịch bản 1 — Chứng minh tính tổng quát (Generalization)
+
+### 🚀 Mục tiêu
+Vượt qua baseline FFT của PhoBERT/ViT5 trên tập dữ liệu suy luận tiếng Việt (`ViANLI`) bằng cách sử dụng **PiSSA** trên **Qwen2.5-3B**.
+
+### Cấu hình chính
+- **Model:** `Qwen/Qwen2.5-3B` (Base)
+- **Dataset:** `uitnlp/ViANLI` (3 lớp: Entailment, Neutral, Contradiction)
+- **Phương pháp:** PiSSA (Rank 32, Alpha 64)
+- **Prompt format:** 
+  - `User`: "Câu 1: [Tiền đề]. Câu 2: [Giả thuyết]. Mối quan hệ giữa hai câu là gì?"
+  - `Assistant`: "[Nhãn]"
+
+### Lệnh chạy
+```bash
+# 1. Chạy training kịch bản 1
+python training/train_scenario1.py --config configs/scenario1_pissa.yaml
+
+# 2. Chạy evaluation sau khi train
+python evaluation/evaluate_scenario1.py --config configs/scenario1_pissa.yaml
+```
+
+---
+
 ## Bước 3 — Đánh giá (Evaluation)
 
-### File chạy: [evaluate.py](file:///d:/NĂM%203/CS431/CS431-DoRA-vs-PiSSA-LegalSLM/evaluation/evaluate.py)
+### File chạy: [evaluate.py]
 
 ### Chức năng
 - Load model + adapter checkpoint
@@ -476,6 +500,12 @@ python training/train.py --peft_config configs/bslora_config.yaml
 
 # 2g. LoRA+
 python training/train.py --peft_config configs/loraplus_config.yaml
+
+# ═══════════════ KỊCH BẢN 1 ═══════════════
+# Training
+python training/train_scenario1.py --config configs/scenario1_pissa.yaml
+# Evaluation
+python evaluation/evaluate_scenario1.py --config configs/scenario1_pissa.yaml
 
 # ═══════════════ BƯỚC 3: EVALUATION ═══════════════
 python evaluation/evaluate.py --peft_config configs/lora_config.yaml --skip_ppl
