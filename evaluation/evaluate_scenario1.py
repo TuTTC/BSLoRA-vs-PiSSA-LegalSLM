@@ -6,6 +6,12 @@ Loads the trained PiSSA adapter and evaluates accuracy on uitnlp/ViANLI test set
 
 import os
 import sys
+
+# Add project root to path
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 import torch
 from tqdm import tqdm
 from datasets import load_dataset
@@ -13,9 +19,6 @@ from unsloth import FastLanguageModel
 from training.preprocess_vianli import map_label
 import yaml
 import argparse
-
-# Add project root to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def evaluate_scenario1(config_path, checkpoint_path=None):
     # 1. Load config

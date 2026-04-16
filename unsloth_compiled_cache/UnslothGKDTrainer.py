@@ -1,6 +1,6 @@
 """
-2026.4.6
-2026.4.4
+2026.4.7
+2026.4.5
 5.5.0
 0.24.0
 __UNSLOTH_VERSIONING__
@@ -136,7 +136,7 @@ def chunked_hidden_states_selective_log_softmax(
         if logit_scale_divide != 0.0:
             chunk_logits = chunk_logits / logit_scale_divide
         if logit_softcapping != 0.0:
-            chunk_logits = chunk_logits * torch.tanh(chunk_logits / logit_softcapping)
+            chunk_logits = logit_softcapping * torch.tanh(chunk_logits / logit_softcapping)
 
         chunk_logits = chunk_logits.to(torch.float32)
 
