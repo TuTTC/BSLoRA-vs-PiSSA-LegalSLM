@@ -76,12 +76,27 @@ def main():
     print(f"{'='*60}\n")
 
     # Load Model
-    checkpoint_dir = args.checkpoint_dir or config["output"]["output_dir"]
+    checkpoint_dir = (args.checkpoint_dir or config["output"]["output_dir"]).replace("\\", "/")
     actual_checkpoint = None
+    
     if os.path.exists(checkpoint_dir):
-        checkpoints = [os.path.join(checkpoint_dir, d) for d in os.listdir(checkpoint_dir) if d.startswith("checkpoint-")]
-        if checkpoints:
-            actual_checkpoint = max(checkpoints, key=lambda x: int(x.split("-")[-1]))
+        # Check if current dir is already a checkpoint
+        if any(os.path.exists(os.path.join(checkpoint_dir, f)) for f in ["adapter_model.safetensors", "adapter_model.bin"]):
+            actual_checkpoint = checkpoint_dir
+        else:
+            # Look for checkpoint-* subdirectories
+            checkpoints = [os.path.join(checkpoint_dir, d) for d in os.listdir(checkpoint_dir) if d.startswith("checkpoint-")]
+            if checkpoints:
+                actual_checkpoint = max(checkpoints, key=lambda x: int(x.split("-")[-1]))
+            else:
+                # One last try: if there's a 'pissa' or 'lora' subfolder, look in there
+                for sub in ["pissa", "lora", "scenario1_pissa", "scenario1_lora"]:
+                    sub_path = os.path.join(checkpoint_dir, sub)
+                    if os.path.exists(sub_path):
+                        sub_checkpoints = [os.path.join(sub_path, d) for d in os.listdir(sub_path) if d.startswith("checkpoint-")]
+                        if sub_checkpoints:
+                            actual_checkpoint = max(sub_checkpoints, key=lambda x: int(x.split("-")[-1]))
+                            break
 
     if actual_checkpoint:
         print(f"[EVAL] Loading model with adapter from: {actual_checkpoint}")
@@ -95,14 +110,23 @@ def main():
     tokenizer.padding_side = "left"
 
     # Load Dataset
-    subset_name = TASK_CONFIG_MAP.get(args.task, f"task_{args.task}")
-    try:
-        print(f"[EVAL] Downloading CMC-OPENAI/VLegal-Bench subset: {subset_name}")
-        dataset = load_dataset("CMC-OPENAI/VLegal-Bench", subset_name, split="test")
-    except Exception as e:
-        print(f"[WARNING] Could not load specific config, trying default. Error: {e}")
-        # Build logic to fallback or use general test set if configs are not exposed this way
-        dataset = load_dataset("CMC-OPENAI/VLegal-Bench", split="test")
+    local_task_path = os.path.join("data", "vlegal_bench", args.task, f"{args.task.replace('.', '_')}.jsonl")
+    # Some tasks might not have dots in filenames
+    if not os.path.exists(local_task_path):
+        local_task_path = os.path.join("data", "vlegal_bench", args.task, f"{args.task}.jsonl")
+
+    if os.path.exists(local_task_path):
+        print(f"[EVAL] Loading LOCAL dataset from: {local_task_path}")
+        dataset = load_dataset("json", data_files=local_task_path, split="train")
+    else:
+        print(f"[WARNING] Local file not found at {local_task_path}. Trying Hugging Face...")
+        subset_name = TASK_CONFIG_MAP.get(args.task, f"task_{args.task}")
+        try:
+            print(f"[EVAL] Downloading CMC-OPENAI/VLegal-Bench subset: {subset_name}")
+            dataset = load_dataset("CMC-OPENAI/VLegal-Bench", subset_name, split="test")
+        except Exception as e:
+            print(f"[ERROR] Could not load dataset from Hugging Face. Error: {e}")
+            sys.exit(1)
 
     if args.num_samples > 0:
         dataset = dataset.select(range(min(args.num_samples, len(dataset))))
