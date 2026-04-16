@@ -4,14 +4,22 @@ ViANLI Preprocessing Utility
 Formats the uitnlp/ViANLI dataset into the specified template for Qwen2.5.
 """
 
-def map_label(label_id):
-    """Maps integer labels to text labels for ViANLI."""
-    mapping = {
-        0: "entailment",
-        1: "neutral",
-        2: "contradiction"
-    }
-    return mapping.get(label_id, "unknown")
+def map_label(label):
+    """
+    Standardizes labels for ViANLI. 
+    Accepts both integers (0,1,2) and strings ('entailment', etc.)
+    """
+    if isinstance(label, int):
+        mapping = {0: "entailment", 1: "neutral", 2: "contradiction"}
+        return mapping.get(label, "unknown")
+    
+    # If it's already a string, just ensure it's lowercase
+    if isinstance(label, str):
+        label = label.lower().strip()
+        if label in ["entailment", "neutral", "contradiction"]:
+            return label
+            
+    return "unknown"
 
 def format_vianli_prompt(example, tokenizer, template):
     """
