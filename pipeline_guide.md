@@ -433,6 +433,31 @@ outputs/results/
 
 ---
 
+## Bước 3b — Đánh giá Khung Nhận thức (VLegal-Bench Cognitive Evaluation)
+
+### 🚀 Mục tiêu
+Đánh giá năng lực của mô hình (đã được fine-tune) trên "bài thi" chuẩn quốc gia VLegal-Bench, đặc biệt đo đạc các mốc nhận thức luật: Mức 1 (Nhớ điều luật), Mức 3 (Lập luận syllogism) và Mức 5 (Đạo đức).
+
+### Lệnh chạy Đánh giá (Evaluate)
+```bash
+python evaluation/evaluate_vlegal_bench.py \
+    --peft_config configs/scenario1_pissa.yaml \
+    --task 3.3 \
+    --num_samples 100
+```
+> [!NOTE]
+> - `--task`: Chọn `1.4` (Recall), `3.3` (Reasoning), hoặc `5.3` (Ethics).
+> - `--checkpoint_dir`: (Tùy chọn) Truyền trực tiếp đường dẫn thư mục checkpoint nếu không muốn dùng mặc định. VD: `--checkpoint_dir "outputs-final/outputs/checkpoints"`.
+
+### Lệnh chạy Phân tích Lỗi Đặc Thù (Civil Law Error Analysis)
+Mổ xẻ các lỗi sai phân tầng (Đúng Điều, sai Khoản/Điểm) với file kết quả vừa sinh ra.
+```bash
+python evaluation/analyze_civil_law_hierarchy.py \
+    --results_file outputs/results/vlegal_task_3.3_pissa_eval.json
+```
+
+---
+
 ## Bước 4 — So sánh kết quả
 
 ### 4.1 So sánh Metrics (chạy trong Python)
@@ -515,6 +540,11 @@ python evaluation/evaluate.py --peft_config configs/qlora_config.yaml --skip_ppl
 python evaluation/evaluate.py --peft_config configs/bslora_pissa_config.yaml --skip_ppl
 python evaluation/evaluate.py --peft_config configs/bslora_config.yaml --skip_ppl
 python evaluation/evaluate.py --peft_config configs/loraplus_config.yaml --skip_ppl
+
+# ═══════════════ BƯỚC 3b: VLEGAL-BENCH EVAL ═══════════════
+python evaluation/evaluate_vlegal_bench.py --peft_config configs/scenario1_pissa.yaml --task 3.3 --num_samples 100
+python evaluation/evaluate_vlegal_bench.py --peft_config configs/pissa_config.yaml --task 3.3 --checkpoint_dir "outputs-final\outputs\checkpoints" --num_samples -1
+python evaluation/analyze_civil_law_hierarchy.py --results_file outputs/results/vlegal_task_3.3_pissa_eval.json
 ```
 
 ---
