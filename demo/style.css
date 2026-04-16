@@ -1,0 +1,20 @@
+/* demo/style.css */
+footer {
+    visibility: hidden;
+}
+
+.gradio-container {
+    background-color: #f8f9fa;
+}
+
+.legal-header {
+    text-align: center; 
+    margin-bottom: 20px;
+}
+
+.task-box {
+    border-radius: 10px; 
+    border: 1px solid #dee2e6; 
+    padding: 15px; 
+    background: white;
+}
