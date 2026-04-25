@@ -474,25 +474,35 @@ class HiIndex:
 
         if entity_texts:
             print(f"[HiIndex] Computing embeddings for {len(entity_texts)} entities...")
-            all_embeddings = []
             chunk_size = 50000
             total_chunks = (len(entity_texts) + chunk_size - 1) // chunk_size
             
+            all_embeddings = []
+            
             for i in range(0, len(entity_texts), chunk_size):
-                print(f"[HiIndex] Processing embedding chunk {i//chunk_size + 1}/{total_chunks}...")
-                chunk_texts = entity_texts[i:i + chunk_size]
-                chunk_embs = self.embedding_model.encode(
-                    chunk_texts,
-                    show_progress_bar=True,
-                    batch_size=128,
-                    convert_to_numpy=True
-                )
-                all_embeddings.append(chunk_embs)
+                chunk_idx = i // chunk_size
+                chunk_path = self.cache_dir / f"embeddings_chunk_{chunk_idx}.npy"
                 
-                # Cleanup memory
-                import gc
-                del chunk_texts, chunk_embs
-                gc.collect()
+                if chunk_path.exists():
+                    print(f"[HiIndex] Loading embedding chunk {chunk_idx + 1}/{total_chunks} from cache...")
+                    chunk_embs = np.load(str(chunk_path))
+                else:
+                    print(f"[HiIndex] Processing embedding chunk {chunk_idx + 1}/{total_chunks}...")
+                    chunk_texts = entity_texts[i:i + chunk_size]
+                    chunk_embs = self.embedding_model.encode(
+                        chunk_texts,
+                        show_progress_bar=True,
+                        batch_size=128,
+                        convert_to_numpy=True
+                    )
+                    np.save(str(chunk_path), chunk_embs)
+                    
+                    # Cleanup memory
+                    import gc
+                    del chunk_texts
+                    gc.collect()
+
+                all_embeddings.append(chunk_embs)
 
             embeddings = np.vstack(all_embeddings)
 
@@ -500,8 +510,13 @@ class HiIndex:
                 self.entities[eid].embedding = emb
                 self.graph.nodes[eid]["embedding"] = emb
 
-            # Save embeddings cache
+            # Save final embeddings cache and delete chunks
             np.save(str(self.cache_dir / "embeddings.npy"), embeddings)
+            for chunk_idx in range(total_chunks):
+                chunk_path = self.cache_dir / f"embeddings_chunk_{chunk_idx}.npy"
+                if chunk_path.exists():
+                    chunk_path.unlink()
+                    
             print(f"[HiIndex] Embeddings computed and cached")
 
     # ------------------------------------------------------------------
