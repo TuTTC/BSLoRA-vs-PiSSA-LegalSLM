@@ -161,48 +161,57 @@ def main():
     print("  Building Hierarchical Knowledge Base")
     print("=" * 60)
 
-    # Step 1: Load datasets
-    print("\n" + "=" * 60)
-    print("  Step 1: Loading Datasets")
-    print("=" * 60)
-    datasets = load_datasets(config, max_samples=args.max_samples)
-
-    total_samples = sum(len(v) for v in datasets.values())
-    if total_samples == 0:
-        print("[BUILD] Không có dữ liệu. Kiểm tra lại config.")
-        return
-
-    # Step 2: Preprocessing
-    print("\n" + "=" * 60)
-    print("  Step 2: Preprocessing")
-    print("=" * 60)
-    preprocessor = LegalPreprocessor()
-
-    processed = {}
-    for dtype, samples in datasets.items():
-        if samples:
-            # legal-pretrain dùng cột 'doc_content', legal-news dùng cột 'text'
-            text_field = "doc_content" if dtype == "legal" else "text"
-            processed[dtype] = preprocessor.process(dtype, samples, text_field=text_field)
-
-    # Step 3: Chunking
-    print("\n" + "=" * 60)
-    print("  Step 3: Chunking")
-    print("=" * 60)
-    chunker = LegalChunker(
-        chunk_size=rag_config.get("chunk_size", 512),
-        chunk_overlap=rag_config.get("chunk_overlap", 64),
-    )
-
+    # Fast Resume Check
+    cache_dir = os.path.dirname(paths_config.get("kg_cache", "data/rag_cache/knowledge_graph.pkl"))
+    checkpoint_path = Path(cache_dir) / "kg_layer0_checkpoint.pkl"
     all_chunks = []
-    for dtype, samples in processed.items():
-        if samples:
-            chunks = chunker.chunk(samples, source_type=dtype)
-            all_chunks.extend(chunks)
+    datasets = {"legal": [], "news": []}
+    
+    if checkpoint_path.exists():
+        print(f"\n[BUILD] Detected checkpoint: {checkpoint_path}")
+        print("[BUILD] Skipping Step 1-3 (Load/Preprocess/Chunk) and resuming from checkpoint...")
+    else:
+        # Step 1: Load datasets
+        print("\n" + "=" * 60)
+        print("  Step 1: Loading Datasets")
+        print("=" * 60)
+        datasets = load_datasets(config, max_samples=args.max_samples)
 
-    print(f"[BUILD] Total chunks: {len(all_chunks)}")
+        total_samples = sum(len(v) for v in datasets.values())
+        if total_samples == 0:
+            print("[BUILD] Không có dữ liệu. Kiểm tra lại config.")
+            return
 
-    if args.just_chunking:
+        # Step 2: Preprocessing
+        print("\n" + "=" * 60)
+        print("  Step 2: Preprocessing")
+        print("=" * 60)
+        preprocessor = LegalPreprocessor()
+
+        processed = {}
+        for dtype, samples in datasets.items():
+            if samples:
+                # legal-pretrain dùng cột 'doc_content', legal-news dùng cột 'text'
+                text_field = "doc_content" if dtype == "legal" else "text"
+                processed[dtype] = preprocessor.process(dtype, samples, text_field=text_field)
+
+        # Step 3: Chunking
+        print("\n" + "=" * 60)
+        print("  Step 3: Chunking")
+        print("=" * 60)
+        chunker = LegalChunker(
+            chunk_size=rag_config.get("chunk_size", 512),
+            chunk_overlap=rag_config.get("chunk_overlap", 64),
+        )
+
+        for dtype, samples in processed.items():
+            if samples:
+                chunks = chunker.chunk(samples, source_type=dtype)
+                all_chunks.extend(chunks)
+
+        print(f"[BUILD] Total chunks: {len(all_chunks)}")
+
+    if args.just_chunking and not checkpoint_path.exists():
         print("\n" + "=" * 60)
         print("  Saving Chunks Only & Exiting (--just_chunking)")
         print("=" * 60)

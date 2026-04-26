@@ -233,9 +233,22 @@ class HiIndex:
         print(f"[HiIndex] Layers: {self.num_layers}, GMM components: {self.num_gmm_components}")
 
         # Step 1: Layer 0 — Basic KG
-        print("\n[HiIndex] === Step 1: Building Layer 0 (Basic KG) ===")
-        self._build_layer_0(chunks, batch_size)
-        print(f"[HiIndex] Layer 0: {len(self.entities)} entities, {len(self.relations)} relations")
+        checkpoint_path = self.cache_dir / "kg_layer0_checkpoint.pkl"
+        if checkpoint_path.exists():
+            print("\n[HiIndex] === Step 1: Loading Layer 0 from Checkpoint ===")
+            # Tạm thời load state từ checkpoint
+            with open(checkpoint_path, "rb") as f:
+                data = pickle.load(f)
+            self.graph = data["graph"]
+            self.entities = data["entities"]
+            self.relations = data["relations"]
+            print(f"[HiIndex] Loaded {len(self.entities)} entities from checkpoint")
+        else:
+            print("\n[HiIndex] === Step 1: Building Layer 0 (Basic KG) ===")
+            self._build_layer_0(chunks, batch_size)
+            print(f"[HiIndex] Layer 0: {len(self.entities)} entities, {len(self.relations)} relations")
+            # Lưu checkpoint ngay để chống OOM
+            self.save(str(checkpoint_path))
 
         # Step 2: Compute embeddings for all entities
         print("\n[HiIndex] === Step 2: Computing entity embeddings ===")
@@ -474,6 +487,22 @@ class HiIndex:
 
         if entity_texts:
             print(f"[HiIndex] Computing embeddings for {len(entity_texts)} entities...")
+            
+            # Check if final embeddings file already exists (from a previous successful run)
+            final_emb_path = self.cache_dir / "embeddings.npy"
+            if final_emb_path.exists():
+                print(f"[HiIndex] Loading pre-computed embeddings from {final_emb_path}...")
+                embeddings = np.load(str(final_emb_path))
+                if len(embeddings) == len(entity_texts):
+                    print(f"[HiIndex] Loaded {len(embeddings)} embeddings from cache")
+                    for eid, emb in zip(entity_ids, embeddings):
+                        self.entities[eid].embedding = emb
+                        self.graph.nodes[eid]["embedding"] = emb
+                    print(f"[HiIndex] Embeddings restored successfully")
+                    return
+                else:
+                    print(f"[HiIndex] Cached embeddings size mismatch ({len(embeddings)} vs {len(entity_texts)}), recomputing...")
+
             chunk_size = 50000
             total_chunks = (len(entity_texts) + chunk_size - 1) // chunk_size
             
@@ -730,7 +759,15 @@ class HiIndex:
         for entity_id, comm_id in self._community_partition.items():
             comm_members.setdefault(comm_id, []).append(entity_id)
 
-        for comm_id, member_ids in comm_members.items():
+        # Pre-index relations by source_id for O(1) lookup
+        relations_by_source: Dict[str, List[Relation]] = {}
+        for r in self.relations:
+            relations_by_source.setdefault(r.source_id, []).append(r)
+
+        total_comms = len(comm_members)
+        for idx, (comm_id, member_ids) in enumerate(comm_members.items()):
+            member_set = set(member_ids)  # O(1) lookup instead of O(n)
+
             members = [
                 self.entities[eid] for eid in member_ids
                 if eid in self.entities
@@ -738,11 +775,12 @@ class HiIndex:
             if not members:
                 continue
 
-            # Get relations within community
-            comm_relations = [
-                r for r in self.relations
-                if r.source_id in member_ids and r.target_id in member_ids
-            ]
+            # Get relations within community — now O(members) instead of O(all_relations)
+            comm_relations = []
+            for mid in member_ids:
+                for r in relations_by_source.get(mid, []):
+                    if r.target_id in member_set:
+                        comm_relations.append(r)
 
             # Generate report
             report = self._generate_single_report(members, comm_relations)
@@ -754,6 +792,9 @@ class HiIndex:
                 "report": report,
                 "entity_types": list(set(m.entity_type for m in members)),
             })
+
+            if (idx + 1) % 50 == 0 or idx + 1 == total_comms:
+                print(f"[HiIndex] Community reports: {idx + 1}/{total_comms}")
 
         print(f"[HiIndex] Generated {len(self.communities)} community reports")
 
