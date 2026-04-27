@@ -189,6 +189,85 @@ def judge_via_api(
 
 
 # ---------------------------------------------------------------------------
+# Google Gemini API Judge
+# ---------------------------------------------------------------------------
+def judge_via_gemini(
+    question: str,
+    reference: str,
+    model_answer: str,
+    api_key: str,
+    model_name: str = "gemini-1.5-flash",
+    max_retries: int = 3,
+) -> Dict[str, Any]:
+    """Call the judge model via Google Gemini API directly using requests."""
+    import requests
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+    headers = {
+        "Content-Type": "application/json",
+    }
+
+    user_message = JUDGE_USER_TEMPLATE.format(
+        question=question,
+        reference=reference,
+        model_answer=model_answer,
+    )
+    
+    prompt = f"{JUDGE_SYSTEM_PROMPT}\n\n{user_message}"
+
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.1,
+            "responseMimeType": "application/json"
+        }
+    }
+
+    for attempt in range(max_retries):
+        try:
+            resp = requests.post(
+                url,
+                headers=headers,
+                json=payload,
+                timeout=120,
+            )
+            # Nếu gặp lỗi Rate Limit (429), chờ lâu hơn
+            if resp.status_code == 429:
+                wait_time = 10 * (attempt + 1)
+                print(f"  [RATE LIMIT] Quá tải API Google. Chờ {wait_time}s...")
+                time.sleep(wait_time)
+                continue
+                
+            resp.raise_for_status()
+            data = resp.json()
+
+            candidates = data.get("candidates", [])
+            if not candidates:
+                raise ValueError("No candidates returned from Gemini API")
+                
+            content = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+            
+            if not content:
+                raise ValueError("Empty response content from Gemini API")
+                
+            # Parse JSON from response
+            scores = parse_judge_response(content)
+            return scores
+
+        except Exception as e:
+            wait_time = 2 ** (attempt + 1)
+            print(f"  [RETRY {attempt+1}/{max_retries}] Error: {e}. "
+                  f"Waiting {wait_time}s...")
+            time.sleep(wait_time)
+
+    return {
+        "recognition": 0, "understanding": 0,
+        "reasoning": 0, "interpretation": 0, "ethics_bias": 0,
+        "rationale": f"Gemini API call failed after {max_retries} retries",
+        "error": True,
+    }
+
+# ---------------------------------------------------------------------------
 # Local judge (transformers)
 # ---------------------------------------------------------------------------
 def load_local_judge(model_name: str = "casperhansen/llama-3-70b-instruct-awq"):
@@ -384,6 +463,10 @@ def main():
         help="Use local Qwen3-32B-AWQ instead of API"
     )
     parser.add_argument(
+        "--use_gemini", action="store_true",
+        help="Use Google Gemini API instead of OpenRouter"
+    )
+    parser.add_argument(
         "--model_name", type=str, default="casperhansen/llama-3-70b-instruct-awq",
         help="Model name for local inference or API model identifier"
     )
@@ -440,6 +523,15 @@ def main():
 
     if args.use_local:
         local_model, local_tokenizer = load_local_judge(args.model_name)
+    elif args.use_gemini:
+        api_key = os.environ.get("GEMINI_API_KEY", "")
+        if not api_key:
+            print("[ERROR] GEMINI_API_KEY not set!")
+            print("  Set it via: $env:GEMINI_API_KEY=\"your-key-here\"")
+            sys.exit(1)
+        # Tự động gán tên model nếu người dùng không gõ chữ gemini trong args
+        gemini_model = args.api_model if "gemini" in args.api_model else "gemini-1.5-flash"
+        print(f"[API] Using Google Gemini API with model: {gemini_model}")
     else:
         api_key = os.environ.get("OPENROUTER_API_KEY", "")
         if not api_key:
@@ -465,6 +557,15 @@ def main():
                 model_answer=sample["model_answer"],
                 model=local_model,
                 tokenizer=local_tokenizer,
+            )
+        elif args.use_gemini:
+            gemini_model = args.api_model if "gemini" in args.api_model else "gemini-1.5-flash"
+            scores = judge_via_gemini(
+                question=sample["question"],
+                reference=sample["reference"],
+                model_answer=sample["model_answer"],
+                api_key=api_key,
+                model_name=gemini_model,
             )
         else:
             scores = judge_via_api(

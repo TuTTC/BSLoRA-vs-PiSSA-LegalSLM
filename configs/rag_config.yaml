@@ -1,0 +1,40 @@
+# =============================================================================
+# Hierarchical RAG Configuration
+# =============================================================================
+# Dùng kết hợp HiRAG (arxiv 2503.10150) + PiSSA fine-tuned model
+# Nguồn dữ liệu theo đề xuất paper top-1 VLSP2025 (Section 3.2)
+
+rag:
+  # Data sources (dual-corpus, theo paper top-1 VLSP2025 Section 3.2)
+  knowledge_bases:
+    legal_corpus: "VLSP2025-LegalSML/legal-pretrain"       # Văn bản luật gốc (codes, statutes, decrees)
+    legal_news: "VLSP2025-LegalSML/legal-pretrain-news"    # Bài báo & bình luận pháp luật
+
+  # Chunking
+  chunk_method: "legal_structure"    # "legal_structure" | "fixed_window"
+  chunk_size: 512                    # Ký tự tối đa mỗi chunk (cho news)
+  chunk_overlap: 64                  # Overlap giữa các chunks
+
+  # Embedding
+  embedding_model: "bkai-foundation-models/vietnamese-bi-encoder"  # Vietnamese bi-encoder
+  embedding_dim: 768
+
+  # Knowledge Graph (HiIndex)
+  kg_layers: 2                       # Số tầng hierarchical (paper khuyến nghị 2)
+  entity_extraction_model: "gemini"  # LLM dùng để extract entity ("gemini" | "none")
+
+  # Retrieval (HiRetrieval)
+  top_n_entities: 20                 # Số entity local truy xuất (Eq.12)
+  top_m_community_keys: 5            # Số key entities mỗi community (Eq.14)
+
+  # Generation (PiSSA model)
+  model_path: "VLSP2025-LegalSML/qwen3-4b-legal-pretrain"
+  adapter_path: "outputs/checkpoints/pissa"
+  max_new_tokens: 1024
+  temperature: 0.1
+
+# Cache paths
+paths:
+  kg_cache: "data/rag_cache/knowledge_graph.pkl"
+  embeddings_cache: "data/rag_cache/embeddings.npy"
+  community_reports: "data/rag_cache/communities.json"
