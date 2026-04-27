@@ -1,0 +1,1477 @@
+{
+  "input_file": "pissa_task3_detailed_responses_thinking.json",
+  "judge_model": "llama-3.3-70b-versatile",
+  "aggregate_scores": {
+    "num_samples": 144,
+    "num_evaluated": 144,
+    "num_errors": 0,
+    "avg_recognition": 2.59,
+    "std_recognition": 1.106,
+    "avg_understanding": 3.035,
+    "std_understanding": 0.896,
+    "avg_reasoning": 2.653,
+    "std_reasoning": 0.88,
+    "avg_interpretation": 1.799,
+    "std_interpretation": 0.654,
+    "avg_ethics_bias": 4.646,
+    "std_ethics_bias": 0.752,
+    "avg_total": 2.945
+  },
+  "per_sample_results": [
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ được một số quy định về trình tự, thủ tục gia hạn sử dụng đất nhưng chưa hiểu rõ ý định của luật và áp dụng vào ngữ cảnh một cách đầy đủ. Cấu trúc lập luận còn đơn giản và thiếu logic. Mô hình không giải thích rõ lý do tại sao ông A không được gia hạn sử dụng đất. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 0
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận còn đơn giản, thiếu giải thích sâu sắc về lý do áp dụng luật. Tuy nhiên, câu trả lời vẫn đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 1
+    },
+    {
+      "recognition": 1,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật nhưng hiểu được ý định và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Đáp án đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 2
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không đầy đủ số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic, nhưng thiếu lý giải sâu sắc về lý do áp dụng luật. Đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 3
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ được tư cách pháp nhân của Kho bạc Nhà nước khu vực 2 và cần tuân thủ quy định về lưu trữ, tiêu hủy chứng từ điện tử. Tuy nhiên, mô hình chưa hiểu rõ và áp dụng đầy đủ các quy định cụ thể về tiêu hủy chứng từ điện tử và chưa giải thích rõ lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 4
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, không giải thích rõ ràng về mức phạt, điểm bị trừ và biện pháp khắc phục hậu quả. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 5
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không hiểu đúng ý định của luật. Cấu trúc lập luận không logic và không giải thích lý do áp dụng luật. Tuy nhiên, mô hình không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 6
+    },
+    {
+      "recognition": 2,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không hiểu đúng ý định của luật, dẫn tới kết luận không chính xác về việc rút tiền tại cây ATM.",
+      "sample_id": "N/A",
+      "sample_index": 7
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số quy định nhưng không đầy đủ, hiểu được ý định của luật về nhận con nuôi nhưng chưa áp dụng logic và tiền đề một cách đầy đủ, lý giải chưa sâu sắc về lý do áp dụng luật, nhưng vẫn đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 8
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng về mẫu đơn và chức danh ký đơn, nhưng chưa đầy đủ về yêu cầu ngôn ngữ của phiếu kiểm nghiệm. Cấu trúc lập luận chưa rõ ràng và thiếu giải thích chi tiết về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 9
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình ghi nhớ một phần về quy định gia hạn thời gian kiểm tra thực tế hàng hóa, hiểu được ngữ cảnh nhưng chưa áp dụng đầy đủ các điều luật cụ thể, cấu trúc lập luận chưa rõ ràng, thiếu giải thích sâu sắc về lý do áp dụng luật và đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 10
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và áp dụng một số quy định pháp luật, nhưng không đầy đủ và chính xác như đáp án chuẩn. Cấu trúc lập luận còn hạn chế và thiếu giải thích sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 11
+    },
+    {
+      "recognition": 2,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không chính xác số hiệu văn bản pháp luật (sai từ Quyết định 06/2020/QĐ-TTg thành Nghị định 10/2018/NĐ-CP), nhưng hiểu đúng ý định của luật và áp dụng vào đúng ngữ cảnh. Cấu trúc lập luận còn thiếu logic và không giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 12
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ chính xác số hiệu điều luật, luật nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận còn hạn chế, chưa giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân rõ ràng.",
+      "sample_id": "N/A",
+      "sample_index": 13
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không áp dụng đúng vào ngữ cảnh. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 14
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ chính xác số hiệu điều luật, luật nhưng hiểu được ý định của luật. Cấu trúc lập luận chưa logic và thiếu giải thích sâu sắc. Tuy nhiên, mô hình vẫn đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 15
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ được Nghị quyết 196 và hiểu được ý định của luật, nhưng cấu trúc lập luận chưa rõ ràng và thiếu giải thích sâu sắc về nguyên tắc cân đối ngân sách nhà nước.",
+      "sample_id": "N/A",
+      "sample_index": 16
+    },
+    {
+      "recognition": 2,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng quy định về việc luật sư bị hại không bắt buộc phải có mặt, và không hiểu đúng ý định của luật về việc ghi âm, ghi hình. Tuy nhiên, mô hình không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 17
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất đúng số hiệu điều luật và thông tư, nhưng vẫn hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận còn hạn chế, nhưng vẫn đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 18
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật và luật, nhưng vẫn hiểu được ý định của luật và áp dụng vào đúng ngữ cảnh. Cấu trúc lập luận còn thiếu logic và tiền đề dẫn tới kết luận. Mô hình không lý giải sâu sắc lý do tại sao áp dụng luật đó, nhưng vẫn đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 19
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu đúng về nhiệm vụ của Cục Hải quan, nhưng chưa cung cấp thông tin chi tiết về quy trình pháp lý và lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 20
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số quy định nhưng không đầy đủ, hiểu được ý định của luật nhưng chưa áp dụng toàn diện, cấu trúc lập luận chưa logic, thiếu giải thích sâu sắc về lý do áp dụng luật, nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 21
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu đúng ý định của luật, nhưng thiếu chi tiết về các điều khoản cụ thể của Nghị định 94/2025/NĐ-CP. Cấu trúc lập luận logic nhưng không giải thích sâu sắc lý do tại sao áp dụng luật đó. Câu trả lời đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 22
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình ghi nhớ một phần số hiệu điều luật và luật nhưng không đầy đủ, hiểu được ý định của luật nhưng chưa áp dụng đúng ngữ cảnh, cấu trúc lập luận chưa logic và thiếu tiền đề dẫn tới kết luận, giải thích chưa sâu sắc và khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 23
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Câu trả lời của mô hình ghi nhớ được một số điều luật nhưng không đầy đủ, hiểu được ý định của luật nhưng không áp dụng toàn diện vào ngữ cảnh, cấu trúc lập luận còn hạn chế, thiếu giải thích sâu sắc về lý do áp dụng luật và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 24
+    },
+    {
+      "recognition": 2,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không hiểu đúng ý định của luật. Cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý. Tuy nhiên, mô hình không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 25
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình ghi nhớ được trách nhiệm của Chi cục trưởng và hậu quả của việc không thực hiện đúng, nhưng thiếu sót trong việc trích dẫn cụ thể Quyết định 966/QĐ-BTC và không giải thích rõ ràng về cơ cấu tổ chức và chức năng của Chi cục Hải quan khu vực.",
+      "sample_id": "N/A",
+      "sample_index": 26
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng mức phạt tối đa và thêm thông tin không có trong đáp án chuẩn, nhưng vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 27
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật và luật, không giải thích rõ ràng lý do áp dụng luật, nhưng vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 28
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật và luật, không hiểu đúng ý định của luật và áp dụng vào đúng ngữ cảnh, cấu trúc lập luận không logic, không lý giải sâu sắc lý do tại sao áp dụng luật đó, nhưng câu trả lời đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 29
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng về yêu cầu chữ ký của người đại diện theo pháp luật, hiểu đúng ý định của luật và áp dụng vào đúng ngữ cảnh, nhưng thiếu lý giải sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 30
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, không hiểu rõ ý định của luật và không giải thích lý do áp dụng luật. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 31
+    },
+    {
+      "recognition": 2,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, không hiểu đúng ý định của luật và không lý giải sâu sắc lý do tại sao áp dụng luật đó. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 32
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu quyết định, không giải thích rõ ràng lý do áp dụng luật, nhưng vẫn giữ được tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 33
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được ý định của luật, nhưng cấu trúc lập luận còn sơ sài và thiếu giải thích sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 34
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 3,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật (Thông tư 10/2025/TT-BTC không tồn tại), nhưng vẫn hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận còn đơn giản, thiếu tiền đề dẫn tới kết luận. Mô hình không lý giải sâu sắc lý do áp dụng luật. Tuy nhiên, câu trả lời vẫn khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 35
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được ý định của luật, nhưng chưa đầy đủ về số hiệu điều luật và chưa giải thích sâu sắc lý do áp dụng luật. Cấu trúc lập luận còn thiếu logic và tiền đề dẫn tới kết luận chưa hợp lý. Tuy nhiên, mô hình vẫn đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 36
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và áp dụng sai vào ngữ cảnh. Cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý. Tuy nhiên, câu trả lời không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 37
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ chính xác số hiệu điều luật, luật và chưa giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình đã hiểu được ý định của luật và áp dụng vào ngữ cảnh câu hỏi một phần.",
+      "sample_id": "N/A",
+      "sample_index": 38
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không chính xác số hiệu quyết định và không giải thích rõ ràng lý do tại sao việc gửi hồ sơ đến địa chỉ cũ ảnh hưởng đến quyền lợi của công dân, nhưng cấu trúc lập luận logic và không có thiên kiến.",
+      "sample_id": "N/A",
+      "sample_index": 39
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ chính xác số hiệu điều luật, luật nhưng hiểu được ý định của luật. Cấu trúc lập luận chưa rõ ràng, logic và tiền đề chưa dẫn tới kết luận cụ thể. Mô hình chưa lý giải sâu sắc lý do áp dụng luật nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 40
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không áp dụng vào đúng ngữ cảnh. Cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 41
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng số hiệu Nghị quyết nhưng không đầy đủ chi tiết, hiểu được ý định của luật nhưng không áp dụng toàn diện, cấu trúc lập luận chưa logic, thiếu giải thích sâu sắc và không có thiên kiến.",
+      "sample_id": "N/A",
+      "sample_index": 42
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được các quy định pháp luật liên quan, nhưng chưa áp dụng một cách cụ thể và chi tiết vào trường hợp cụ thể. Cấu trúc lập luận còn đơn giản và chưa giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 43
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, nhưng hiểu được ý định và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic nhưng thiếu giải thích sâu sắc về lý do áp dụng mức lương tối đa.",
+      "sample_id": "N/A",
+      "sample_index": 44
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng về việc cam kết nắm giữ cổ phần, nhưng không trích dẫn cụ thể điều luật. Mô hình hiểu ý định của luật nhưng không áp dụng đầy đủ vào ngữ cảnh. Cấu trúc lập luận logic nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Câu trả lời khách quan và không có thiên kiến.",
+      "sample_id": "N/A",
+      "sample_index": 45
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng về việc xóa bỏ thuế khoán, nhưng chưa hiểu rõ về quyền và nghĩa vụ chuyển đổi mô hình kinh doanh, cũng như chưa giải thích sâu sắc về lý do áp dụng quy định mới.",
+      "sample_id": "N/A",
+      "sample_index": 46
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ được các văn bản pháp luật liên quan nhưng chưa áp dụng chi tiết vào tình huống cụ thể, thiếu phân tích sâu về tiêu chí đánh giá và phương pháp phân loại cảng biển.",
+      "sample_id": "N/A",
+      "sample_index": 47
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một phần về yêu cầu hồ sơ đầy đủ nhưng không trích dẫn cụ thể luật, hiểu được ý định của luật về hồ sơ đầy đủ nhưng không áp dụng đúng ngữ cảnh, cấu trúc lập luận chưa logic và thiếu tiền đề dẫn tới kết luận, không lý giải sâu sắc về lý do áp dụng luật, nhưng câu trả lời khách quan và không thiên kiến.",
+      "sample_id": "N/A",
+      "sample_index": 48
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình đã ghi nhớ và áp dụng đúng các điều kiện pháp lý cần thiết, nhưng chưa giải thích sâu sắc lý do tại sao việc thiếu văn bản chấp thuận của Bộ Quốc phòng và UBND cấp tỉnh lại quan trọng.",
+      "sample_id": "N/A",
+      "sample_index": 49
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 1,
+      "rationale": "Mô hình không trích xuất đúng quy định về thời gian giao dịch chứng khoán, không hiểu đúng ý định của luật và áp dụng sai vào ngữ cảnh, cấu trúc lập luận không logic, không lý giải được lý do áp dụng luật và có thiên kiến khi cho rằng khách hàng A có thể giao dịch vào ngày thứ Bảy.",
+      "sample_id": "N/A",
+      "sample_index": 50
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật nhưng hiểu được ý định của luật. Cấu trúc lập luận còn hạn chế, không giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 51
+    },
+    {
+      "recognition": 2,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng quy định của Thông tư 200/2014/TT-BTC, không hiểu đúng ý định của luật và áp dụng vào đúng ngữ cảnh, cấu trúc lập luận không logic, không lý giải sâu sắc lý do tại sao áp dụng luật đó, nhưng câu trả lời không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 52
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật (tham chiếu sai Thông tư 10/2015/TT-BCT thay vì Luật Hải quan 2014), nhưng vẫn hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận chưa logic và không giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, câu trả lời vẫn khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 53
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình đã ghi nhớ và áp dụng đúng quy định về chức năng của Kho bạc Nhà nước khu vực, nhưng chưa cung cấp chi tiết đầy đủ về quy trình thủ tục và thiếu trích dẫn cụ thể từ các điều luật.",
+      "sample_id": "N/A",
+      "sample_index": 54
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu đúng quy định của Thông tư 61/2024/TT-NHNN, nhưng cấu trúc lập luận còn đơn giản và thiếu giải thích sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 55
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Câu trả lời của mô hình không liên quan đến câu hỏi, không trích xuất đúng số hiệu điều luật, luật và không giải thích được lý do áp dụng luật đó.",
+      "sample_id": "N/A",
+      "sample_index": 56
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và áp dụng đúng quy định về tổ chức tín dụng, nhưng thiếu chi tiết về các điều kiện cụ thể và không giải thích sâu sắc lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 57
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng số hiệu điều luật nhưng chưa trích xuất đầy đủ các điều kiện, hiểu ý định của luật nhưng chưa áp dụng vào ngữ cảnh một cách đầy đủ, cấu trúc lập luận chưa logic và chưa lý giải sâu sắc lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 58
+    },
+    {
+      "recognition": 3,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ đúng số hiệu điều luật, luật; chưa hiểu đúng ý định của luật và áp dụng vào đúng ngữ cảnh; cấu trúc lập luận chưa logic và tiền đề dẫn tới kết luận chưa hợp lý; chưa lý giải sâu sắc lý do tại sao áp dụng luật đó; tuy nhiên, câu trả lời đảm bảo tính khách quan, không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 59
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật nhưng hiểu được ý định của luật. Cấu trúc lập luận chưa logic và thiếu tiền đề dẫn tới kết luận. Mô hình không giải thích sâu sắc lý do áp dụng luật và có thiên kiến nhẹ về quyền của đạo diễn và biên kịch.",
+      "sample_id": "N/A",
+      "sample_index": 60
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không áp dụng đúng vào ngữ cảnh. Cấu trúc lập luận không rõ ràng và không giải thích lý do áp dụng luật. Tuy nhiên, mô hình không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 61
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận còn sơ sài, nhưng không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 62
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không đầy đủ các quy định pháp luật cụ thể, nhưng hiểu được ý định và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic, nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Câu trả lời đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 63
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, nhưng hiểu được ý định của luật về thanh toán không dùng tiền mặt và thời điểm xác nhận doanh thu. Tuy nhiên, mô hình không giải thích sâu sắc lý do tại sao áp dụng luật đó và không cung cấp thông tin đầy đủ về các điều kiện để được trừ khoản chi.",
+      "sample_id": "N/A",
+      "sample_index": 64
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không chính xác số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Mô hình đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 65
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và áp dụng đúng quy định về thu hồi và điều chuyển tài sản công, nhưng chưa chỉ rõ số hiệu điều luật cụ thể và chưa giải thích sâu sắc lý do áp dụng.",
+      "sample_id": "N/A",
+      "sample_index": 66
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình có hiểu ý định của luật và áp dụng vào ngữ cảnh câu hỏi, nhưng cấu trúc lập luận còn hạn chế.",
+      "sample_id": "N/A",
+      "sample_index": 67
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật nhưng vẫn hiểu được ý định của luật. Cấu trúc lập luận còn sơ sài, thiếu tiền đề dẫn tới kết luận. Mô hình không giải thích lý do tại sao không được phép xây dựng nhà ở tạm trên đất nông nghiệp.",
+      "sample_id": "N/A",
+      "sample_index": 68
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 1,
+      "rationale": "Câu trả lời của mô hình không liên quan đến câu hỏi, không trích dẫn đúng luật và không có lập luận logic.",
+      "sample_id": "N/A",
+      "sample_index": 69
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 1,
+      "rationale": "Câu trả lời của mô hình không liên quan đến câu hỏi, không trích dẫn đúng luật và không có lập luận logic.",
+      "sample_id": "N/A",
+      "sample_index": 70
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và áp dụng đúng quy định về hợp đồng vận chuyển hàng hóa, nhưng thiếu sót về việc trích dẫn cụ thể số hiệu điều luật và không giải thích sâu sắc lý do tại sao hợp đồng và phương tiện vận tải không hợp pháp.",
+      "sample_id": "N/A",
+      "sample_index": 71
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số quy định pháp luật nhưng không cụ thể hóa được các điều luật liên quan. Mô hình hiểu được ngữ cảnh nhưng không áp dụng đầy đủ các quy định pháp luật vào trường hợp cụ thể. Cấu trúc lập luận của mô hình khá logic nhưng thiếu sự giải thích sâu sắc về lý do áp dụng luật. Mô hình không có thiên kiến cá nhân và đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 72
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Câu trả lời của mô hình chưa trích xuất và ghi nhớ chính xác số hiệu điều luật, luật nhưng có hiểu ý định của luật. Cấu trúc lập luận chưa logic và tiền đề chưa dẫn tới kết luận hợp lý. Tuy nhiên, câu trả lời vẫn đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 73
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ sai số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic nhưng không giải thích sâu sắc lý do áp dụng luật. Câu trả lời khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 74
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được ý định của luật, nhưng cấu trúc lập luận chưa rõ ràng và thiếu giải thích sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 75
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất và ghi nhớ chính xác số hiệu điều luật, luật; không hiểu đúng ý định của luật và áp dụng vào đúng ngữ cảnh; cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý; không lý giải sâu sắc lý do tại sao áp dụng luật đó; tuy nhiên, câu trả lời đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 76
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Câu trả lời của mô hình không chính xác, không trích xuất đúng số hiệu điều luật, luật và không áp dụng vào đúng ngữ cảnh. Tuy nhiên, câu trả lời không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 77
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ được một số quy định nhưng không đầy đủ, hiểu được ý định của luật nhưng không áp dụng chi tiết, cấu trúc lập luận đơn giản, thiếu lý giải sâu sắc về lý do áp dụng luật, nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 78
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng số hiệu Nghị định nhưng không trích dẫn đầy đủ, hiểu được ý định của luật nhưng không áp dụng vào ngữ cảnh một cách đầy đủ, cấu trúc lập luận logic nhưng thiếu giải thích sâu sắc về lý do áp dụng luật, và đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 79
+    },
+    {
+      "recognition": 2,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng quy định pháp luật về quyết định thi hành án, không hiểu đúng ý định của luật và áp dụng vào ngữ cảnh không chính xác, nhưng vẫn giữ được tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 80
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng về yêu cầu hồ sơ dự án, nhưng chưa hiểu sâu sắc về quy trình thẩm định và hậu quả pháp lý cụ thể. Cấu trúc lập luận logic nhưng thiếu giải thích chi tiết. Câu trả lời khách quan và không có thiên kiến.",
+      "sample_id": "N/A",
+      "sample_index": 81
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không đầy đủ số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic, nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 82
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ đúng, chính xác số hiệu điều luật, luật. Mô hình hiểu một phần ý định của luật nhưng chưa áp dụng đúng vào ngữ cảnh. Cấu trúc lập luận chưa logic và tiền đề chưa dẫn tới kết luận hợp lý. Mô hình chưa lý giải sâu sắc lý do tại sao áp dụng luật đó. Câu trả lời đảm bảo tính khách quan, không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 83
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không đầy đủ các điều luật cụ thể, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic, nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 84
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không đầy đủ số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic, nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Câu trả lời đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 85
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được ý định của luật nhưng chưa giải thích sâu sắc lý do áp dụng luật và cấu trúc lập luận chưa logic.",
+      "sample_id": "N/A",
+      "sample_index": 86
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng về thời hạn làm việc của người lao động cao tuổi, hiểu được ý định của luật và áp dụng vào ngữ cảnh. Tuy nhiên, mô hình không cung cấp đầy đủ thông tin về điều kiện sử dụng người lao động cao tuổi và hậu quả pháp lý cụ thể.",
+      "sample_id": "N/A",
+      "sample_index": 87
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một phần quy định nhưng không đầy đủ, hiểu được ý định của luật nhưng không áp dụng chính xác vào ngữ cảnh, cấu trúc lập luận không rõ ràng, thiếu giải thích sâu sắc về lý do áp dụng luật, nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 88
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình có thể ghi nhớ một số nguyên tắc chung về thu hồi đất và bồi thường, nhưng không trích dẫn cụ thể số hiệu điều luật. Mô hình cũng không giải thích sâu sắc lý do áp dụng luật và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 89
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ chính xác số hiệu điều luật, luật và chưa hiểu đúng ý định của luật. Cấu trúc lập luận chưa logic và tiền đề chưa dẫn tới kết luận hợp lý. Tuy nhiên, mô hình vẫn đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 90
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, không giải thích rõ ràng lý do áp dụng luật nhưng vẫn giữ được tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 91
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất và ghi nhớ chính xác số hiệu điều luật, luật và không áp dụng đúng ngữ cảnh. Cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý. Tuy nhiên, mô hình không có thiên kiến cá nhân rõ ràng.",
+      "sample_id": "N/A",
+      "sample_index": 92
+    },
+    {
+      "recognition": 2,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không hiểu đúng ý định của luật, cấu trúc lập luận không logic, không lý giải sâu sắc lý do áp dụng luật, nhưng vẫn đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 93
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được ý định của luật, nhưng cấu trúc lập luận còn đơn giản và thiếu giải thích sâu sắc về hậu quả pháp lý và chính trị.",
+      "sample_id": "N/A",
+      "sample_index": 94
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình ghi nhớ đúng về đối tượng được phép sử dụng Sổ sức khoẻ điện tử, nhưng chưa hiểu sâu sắc về ý định của luật và chưa giải thích rõ lý do áp dụng luật. Cấu trúc lập luận còn đơn giản và chưa đề cập đến việc tuân thủ quy tắc đạo đức nghề nghiệp và chính sách của Nhà nước.",
+      "sample_id": "N/A",
+      "sample_index": 95
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất chính xác số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận còn hạn chế, thiếu logic và tiền đề dẫn tới kết luận. Mô hình cũng không lý giải sâu sắc lý do áp dụng luật, nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 96
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình ghi nhớ được một số điều luật nhưng chưa đầy đủ, hiểu được ý định của luật nhưng chưa áp dụng đúng ngữ cảnh, cấu trúc lập luận chưa logic và thiếu giải thích sâu sắc về lý do áp dụng luật, đảm bảo tính khách quan nhưng chưa tránh được thiên kiến về quy trình truy đuổi.",
+      "sample_id": "N/A",
+      "sample_index": 97
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng địa bàn quản lý mới (Quảng Trị thay vì tỉnh mới không xác định), nhưng vẫn hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận còn hạn chế và thiếu logic. Mô hình không giải thích sâu sắc lý do áp dụng luật, nhưng vẫn đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 98
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số điều luật nhưng không đầy đủ, hiểu được ý định của luật và áp dụng vào ngữ cảnh, có cấu trúc lập luận logic, nhưng lý giải chưa sâu sắc và đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 99
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được ý định của luật, nhưng cấu trúc lập luận chưa rõ ràng và thiếu giải thích sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 100
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ được các quy định về hồ sơ đăng ký đất đai lần đầu, hiểu được ý định của luật và áp dụng vào ngữ cảnh. Tuy nhiên, mô hình chưa giải thích sâu sắc lý do tại sao áp dụng luật đó và cấu trúc lập luận còn thiếu logic.",
+      "sample_id": "N/A",
+      "sample_index": 101
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ được một số điều luật nhưng không áp dụng chính xác vào ngữ cảnh, cấu trúc lập luận không logic và thiếu giải thích sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 102
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất và ghi nhớ đúng số hiệu điều luật, luật. Mô hình hiểu ý định của luật nhưng không áp dụng vào đúng ngữ cảnh. Cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý. Mô hình không lý giải sâu sắc lý do tại sao áp dụng luật đó. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 103
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số quy định nhưng không đầy đủ, hiểu được ngữ cảnh nhưng không áp dụng luật một cách chi tiết, cấu trúc lập luận còn hạn chế, thiếu giải thích sâu sắc về lý do áp dụng luật, nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 104
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không đầy đủ số hiệu điều luật, nhưng hiểu đúng ý định và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic, nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Đáp án đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 105
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không áp dụng vào đúng ngữ cảnh. Cấu trúc lập luận không logic và không giải thích lý do áp dụng luật. Tuy nhiên, mô hình không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 106
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được vai trò của Chi cục trưởng, nhưng chưa trích dẫn cụ thể số hiệu điều luật và chưa giải thích sâu sắc về lý do áp dụng luật. Cấu trúc lập luận còn đơn giản và chưa có giải thích rõ ràng về việc đảm bảo tuân thủ pháp luật.",
+      "sample_id": "N/A",
+      "sample_index": 107
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Câu trả lời của mô hình không liên quan đến câu hỏi, không trích dẫn đúng điều luật và không giải thích rõ ràng về vấn đề bảo lưu thời gian đóng BHXH và mức đóng BHXH tối đa.",
+      "sample_id": "N/A",
+      "sample_index": 108
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình ghi nhớ một phần về quy trình xác nhận OTP/VNeID nhưng không đầy đủ về thủ tục cấp thẻ căn cước, hiểu được ý định của việc xác nhận OTP/VNeID nhưng chưa áp dụng đúng ngữ cảnh, cấu trúc lập luận logic nhưng chưa đầy đủ, lý giải chưa sâu sắc về lý do áp dụng luật, đảm bảo tính khách quan nhưng chưa đầy đủ về quyền và nghĩa vụ của ông A.",
+      "sample_id": "N/A",
+      "sample_index": 109
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ không chính xác số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận logic nhưng thiếu giải thích sâu sắc về lý do áp dụng luật. Câu trả lời đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 110
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ chính xác số hiệu điều luật, luật nhưng hiểu được ý định của luật. Cấu trúc lập luận chưa rõ ràng, logic và tiền đề chưa dẫn tới kết luận cụ thể. Mô hình chưa lý giải sâu sắc lý do áp dụng luật nhưng vẫn đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 111
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Câu trả lời của mô hình không trích xuất và ghi nhớ đúng số hiệu điều luật, luật. Mô hình hiểu ý định của luật nhưng không áp dụng vào đúng ngữ cảnh. Cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý. Mô hình không lý giải sâu sắc lý do áp dụng luật. Tuy nhiên, câu trả lời đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 112
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng quy định về hòa giải tranh chấp thừa kế đất đai, nhưng hiểu được ý định của luật về quyền khởi kiện và tuân thủ quy trình. Cấu trúc lập luận còn hạn chế và không giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 113
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất và ghi nhớ chính xác số hiệu điều luật, luật nhưng hiểu được ý định của luật. Cấu trúc lập luận còn sơ sài, không giải thích sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 114
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không hiểu đúng ý định của luật. Cấu trúc lập luận không logic và không lý giải sâu sắc lý do áp dụng luật. Tuy nhiên, mô hình không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 115
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không áp dụng đúng ngữ cảnh. Cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý. Tuy nhiên, mô hình không thể hiện thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 116
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ đúng số hiệu điều luật, nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận chưa logic và tiền đề chưa dẫn tới kết luận hợp lý. Mô hình chưa lý giải sâu sắc lý do áp dụng luật, nhưng câu trả lời đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 117
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số điều luật nhưng không đầy đủ, hiểu được ý định của luật và áp dụng vào ngữ cảnh, cấu trúc lập luận còn hạn chế, thiếu giải thích sâu sắc về lý do áp dụng luật, nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 118
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số quy định nhưng không đầy đủ, hiểu được ý định của luật và áp dụng vào ngữ cảnh, cấu trúc lập luận còn hạn chế, thiếu giải thích sâu sắc về lý do áp dụng luật, nhưng đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 119
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được quy định của Thông tư 12/2025/TT-BYT, nhưng cấu trúc lập luận còn đơn giản và thiếu giải thích chi tiết về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 120
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số quy định của Luật Bảo hiểm xã hội 2024 nhưng chưa hiểu sâu sắc ý định của luật và áp dụng vào ngữ cảnh cụ thể. Cấu trúc lập luận còn hạn chế và chưa lý giải rõ ràng lý do áp dụng luật. Tuy nhiên, mô hình không thể hiện thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 121
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được ý định của luật về ly hôn và bạo lực gia đình, nhưng cấu trúc lập luận còn sơ sài và thiếu giải thích sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 122
+    },
+    {
+      "recognition": 5,
+      "understanding": 5,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và áp dụng đúng quy định của Luật Kinh doanh bất động sản 2023, nhưng cấu trúc lập luận không đầy đủ như đáp án chuẩn và thiếu lý giải sâu sắc về việc vi phạm nghĩa vụ.",
+      "sample_id": "N/A",
+      "sample_index": 123
+    },
+    {
+      "recognition": 4,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình ghi nhớ một số điều kiện tổ chức lại quỹ tín dụng nhân dân nhưng không đầy đủ, hiểu ý định của luật nhưng không áp dụng chính xác vào ngữ cảnh, cấu trúc lập luận không logic, lý giải không sâu sắc và có thiên kiến nhẹ về việc chấp thuận tổ chức lại.",
+      "sample_id": "N/A",
+      "sample_index": 124
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được ý định của luật nhưng chưa giải thích sâu sắc lý do áp dụng luật và cấu trúc lập luận chưa rõ ràng.",
+      "sample_id": "N/A",
+      "sample_index": 125
+    },
+    {
+      "recognition": 3,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số điều luật nhưng không cụ thể, hiểu được ý định của luật nhưng không áp dụng đầy đủ vào ngữ cảnh, cấu trúc lập luận chưa rõ ràng, thiếu giải thích sâu sắc về lý do áp dụng luật, nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 126
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được các quy định pháp luật liên quan, nhưng chưa áp dụng một cách chính xác và logic trong việc xác định giá trị tang vật và ra quyết định xử phạt. Mô hình cũng chưa giải thích rõ ràng lý do tại sao người có thẩm quyền không ra quyết định xử phạt trong trường hợp này.",
+      "sample_id": "N/A",
+      "sample_index": 127
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và áp dụng đúng các quy định pháp luật về chứng từ kế toán, tuy nhiên còn hạn chế trong việc giải thích sâu sắc và đưa ra lập luận logic.",
+      "sample_id": "N/A",
+      "sample_index": 128
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng quy định pháp luật về đăng ký hộ kinh doanh, không hiểu đúng ý định của luật và áp dụng vào đúng ngữ cảnh, cấu trúc lập luận không logic và tiền đề dẫn tới kết luận không hợp lý, không lý giải sâu sắc lý do tại sao áp dụng luật đó. Tuy nhiên, mô hình không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 129
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng quy định về giá trị tài sản ròng tối thiểu, nhưng vẫn đưa ra kết luận hợp lý về việc không được phép chi trả lợi tức. Tuy nhiên, lý do và cơ sở pháp lý không chính xác.",
+      "sample_id": "N/A",
+      "sample_index": 130
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất và ghi nhớ chính xác số hiệu điều luật, luật nhưng hiểu được ý định của luật và áp dụng vào ngữ cảnh. Cấu trúc lập luận chưa logic và thiếu tiền đề dẫn tới kết luận. Mô hình không lý giải sâu sắc lý do áp dụng luật đó nhưng đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 131
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 1,
+      "rationale": "Câu trả lời của mô hình không chính xác, không trích xuất đúng số hiệu điều luật, luật và không áp dụng vào đúng ngữ cảnh trong câu hỏi. Câu trả lời cũng không có cấu trúc lập luận logic và không giải thích rõ ràng lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 132
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 4,
+      "rationale": "Mô hình chưa trích xuất và ghi nhớ chính xác số hiệu điều luật, luật nhưng có hiểu ý định của luật. Cấu trúc lập luận chưa logic và thiếu giải thích sâu sắc. Tuy nhiên, mô hình vẫn đảm bảo tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 133
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật nhưng vẫn hiểu được ý định của luật. Cấu trúc lập luận còn sơ sài, thiếu tiền đề dẫn tới kết luận. Mô hình không lý giải sâu sắc lý do áp dụng luật, nhưng vẫn đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 134
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ đúng số hiệu điều luật, hiểu ý định của luật và áp dụng vào đúng ngữ cảnh, nhưng thiếu lý giải sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 135
+    },
+    {
+      "recognition": 2,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và áp dụng không chính xác vào ngữ cảnh. Cấu trúc lập luận không logic và tiền đề không dẫn tới kết luận hợp lý. Tuy nhiên, mô hình vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 136
+    },
+    {
+      "recognition": 1,
+      "understanding": 1,
+      "reasoning": 1,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Câu trả lời của mô hình không chính xác, không trích xuất đúng số hiệu điều luật và không áp dụng vào ngữ cảnh câu hỏi. Tuy nhiên, mô hình không thể hiện thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 137
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 3,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và hiểu được các quy định cơ bản về báo cáo và xử lý vi phạm, nhưng cấu trúc lập luận còn sơ sài và thiếu giải thích sâu sắc về lý do áp dụng luật.",
+      "sample_id": "N/A",
+      "sample_index": 138
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình ghi nhớ không chính xác về điều kiện nghĩa vụ chăm sóc, nuôi dưỡng cha mẹ; hiểu chưa đầy đủ về ý định của luật; cấu trúc lập luận chưa logic; lý giải chưa sâu sắc về lý do áp dụng luật; nhưng vẫn đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 139
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 4,
+      "interpretation": 2,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ một số điều kiện nhưng không đầy đủ, hiểu được ý định của luật nhưng không áp dụng cụ thể, lập luận logic nhưng thiếu chi tiết, giải thích chưa sâu sắc, và đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 140
+    },
+    {
+      "recognition": 2,
+      "understanding": 3,
+      "reasoning": 2,
+      "interpretation": 2,
+      "ethics_bias": 4,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không giải thích rõ ràng về việc công chứng, chứng thực văn bản cho ở nhờ. Tuy nhiên, mô hình vẫn hiểu được ý định của luật về đăng ký tạm trú và đảm bảo tính khách quan.",
+      "sample_id": "N/A",
+      "sample_index": 141
+    },
+    {
+      "recognition": 4,
+      "understanding": 4,
+      "reasoning": 4,
+      "interpretation": 3,
+      "ethics_bias": 5,
+      "rationale": "Mô hình ghi nhớ và áp dụng đúng quy định của Nghị định 60/2021/NĐ-CP, nhưng thiếu chi tiết về điều luật cụ thể và lý giải sâu sắc về lý do áp dụng.",
+      "sample_id": "N/A",
+      "sample_index": 142
+    },
+    {
+      "recognition": 1,
+      "understanding": 2,
+      "reasoning": 2,
+      "interpretation": 1,
+      "ethics_bias": 5,
+      "rationale": "Mô hình không trích xuất đúng số hiệu điều luật, luật và không giải thích rõ ràng lý do tại sao ông A không được cấp Giấy chứng nhận quyền sử dụng đất, nhưng vẫn giữ được tính khách quan và không có thiên kiến cá nhân.",
+      "sample_id": "N/A",
+      "sample_index": 143
+    }
+  ]
+}
+
+============================================================
+  EVALUATION RESULTS
+============================================================
+  Samples evaluated: 144/144
+  Errors:            0
+────────────────────────────────────────────────────────────
+  Recognition (L1):  2.59 ± 1.11
+  Understanding(L2): 3.04 ± 0.90
+  Reasoning (L3):    2.65 ± 0.88
+  Interpretation(L4):1.80 ± 0.65
+  Ethics/Bias (L5):  4.65 ± 0.75
+────────────────────────────────────────────────────────────
+  AVERAGE TOTAL:     2.94
+============================================================
