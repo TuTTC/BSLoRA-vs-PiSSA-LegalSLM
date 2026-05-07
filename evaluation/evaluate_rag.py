@@ -93,6 +93,7 @@ def main():
         help="Evaluation mode"
     )
     parser.add_argument("--test_data", type=str, default="data/processed/test.json")
+    parser.add_argument("--task_type", type=str, default=None, choices=["task1", "task2", "task3"], help="Chỉ định task cụ thể (VD: task3)")
     parser.add_argument("--max_samples", type=int, default=None)
     parser.add_argument("--output", type=str, default="outputs/results/rag_comparison.json")
     args = parser.parse_args()
@@ -100,6 +101,12 @@ def main():
     # Load test data
     print("[EVAL] Loading test data...")
     test_data = load_test_data(args.test_data)
+    
+    # Filter by task_type if specified
+    if args.task_type:
+        test_data = [d for d in test_data if d.get("task_type") == args.task_type]
+        print(f"[EVAL] Filtered for task_type: {args.task_type}")
+
     if args.max_samples:
         test_data = test_data[:args.max_samples]
     print(f"[EVAL] Test samples: {len(test_data)}")
@@ -143,6 +150,27 @@ def main():
                 print(f"  {k}: {v:.4f}")
             else:
                 print(f"  {k}: {v}")
+
+        # Save detailed predictions for LLM Judge
+        detailed_list = []
+        for pred, gold in zip(predictions, test_data):
+            detailed_list.append({
+                "id": gold.get("id", "N/A"),
+                "task_type": gold.get("task_type", "task3"),
+                "question": gold.get("user", gold.get("instruction", "")),
+                "reference": gold.get("output", gold.get("assistant", "")),
+                "model_answer": pred.get("answer", ""),
+                "context_used": pred.get("context", "")
+            })
+            
+        detailed_output_path = os.path.join(
+            os.path.dirname(args.output), 
+            f"detailed_responses_{mode}.json"
+        )
+        os.makedirs(os.path.dirname(detailed_output_path), exist_ok=True)
+        with open(detailed_output_path, "w", encoding="utf-8") as f:
+            json.dump(detailed_list, f, ensure_ascii=False, indent=2)
+        print(f"  -> Saved detailed responses to: {detailed_output_path}")
 
     # Comparison
     if len(results) == 2:
