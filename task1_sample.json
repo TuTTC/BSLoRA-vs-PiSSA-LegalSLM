@@ -1,0 +1,10 @@
+{
+  "system": "Bạn là một chuyên gia pháp luật Việt Nam. Nhiệm vụ của bạn là xác định xem một điều luật có thể được sử dụng để trả lời câu hỏi pháp lý cụ thể hay không.",
+  "user": "Điều luật: Theo Kết luận 83-KL/TW năm 2024 có nêu sau năm 2026 khi Bộ Chính trị ban hành và triển khai thực hiện hệ thống Danh mục vị trí việc làm trong hệ thống chính trị, Trung ương sẽ xem xét cải cách tiền lương đối với 5 bảng lương mới và 9 khoản phụ cấp đối với cán bộ, công chức, viên chức và lực lượng vũ trang trên tinh thần theo Nghị quyết 27-NQ/TW năm 2018.\nCâu hỏi: Khi nào sẽ có 5 bảng lương mới theo cải cách tiền lương theo Nghị quyết 27?\nĐiều luật được cung cấp có thể dùng để trả lời câu hỏi trên hay không?",
+  "assistant": "Có",
+  "task_type": "task1",
+  "text": "<|im_start|>system\nBạn là một chuyên gia pháp luật Việt Nam. Nhiệm vụ của bạn là xác định xem một điều luật có thể được sử dụng để trả lời câu hỏi pháp lý cụ thể hay không.<|im_end|>\n<|im_start|>user\nĐiều luật: Theo Kết luận 83-KL/TW năm 2024 có nêu sau năm 2026 khi Bộ Chính trị ban hành và triển khai thực hiện hệ thống Danh mục vị trí việc làm trong hệ thống chính trị, Trung ương sẽ xem xét cải cách tiền lương đối với 5 bảng lương mới và 9 khoản phụ cấp đối với cán bộ, công chức, viên chức và lực lượng vũ trang trên tinh thần theo Nghị quyết 27-NQ/TW năm 2018.\nCâu hỏi: Khi nào sẽ có 5 bảng lương mới theo cải cách tiền lương theo Nghị quyết 27?\nĐiều luật được cung cấp có thể dùng để trả lời câu hỏi trên hay không?<|im_end|>\n<|im_start|>assistant\nCó<|im_end|>",
+  "instruction": "Điều luật: Theo Kết luận 83-KL/TW năm 2024 có nêu sau năm 2026 khi Bộ Chính trị ban hành và triển khai thực hiện hệ thống Danh mục vị trí việc làm trong hệ thống chính trị, Trung ương sẽ xem xét cải cách tiền lương đối với 5 bảng lương mới và 9 khoản phụ cấp đối với cán bộ, công chức, viên chức và lực lượng vũ trang trên tinh thần theo Nghị quyết 27-NQ/TW năm 2018.\nCâu hỏi: Khi nào sẽ có 5 bảng lương mới theo cải cách tiền lương theo Nghị quyết 27?\nĐiều luật được cung cấp có thể dùng để trả lời câu hỏi trên hay không?",
+  "input": "",
+  "output": "Có"
+}

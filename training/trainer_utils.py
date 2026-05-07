@@ -146,6 +146,10 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
     method = peft_cfg.get("method", "lora").lower()
     init_lora_weights = peft_cfg.get("init_lora_weights", True)
 
+    if method == "none":
+        print("[PEFT] Method 'none' specified -> Using Base Model without adapters.")
+        return model
+
     if method == "fft":
         print("[PEFT] Bypassing PEFT -> Full Fine-Tuning (FFT) Mode Enabled")
         # Ensure all parameters are trainable for FFT

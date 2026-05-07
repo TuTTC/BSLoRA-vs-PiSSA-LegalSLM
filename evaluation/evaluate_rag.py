@@ -134,7 +134,58 @@ def main():
         use_rag = (mode == "rag")
         start_time = time.time()
 
-        predictions = pipeline.answer_batch(queries, use_rag=use_rag)
+        # Thay vì answer_batch() nạp toàn bộ vào RAM, ta chạy vòng lặp để có thể Resume và Save liên tục
+        predictions = []
+        detailed_list = []
+        detailed_output_path = os.path.join(
+            os.path.dirname(args.output), 
+            f"detailed_responses_{mode}.json"
+        )
+        os.makedirs(os.path.dirname(detailed_output_path), exist_ok=True)
+        
+        start_idx = 0
+        if os.path.exists(detailed_output_path):
+            with open(detailed_output_path, "r", encoding="utf-8") as f:
+                try:
+                    detailed_list = json.load(f)
+                    start_idx = len(detailed_list)
+                    print(f"[RESUME] Found {start_idx} existing responses in {detailed_output_path}")
+                    for item in detailed_list:
+                        predictions.append({
+                            "answer": item.get("model_answer", ""),
+                            "context": item.get("context_used", ""),
+                            "task_type": item.get("task_type", "task3")
+                        })
+                except json.JSONDecodeError:
+                    print(f"[WARNING] Could not parse {detailed_output_path}. Starting fresh.")
+                    detailed_list = []
+                    start_idx = 0
+
+        for i in range(start_idx, len(queries)):
+            q = queries[i]
+            gold = test_data[i]
+            
+            result = pipeline.answer(
+                query=q["query"],
+                task_type=q.get("task_type", "task3"),
+                use_rag=use_rag,
+            )
+            predictions.append(result)
+
+            detailed_list.append({
+                "id": gold.get("id", "N/A"),
+                "task_type": gold.get("task_type", "task3"),
+                "question": gold.get("user", gold.get("instruction", "")),
+                "reference": gold.get("output", gold.get("assistant", "")),
+                "model_answer": result.get("answer", ""),
+                "context_used": result.get("context", "")
+            })
+            
+            # Save checkpoint liên tục mỗi 2 câu (phòng hờ bị ngắt ngang)
+            if (i + 1) % 2 == 0 or (i + 1) == len(queries):
+                print(f"[EVAL] Processed {i + 1}/{len(queries)} queries")
+                with open(detailed_output_path, "w", encoding="utf-8") as f:
+                    json.dump(detailed_list, f, ensure_ascii=False, indent=2)
 
         elapsed = time.time() - start_time
 
@@ -151,25 +202,6 @@ def main():
             else:
                 print(f"  {k}: {v}")
 
-        # Save detailed predictions for LLM Judge
-        detailed_list = []
-        for pred, gold in zip(predictions, test_data):
-            detailed_list.append({
-                "id": gold.get("id", "N/A"),
-                "task_type": gold.get("task_type", "task3"),
-                "question": gold.get("user", gold.get("instruction", "")),
-                "reference": gold.get("output", gold.get("assistant", "")),
-                "model_answer": pred.get("answer", ""),
-                "context_used": pred.get("context", "")
-            })
-            
-        detailed_output_path = os.path.join(
-            os.path.dirname(args.output), 
-            f"detailed_responses_{mode}.json"
-        )
-        os.makedirs(os.path.dirname(detailed_output_path), exist_ok=True)
-        with open(detailed_output_path, "w", encoding="utf-8") as f:
-            json.dump(detailed_list, f, ensure_ascii=False, indent=2)
         print(f"  -> Saved detailed responses to: {detailed_output_path}")
 
     # Comparison
