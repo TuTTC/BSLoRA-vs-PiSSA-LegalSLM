@@ -13,6 +13,7 @@ Usage:
 import os
 import sys
 import json
+import torch
 import argparse
 from tqdm import tqdm
 
@@ -176,11 +177,15 @@ def main():
     detailed_results = []
 
     print(f"[EVAL] Generating {len(test_data)} responses...")
-    for sample in tqdm(test_data, desc="Inference"):
+    pbar = tqdm(test_data, desc="Inference")
+    for i, sample in enumerate(pbar):
         sample_task = sample.get("task_type", task_type or "task3")
         system_prompt = sample.get("system", SYSTEM_PROMPTS.get(sample_task, SYSTEM_PROMPTS["task3"]))
         user_input = sample.get("user", sample.get("instruction", ""))
         reference = sample.get("assistant", sample.get("output", ""))
+
+        # Cập nhật thông báo tiến trình
+        pbar.set_postfix({"id": sample.get("id", "N/A"), "vram": f"{torch.cuda.memory_allocated()/1024**3:.2f}GB"})
 
         response = generate_response(
             model, tokenizer,
