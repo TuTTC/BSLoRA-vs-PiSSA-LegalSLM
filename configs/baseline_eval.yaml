@@ -1,0 +1,11 @@
+peft:
+  method: "none"
+  r: 0
+  lora_alpha: 0
+  target_modules: []
+  lora_dropout: 0
+  bias: "none"
+  use_gradient_checkpointing: true
+
+training:
+  seed: 42

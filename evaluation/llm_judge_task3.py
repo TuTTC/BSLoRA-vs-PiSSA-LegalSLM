@@ -1,15 +1,15 @@
 """
 LLM-as-a-Judge Evaluation for Task 3 (Syllogism Questions)
 ============================================================
-Sử dụng Qwen3-32B-AWQ làm "giám khảo" đánh giá chất lượng
+Sử dụng Groq API (llama-3.3-70b-versatile) làm "giám khảo" đánh giá chất lượng
 lập luận pháp lý so với ground truth.
 
 Hỗ trợ 2 chế độ:
-  1. OpenRouter API  (mặc định, miễn phí cho Qwen3-32B)
+  1. Groq API  (mặc định, miễn phí cho llama-3.3-70b-versatile)
   2. Local inference  (--use_local, cần ~20GB VRAM)
 
 Usage:
-    # Via OpenRouter API (cần set OPENROUTER_API_KEY)
+    # Via Groq API (cần set GROQ_API_KEY)
     python evaluation/llm_judge_task3.py \
         --input_file pissa_task3_detailed_non_thinking.json \
         --output_file evaluation/results/judge_non_thinking.json
@@ -29,6 +29,7 @@ import time
 import argparse
 import statistics
 from typing import Dict, List, Any, Optional
+from openai import OpenAI
 
 # ---------------------------------------------------------------------------
 # Judge prompt template
@@ -122,19 +123,14 @@ def judge_via_api(
     reference: str,
     model_answer: str,
     api_key: str,
-    base_url: str = "https://openrouter.ai/api/v1",
-    model_name: str = "casperhansen/llama-3-70b-instruct-awq",
+    base_url: str = "https://api.groq.com/openai/v1",
+    model_name: str = "llama-3.3-70b-versatile",
     max_retries: int = 3,
 ) -> Dict[str, Any]:
-    """Call the judge model via OpenAI-compatible API."""
-    import requests
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://github.com/CS431-DoRA-vs-PiSSA",
-        "X-Title": "Legal Reasoning Evaluator",
-    }
+    """Call the judge model via Groq API using OpenAI SDK."""
+    
+    # Initialize Groq client via OpenAI SDK
+    client = OpenAI(api_key=api_key, base_url=base_url)
 
     user_message = JUDGE_USER_TEMPLATE.format(
         question=question,
@@ -142,42 +138,41 @@ def judge_via_api(
         model_answer=model_answer,
     )
 
-    payload = {
-        "model": model_name,
-        "messages": [
-            {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
-            {"role": "user", "content": user_message},
-        ],
-        "temperature": 0.1,
-        "max_tokens": 512,
-        "response_format": {"type": "json_object"},
-    }
-
     for attempt in range(max_retries):
         try:
-            resp = requests.post(
-                f"{base_url}/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=120,
+            response = client.chat.completions.create(
+                model=model_name,
+                messages=[
+                    {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
+                    {"role": "user", "content": user_message},
+                ],
+                temperature=0.1,
+                max_tokens=512,
+                response_format={"type": "json_object"},
             )
-            resp.raise_for_status()
-            data = resp.json()
-
-            content = data["choices"][0]["message"].get("content") or ""
-            # Some models put output in 'reasoning_content' or 'reasoning'
-            if not content:
-                content = data["choices"][0]["message"].get("reasoning_content", "")
+            
+            content = response.choices[0].message.content
             if not content:
                 raise ValueError("Empty response content from API")
+            
             # Parse JSON from response
             scores = parse_judge_response(content)
             return scores
 
         except Exception as e:
-            wait_time = 2 ** (attempt + 1)
-            print(f"  [RETRY {attempt+1}/{max_retries}] Error: {e}. "
-                  f"Waiting {wait_time}s...")
+            error_details = str(e)
+            
+            # Tự động trích xuất thời gian chờ từ thông báo lỗi Rate Limit của Groq
+            # (Ví dụ: "Please try again in 14.2s.")
+            wait_match = re.search(r"try again in ([0-9.]+)s", error_details)
+            if wait_match:
+                wait_time = float(wait_match.group(1)) + 2.0  # Cộng thêm 2s buffer cho chắc chắn
+                print(f"  [RATE LIMIT] Đụng trần Groq API. Chờ {wait_time:.1f}s trước khi thử lại ({attempt+1}/{max_retries})...")
+            else:
+                wait_time = 15 * (attempt + 1)
+                print(f"  [RETRY {attempt+1}/{max_retries}] Lỗi: {error_details[:150]}... "
+                      f"Chờ {wait_time}s...")
+            
             time.sleep(wait_time)
 
     return {
@@ -187,85 +182,6 @@ def judge_via_api(
         "error": True,
     }
 
-
-# ---------------------------------------------------------------------------
-# Google Gemini API Judge
-# ---------------------------------------------------------------------------
-def judge_via_gemini(
-    question: str,
-    reference: str,
-    model_answer: str,
-    api_key: str,
-    model_name: str = "gemini-1.5-flash",
-    max_retries: int = 3,
-) -> Dict[str, Any]:
-    """Call the judge model via Google Gemini API directly using requests."""
-    import requests
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
-    headers = {
-        "Content-Type": "application/json",
-    }
-
-    user_message = JUDGE_USER_TEMPLATE.format(
-        question=question,
-        reference=reference,
-        model_answer=model_answer,
-    )
-    
-    prompt = f"{JUDGE_SYSTEM_PROMPT}\n\n{user_message}"
-
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.1,
-            "responseMimeType": "application/json"
-        }
-    }
-
-    for attempt in range(max_retries):
-        try:
-            resp = requests.post(
-                url,
-                headers=headers,
-                json=payload,
-                timeout=120,
-            )
-            # Nếu gặp lỗi Rate Limit (429), chờ lâu hơn
-            if resp.status_code == 429:
-                wait_time = 10 * (attempt + 1)
-                print(f"  [RATE LIMIT] Quá tải API Google. Chờ {wait_time}s...")
-                time.sleep(wait_time)
-                continue
-                
-            resp.raise_for_status()
-            data = resp.json()
-
-            candidates = data.get("candidates", [])
-            if not candidates:
-                raise ValueError("No candidates returned from Gemini API")
-                
-            content = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
-            
-            if not content:
-                raise ValueError("Empty response content from Gemini API")
-                
-            # Parse JSON from response
-            scores = parse_judge_response(content)
-            return scores
-
-        except Exception as e:
-            wait_time = 2 ** (attempt + 1)
-            print(f"  [RETRY {attempt+1}/{max_retries}] Error: {e}. "
-                  f"Waiting {wait_time}s...")
-            time.sleep(wait_time)
-
-    return {
-        "recognition": 0, "understanding": 0,
-        "reasoning": 0, "interpretation": 0, "ethics_bias": 0,
-        "rationale": f"Gemini API call failed after {max_retries} retries",
-        "error": True,
-    }
 
 # ---------------------------------------------------------------------------
 # Local judge (transformers)
@@ -463,26 +379,61 @@ def main():
         help="Use local Qwen3-32B-AWQ instead of API"
     )
     parser.add_argument(
-        "--use_gemini", action="store_true",
-        help="Use Google Gemini API instead of OpenRouter"
+        "--use_openrouter", action="store_true",
+        help="Use OpenRouter API (default if --use_local not specified)"
     )
     parser.add_argument(
         "--model_name", type=str, default="casperhansen/llama-3-70b-instruct-awq",
         help="Model name for local inference or API model identifier"
     )
     parser.add_argument(
-        "--api_model", type=str, default="meta-llama/llama-3-70b-instruct",
-        help="Model name for OpenRouter API"
+        "--api_model", type=str, default="llama-3.3-70b-versatile",
+        help="Model name for Groq API (suitable for legal reasoning)"
     )
     parser.add_argument(
-        "--api_base_url", type=str, default="https://openrouter.ai/api/v1",
-        help="Base URL for OpenAI-compatible API"
+        "--api_base_url", type=str, default="https://api.groq.com/openai/v1",
+        help="Base URL for Groq API (OpenAI-compatible)"
     )
     parser.add_argument(
         "--resume", action="store_true",
         help="Resume from existing output file (skip already-judged samples)"
     )
+    parser.add_argument(
+        "--retry_errors", action="store_true",
+        help="Re-evaluate samples that failed (error=true) in the existing output file, then exit"
+    )
+    parser.add_argument(
+        "--print_summary", action="store_true",
+        help="Just print the aggregate summary of an existing output JSON file and exit"
+    )
     args = parser.parse_args()
+
+    # 0. Print summary only
+    if args.print_summary:
+        if not args.output_file or not os.path.exists(args.output_file):
+            print(f"[ERROR] Cannot find output file to summarize: {args.output_file}")
+            sys.exit(1)
+            
+        with open(args.output_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            results = data.get("per_sample_results", [])
+            
+        agg = compute_aggregate(results)
+        print(f"\n{'='*60}")
+        print(f"  EVALUATION SUMMARY: {os.path.basename(args.output_file)}")
+        print(f"{'='*60}")
+        print(f"  Samples evaluated: {agg['num_evaluated']}/{agg['num_samples']}")
+        print(f"  Errors:            {agg['num_errors']}")
+        print(f"{'─'*60}")
+        print(f"  Recognition (L1):  {agg.get('avg_recognition', 0):.2f} ± {agg.get('std_recognition', 0):.2f}")
+        print(f"  Understanding(L2): {agg.get('avg_understanding', 0):.2f} ± {agg.get('std_understanding', 0):.2f}")
+        print(f"  Reasoning (L3):    {agg.get('avg_reasoning', 0):.2f} ± {agg.get('std_reasoning', 0):.2f}")
+        print(f"  Interpretation(L4):{agg.get('avg_interpretation', 0):.2f} ± {agg.get('std_interpretation', 0):.2f}")
+        print(f"  Ethics/Bias (L5):  {agg.get('avg_ethics_bias', 0):.2f} ± {agg.get('std_ethics_bias', 0):.2f}")
+        print(f"{'─'*60}")
+        print(f"  AVERAGE TOTAL:     {agg.get('avg_total', 0):.2f}")
+        print(f"{'='*60}")
+        sys.exit(0)
 
     # 1. Load data
     print(f"\n{'='*60}")
@@ -509,46 +460,107 @@ def main():
     # 3. Resume support
     existing_results = []
     start_idx = 0
-    if args.resume and os.path.exists(args.output_file):
+    if (args.resume or args.retry_errors) and os.path.exists(args.output_file):
         with open(args.output_file, "r", encoding="utf-8") as f:
             saved = json.load(f)
             existing_results = saved.get("per_sample_results", [])
-            start_idx = len(existing_results)
-            print(f"[RESUME] Found {start_idx} existing results, continuing...")
+            if args.resume:
+                start_idx = len(existing_results)
+                print(f"[RESUME] Found {start_idx} existing results, continuing...")
+            if args.retry_errors:
+                print(f"[RETRY] Loaded {len(existing_results)} existing results to retry errors.")
 
     # 4. Setup judge
     local_model = None
     local_tokenizer = None
-    api_key = None
 
     if args.use_local:
         local_model, local_tokenizer = load_local_judge(args.model_name)
-    elif args.use_gemini:
-        api_key = os.environ.get("GEMINI_API_KEY", "")
-        if not api_key:
-            print("[ERROR] GEMINI_API_KEY not set!")
-            print("  Set it via: $env:GEMINI_API_KEY=\"your-key-here\"")
-            sys.exit(1)
-        # Tự động gán tên model nếu người dùng không gõ chữ gemini trong args
-        gemini_model = args.api_model if "gemini" in args.api_model else "gemini-1.5-flash"
-        print(f"[API] Using Google Gemini API with model: {gemini_model}")
     else:
-        api_key = os.environ.get("OPENROUTER_API_KEY", "")
+        # Get API key from environment variable
+        api_key = os.environ.get("GROQ_API_KEY")
         if not api_key:
-            print("[ERROR] OPENROUTER_API_KEY not set!")
-            print("  Set it via: export OPENROUTER_API_KEY='your-key-here'")
-            print("  Or use --use_local for local inference")
+            print("[ERROR] GROQ_API_KEY environment variable not set!")
+            print("\n  Get your free API key from: https://console.groq.com/keys")
+            print("\n  Set your API key in PowerShell:")
+            print("    $env:GROQ_API_KEY = 'your-groq-api-key-here'")
+            print("\n  Or in bash:")
+            print("    export GROQ_API_KEY='your-groq-api-key-here'")
+            print("\n  Or use --use_local for local inference")
             sys.exit(1)
-        print(f"[API] Using OpenRouter API with model: {args.api_model}")
+        print(f"[API] Using Groq API with model: {args.api_model}")
+        print(f"[API] Base URL: {args.api_base_url}")
 
     # 5. Run evaluation
     results = existing_results.copy()
-    print(f"\n[EVAL] Evaluating {len(samples) - start_idx} samples...")
+
+    # Nếu người dùng muốn đánh giá lại các case bị lỗi
+    if args.retry_errors:
+        print(f"\n[RETRY] Re-evaluating error samples...")
+        print(f"{'─'*60}")
+        error_indices = [i for i, r in enumerate(results) if r.get("error", False)]
+        print(f"  Found {len(error_indices)} samples with error=true.")
+        
+        for i in error_indices:
+            sample = samples[i]
+            print(f"  [RETRY] Judging sample {sample['original_id']} (Index {i})...", end=" ", flush=True)
+
+            if args.use_local:
+                scores = judge_via_local(
+                    question=sample["question"],
+                    reference=sample["reference"],
+                    model_answer=sample["model_answer"],
+                    model=local_model,
+                    tokenizer=local_tokenizer,
+                )
+            else:
+                scores = judge_via_api(
+                    question=sample["question"],
+                    reference=sample["reference"],
+                    model_answer=sample["model_answer"],
+                    api_key=api_key,
+                    base_url=args.api_base_url,
+                    model_name=args.api_model,
+                )
+
+            # Add metadata
+            scores["sample_id"] = sample["original_id"]
+            scores["sample_index"] = i
+
+            is_error = scores.get("error", False)
+            if is_error:
+                print("❌ (error)")
+            else:
+                # Tính điểm TB ngay lúc in
+                dim_vals = [scores.get(d, 0) for d in ["recognition", "understanding", "reasoning", "interpretation", "ethics_bias"]]
+                overall = round(sum(dim_vals) / 5, 2)
+                print(f"✓ (overall: {overall}/5)")
+
+            results[i] = scores
+
+            # Save checkpoint
+            agg = compute_aggregate(results)
+            output_data = {
+                "input_file": args.input_file,
+                "judge_model": args.api_model if not args.use_local else args.model_name,
+                "aggregate_scores": agg,
+                "per_sample_results": results,
+            }
+            with open(args.output_file, "w", encoding="utf-8") as f:
+                json.dump(output_data, f, indent=2, ensure_ascii=False)
+
+            # Rate limiting for Groq API
+            if not args.use_local:
+                time.sleep(6)
+                
+        print(f"\n[RETRY] Done re-evaluating {len(error_indices)} errors.")
+        sys.exit(0)
+
+    print(f"\n[EVAL] Evaluating {len(samples) - start_idx} new samples...")
     print(f"{'─'*60}")
 
     for i, sample in enumerate(samples[start_idx:], start=start_idx):
-        print(f"  [{i+1}/{len(samples)}] Judging sample {sample['original_id']}...",
-              end=" ", flush=True)
+        print(f"  [{i+1}/{len(samples)}] Judging sample {sample['original_id']}...", end=" ", flush=True)
 
         if args.use_local:
             scores = judge_via_local(
@@ -557,15 +569,6 @@ def main():
                 model_answer=sample["model_answer"],
                 model=local_model,
                 tokenizer=local_tokenizer,
-            )
-        elif args.use_gemini:
-            gemini_model = args.api_model if "gemini" in args.api_model else "gemini-1.5-flash"
-            scores = judge_via_gemini(
-                question=sample["question"],
-                reference=sample["reference"],
-                model_answer=sample["model_answer"],
-                api_key=api_key,
-                model_name=gemini_model,
             )
         else:
             scores = judge_via_api(
@@ -585,7 +588,9 @@ def main():
         if is_error:
             print("❌ (error)")
         else:
-            overall = scores.get("overall_quality", 0)
+            # Tính điểm TB ngay lúc in
+            dim_vals = [scores.get(d, 0) for d in ["recognition", "understanding", "reasoning", "interpretation", "ethics_bias"]]
+            overall = round(sum(dim_vals) / 5, 2)
             print(f"✓ (overall: {overall}/5)")
 
         results.append(scores)
@@ -602,9 +607,9 @@ def main():
             with open(args.output_file, "w", encoding="utf-8") as f:
                 json.dump(output_data, f, indent=2, ensure_ascii=False)
 
-        # Small delay for API rate limiting
+        # Rate limiting for Groq API (stricter RPM limits for free tier)
         if not args.use_local:
-            time.sleep(1)
+            time.sleep(6)
 
     # 6. Final summary
     agg = compute_aggregate(results)
@@ -633,7 +638,6 @@ def main():
     with open(args.output_file, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=2, ensure_ascii=False)
     print(f"\n[SAVE] Results saved to: {args.output_file}")
-
 
 if __name__ == "__main__":
     main()

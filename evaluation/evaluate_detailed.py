@@ -13,6 +13,7 @@ Usage:
 import os
 import sys
 import json
+import torch
 import argparse
 from tqdm import tqdm
 
@@ -135,12 +136,12 @@ def main():
         if os.path.exists(os.path.join(best_model_path, "adapter_model.safetensors")) or \
            os.path.exists(os.path.join(best_model_path, "adapter_model.bin")):
             actual_checkpoint = best_model_path
-            print(f"🌟 [INFO] Ưu tiên sử dụng BEST MODEL tại: {actual_checkpoint}")
+            print(f"[INFO] Using BEST MODEL at: {actual_checkpoint}")
             
         # ƯU TIÊN 2: Nếu người dùng truyền thẳng thư mục chứa file safetensors
         elif any(os.path.exists(os.path.join(checkpoint_dir, f)) for f in ["adapter_model.safetensors", "adapter_model.bin"]):
             actual_checkpoint = checkpoint_dir
-            print(f"📦 [INFO] Sử dụng Adapter trực tiếp tại: {actual_checkpoint}")
+            print(f"[INFO] Using Adapter directly at: {actual_checkpoint}")
             
         # ƯU TIÊN 3: Nếu không có best_model, tìm checkpoint có số step cao nhất (Last Model)
         else:
@@ -148,13 +149,13 @@ def main():
                           if d.startswith("checkpoint-") and os.path.isdir(os.path.join(checkpoint_dir, d))]
             if checkpoints:
                 actual_checkpoint = max(checkpoints, key=lambda x: int(x.split("-")[-1]))
-                print(f"⚠️ [WARNING] Không tìm thấy best_model. Đang load LAST MODEL tại: {actual_checkpoint}")
+                print(f"[WARNING] best_model not found. Loading LAST MODEL at: {actual_checkpoint}")
     
     if actual_checkpoint:
         print(f"[EVAL] Loading adapter from: {actual_checkpoint}")
         model, tokenizer = load_model(config, adapter_path=actual_checkpoint, force_transformers=True)
     else:
-        print("❌ [WARNING] No adapter found. Using base model (Model chưa được fine-tune).")
+        print("[WARNING] No adapter found. Using base model.")
         model, tokenizer = load_model(config, force_transformers=True)
         model = apply_peft(model, config, force_transformers=True)
 
@@ -176,11 +177,15 @@ def main():
     detailed_results = []
 
     print(f"[EVAL] Generating {len(test_data)} responses...")
-    for sample in tqdm(test_data, desc="Inference"):
+    pbar = tqdm(test_data, desc="Inference")
+    for i, sample in enumerate(pbar):
         sample_task = sample.get("task_type", task_type or "task3")
         system_prompt = sample.get("system", SYSTEM_PROMPTS.get(sample_task, SYSTEM_PROMPTS["task3"]))
         user_input = sample.get("user", sample.get("instruction", ""))
         reference = sample.get("assistant", sample.get("output", ""))
+
+        # Cập nhật thông báo tiến trình
+        pbar.set_postfix({"id": sample.get("id", "N/A"), "vram": f"{torch.cuda.memory_allocated()/1024**3:.2f}GB"})
 
         response = generate_response(
             model, tokenizer,

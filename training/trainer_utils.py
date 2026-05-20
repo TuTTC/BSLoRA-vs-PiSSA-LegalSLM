@@ -59,8 +59,13 @@ def load_model(config: Dict[str, Any], adapter_path: Optional[str] = None, force
     Returns:
         (model, tokenizer)
     """
-    from unsloth import is_bfloat16_supported
     import torch
+    try:
+        from unsloth import is_bfloat16_supported
+        has_unsloth = True
+    except (ImportError, Exception):
+        has_unsloth = False
+        def is_bfloat16_supported(): return torch.cuda.is_bf16_supported() if torch.cuda.is_available() else False
 
     dtype = config["model"].get("dtype")
     if dtype is None or dtype == "null":
@@ -100,6 +105,11 @@ def load_model(config: Dict[str, Any], adapter_path: Optional[str] = None, force
             print(f"[PEFT] Loading adapter weights from: {adapter_path}")
             model = PeftModel.from_pretrained(model, adapter_path)
     else:
+        if not has_unsloth:
+            raise ImportError(
+                "Unsloth/bitsandbytes is not properly installed or CUDA is not linked. "
+                "Please run with '--force_transformers' or fix your environment."
+            )
         from unsloth import FastLanguageModel
         
         # Kiểm tra Flash Attention 2
@@ -145,6 +155,10 @@ def apply_peft(model, config: Dict[str, Any], force_transformers: bool = False):
     peft_cfg = config["peft"]
     method = peft_cfg.get("method", "lora").lower()
     init_lora_weights = peft_cfg.get("init_lora_weights", True)
+
+    if method == "none":
+        print("[PEFT] Method 'none' specified -> Using Base Model without adapters.")
+        return model
 
     if method == "fft":
         print("[PEFT] Bypassing PEFT -> Full Fine-Tuning (FFT) Mode Enabled")
