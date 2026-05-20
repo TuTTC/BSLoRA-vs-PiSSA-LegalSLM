@@ -25,11 +25,11 @@
 
 ## 👥 Thành viên nhóm
 
-|  STT  |   MSSV   | Họ và Tên           |   Chức vụ   | GitHub                                                     | Email                  |
-| :---: | :------: | ------------------- | :---------: | ---------------------------------------------------------- | ---------------------- |
-|   1   | 23521704 | Trần Thị Cẩm Tú     | Nhóm trưởng | [@TuTTC](https://github.com/TuTTC)                         | 23521704@gm.uit.edu.vn |
-|   2   | 23521821 | Lê Ngọc Phương Thảo | Thành viên  | [@]()                                                      | 23521821@gm.uit.edu.vn |
-|   3   | 23521193 | Đinh Hoàng Phúc     | Thành viên  | [@DinhHoangPhuc3010](https://github.com/DinhHoangPhuc3010) | 23521193@gm.uit.edu.vn |
+| STT |   MSSV   | Họ và Tên           |   Chức vụ   | GitHub                                                     | Email                  |
+| :-: | :------: | ------------------- | :---------: | ---------------------------------------------------------- | ---------------------- |
+|  1  | 23521704 | Trần Thị Cẩm Tú     | Nhóm trưởng | [@TuTTC](https://github.com/TuTTC)                         | 23521704@gm.uit.edu.vn |
+|  2  | 23521467 | Lê Ngọc Phương Thảo | Thành viên  | [@lngphgthao](https://github.com/lngphgthao)               | 23521467@gm.uit.edu.vn |
+|  3  | 23521193 | Đinh Hoàng Phúc     | Thành viên  | [@DinhHoangPhuc3010](https://github.com/DinhHoangPhuc3010) | 23521193@gm.uit.edu.vn |
 
 ---
 
@@ -142,19 +142,20 @@ python evaluation/evaluate.py --peft_config configs/pissa_config.yaml
 ```
 
 **Metrics đánh giá:**
+
 - **Perplexity (PPL):** Đánh giá chất lượng ngôn ngữ
 - **ROUGE-1/2/L:** Đánh giá độ trùng khớp n-gram
 - **BLEU:** Đánh giá chất lượng văn bản sinh ra
 
 ## 📅 Timeline (8 tuần)
 
-| Tuần  | Nội dung                                                |
-| :---: | ------------------------------------------------------- |
-|  1–2  | Thu thập dữ liệu + Setup môi trường + Literature Review |
-|  3–4  | Chạy LoRA baseline + Hyperparameter tuning              |
-|  5–6  | Chạy DoRA & PiSSA + WandB logging                       |
-|   7   | Evaluation + Metrics + Biểu đồ so sánh                  |
-|   8   | Báo cáo + Ablation Study                                |
+| Tuần | Nội dung                                                |
+| :--: | ------------------------------------------------------- |
+| 1–2  | Thu thập dữ liệu + Setup môi trường + Literature Review |
+| 3–4  | Chạy LoRA baseline + Hyperparameter tuning              |
+| 5–6  | Chạy DoRA & PiSSA + WandB logging                       |
+|  7   | Evaluation + Metrics + Biểu đồ so sánh                  |
+|  8   | Báo cáo + Ablation Study                                |
 
 ---
 
